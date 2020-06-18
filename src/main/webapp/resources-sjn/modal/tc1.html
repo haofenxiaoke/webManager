@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/resources/login/css/login.css" />
+    <style>
+        .layui-layer-title{display: none}
+        .tctext{margin:60px auto 20px auto;text-align: center;line-height: 28px;font-size: 18px;color:#666;padding:0 20px;}
+        .denglu{text-align: center;}
+        .denglu input{width: 200px;margin:0 auto;}
+    </style>
+</head>
+<body>
+<div class="stratum">
+    <div class="alert" style="width: 400px;height:200px;">
+        <div class="close-btn" onclick="layer.closeAll();"></div>
+        <div class="tctext">你的对啊手机号<span>（#mobile）</span>已经在设计牛注册，下次可直接使用手机号登录</div>
+        <div class="denglu">
+            <input id="login-btn" type="submit" value="我知道了" class="login" onclick="layer.closeAll();location.href= (location.href).replace('remind','t');"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

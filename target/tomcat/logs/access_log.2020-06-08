@@ -1,0 +1,12 @@
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:01 +0800] "GET / HTTP/1.1" 302 - http-bio-88-exec-1 35
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:01 +0800] "GET /auth/login HTTP/1.1" 200 4068 http-bio-88-exec-3 131
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:04 +0800] "POST /auth/check HTTP/1.1" 200 59 http-bio-88-exec-4 1133
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:04 +0800] "GET / HTTP/1.1" 200 16240 http-bio-88-exec-5 303
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:05 +0800] "GET /resources/assets/plugins/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0 HTTP/1.1" 200 56780 http-bio-88-exec-6 95
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:09 +0800] "GET /user/passWordAndInfo HTTP/1.1" 200 26917 http-bio-88-exec-7 317
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:09 +0800] "GET /resources/css/cate_tab.css HTTP/1.1" 200 7322 http-bio-88-exec-8 6
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:09 +0800] "GET /resources/assets/plugins/bootstrap/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028 http-bio-88-exec-9 62
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:16 +0800] "GET /resources/assets/plugins/jquery/dist/jquery-migrate.min.map HTTP/1.1" 200 141680 http-bio-88-exec-10 50
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:04:18 +0800] "GET /user/savewechat?id=1&wechatStatus=0&wechatDi=&wechatUrl= HTTP/1.1" 200 60 http-bio-88-exec-10 55
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:05:34 +0800] "POST /upload/image HTTP/1.1" 200 178 http-bio-88-exec-4 81
+0:0:0:0:0:0:0:1 - - [08/Jun/2020:11:05:58 +0800] "GET /user/savewechat?id=1&wechatStatus=1&wechatDi=s&wechatUrl=http%3A%2F%2Fmy.tu.image.com%2FcoursePic%2F20200608%2Fc5bab38e-ba5c-45b0-b776-23b13a9d2867.jpg HTTP/1.1" 200 60 http-bio-88-exec-4 116

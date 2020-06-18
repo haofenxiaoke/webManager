@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserLectureScoreMapper">
+	<resultMap type="UserLectureScore" id="userLectureScoreResultMap">
+		<result property="id" column="id" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="clarity" column="clarity" />
+		<result property="wittySpeech" column="witty_speech" />
+		<result property="isFluency" column="is_fluency" />
+		<result property="suggest" column="suggest" />
+		<result property="userId" column="user_id" />
+		<result property="createTime" column="create_time" />
+		<result property="ipAddress" column="ip_address" />
+		<result property="gid" column="gid" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		user_lecture_score.id,
+		user_lecture_score.lecture_id,
+		user_lecture_score.clarity,
+		user_lecture_score.witty_speech,
+		user_lecture_score.is_fluency,
+		user_lecture_score.suggest,
+		user_lecture_score.user_id,
+		user_lecture_score.create_time,
+		user_lecture_score.ip_address,
+		user_lecture_score.gid
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{lectureId},
+		#{clarity},
+		#{wittySpeech},
+		#{isFluency},
+		#{suggest},
+		#{userId},
+		#{createTime},
+		#{ipAddress},
+		#{gid}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserLectureScore" useGeneratedKeys="true" keyProperty="id">
+		insert into user_lecture_score( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from user_lecture_score
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="UserLectureScore">
+		update user_lecture_score 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
+			<if test="clarity != null and clarity != ''">clarity = #{clarity},</if>
+			<if test="wittySpeech != null and wittySpeech != ''">witty_speech = #{wittySpeech},</if>
+			<if test="isFluency != null and isFluency != ''">is_fluency = #{isFluency},</if>
+			<if test="suggest != null and suggest != ''">suggest = #{suggest},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="ipAddress != null and ipAddress != ''">ip_address = #{ipAddress},</if>
+			<if test="gid != null and gid != ''">gid = #{gid},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userLectureScoreResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_lecture_score
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userLectureScoreResultMap">
+		select <include refid="table_columns" /> 
+		from user_lecture_score
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="clarity != null and clarity != ''">and clarity = #{clarity}</if>
+			<if test="wittySpeech != null and wittySpeech != ''">and witty_speech = #{wittySpeech}</if>
+			<if test="isFluency != null and isFluency != ''">and is_fluency = #{isFluency}</if>
+			<if test="suggest != null and suggest != ''">and suggest = #{suggest}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="ipAddress != null and ipAddress != ''">and ip_address = #{ipAddress}</if>
+			<if test="gid != null and gid != ''">and gid = #{gid}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="userLectureScoreResultMap" parameterType="UserLectureScore">
+		select <include refid="table_columns" />
+		from user_lecture_score
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="userLectureScoreResultMap" parameterType="UserLectureScore">
+		select <include refid="table_columns" />
+		from user_lecture_score
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="UserLectureScore">
+        select count(id) from user_lecture_score
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

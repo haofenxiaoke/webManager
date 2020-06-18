@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../login/css/grade.css" />
+		<script type="text/javascript" src="../common/js/jquery-1.9.1.js" ></script>
+		
+	</head>
+	<body>
+		<div class="grade-bj">
+			<div class="grade">
+				<div class="grade-bt">
+					<span>评分</span><div class="gb"></div>
+				</div>
+				<div class="grade-jdt">
+					<ul>
+						<li>
+							<div class="jdt-left">内容清晰：</div>
+							<div class="jdt-right">
+								<ul>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+								<p><span>0</span>分</p>
+							</div>
+						</li>
+						<li>
+							<div class="jdt-left">演讲风趣：</div>
+							<div class="jdt-rightone">
+								<ul>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+								<p><span>0</span>分</p>
+							</div>
+						</li>
+						<li>
+							<div class="jdt-left">视频流畅：</div>
+							<div class="jdt-righttwo">
+								<div class="fxk"><input type="radio">流畅不卡顿</div>
+								<div class="fxk"><input type="radio">偶尔卡顿</div>
+								<div class="fxk"><input type="radio">卡顿无法上课</div>
+							</div>
+						</li>
+					</ul>
+					<div class="suggest">
+						<div class="suggest-top">
+							<span class="suggestTop-l">其他建议（选填）</span><span class="suggestTop-r">可输入&nbsp;&nbsp;200字</span>
+						</div>
+						<div class="suggest-bottom">
+							<textarea style="resize:none;"></textarea>
+						</div>
+					</div>
+
+				</div>
+				
+				<input type="submit" value="评分" class="pftj">
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		
+			$(".jdt-right li").click(function(){
+				$(".jdt-right span").text(0);
+				for (i=0;i<$(".jdt-right li").length;i++) {
+
+				$(".jdt-right li").eq(i).css("background","url(../../../resources/login/images/xxxxxx_05.png) no-repeat center center");
+				}
+				var yo = $(".jdt-right li").index(this)+1;
+				var no = $(".jdt-right span").text();
+				
+				for (i=0;i<yo;i++) {
+
+				$(".jdt-right li").eq(i).css("background","url(../../../resources/login/images/xxxx_03.png) no-repeat center center");
+
+				no++;
+				$(".jdt-right span").text(no)
+				}
+			});
+			
+			$(".jdt-rightone li").click(function(){
+				$(".jdt-rightone span").text(0);
+				for (i=0;i<$(".jdt-rightone li").length;i++) {
+
+				$(".jdt-rightone li").eq(i).css("background","url(../../../resources/login/images/xxxxxx_05.png) no-repeat center center");
+				}
+				var yo = $(".jdt-rightone li").index(this)+1;
+				var no = $(".jdt-rightone span").text();
+				
+				for (i=0;i<yo;i++) {
+
+				$(".jdt-rightone li").eq(i).css("background","url(../../../resources/login/images/xxxx_03.png) no-repeat center center");
+
+				no++;
+				$(".jdt-rightone span").text(no)
+				}
+			});
+		</script>
+	</body>
+</html>

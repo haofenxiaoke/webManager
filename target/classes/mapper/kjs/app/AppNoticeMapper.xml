@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AppNoticeMapper">
+    <resultMap type="AppNotice" id="appNoticeResultMap">
+        <result property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="type" column="type" />
+        <result property="imgurl" column="imgurl" />
+        <result property="readAmount" column="read_amount" />
+        <result property="sendTime" column="send_time"/>
+        <result property="expiryTime" column="expiry_time"/>
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="userId" column="user_id" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        title,
+        content,
+        type,
+        imgurl,
+        read_amount,
+        send_time,
+        expiry_time,
+        create_time,
+        update_time,
+        user_id
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{title},
+        #{content},
+        #{type},
+        #{imgurl},
+        #{readAmount},
+        #{sendTime},
+        #{expiryTime},
+        #{createTime},
+        #{updateTime},
+        #{userId}
+    </sql>
+
+    <!-- 适用于主键自增类型 -->
+    <insert id="save" parameterType="AppNotice" useGeneratedKeys="true" keyProperty="id">
+        insert into app_notice( <include refid="table_columns" /> )
+        values ( <include refid="entity_properties" /> )
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from app_notice
+        where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="AppNotice">
+        update app_notice
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="imgurl != null and imgurl != ''">imgurl = #{imgurl},</if>
+            <if test="readAmount != null and readAmount != ''">read_amount = #{readAmount},</if>
+            <if test="sendTime != null and sendTime != ''">send_time = #{sendTime},</if>
+            <if test="expiryTime != null and expiryTime != ''">expiry_time = #{expiryTime},</if>
+            <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+            <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+
+    <select id="findById" resultMap="appNoticeResultMap" parameterType="String" >
+        select <include refid="table_columns" />
+        from app_notice
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="appNoticeResultMap">
+        select <include refid="table_columns" />
+        from app_notice
+    </select>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="imgurl != null and imgurl != ''">imgurl = #{imgurl},</if>
+            <if test="readAmount != null and readAmount != ''">read_amount = #{readAmount},</if>
+            <if test="sendTime != null and sendTime != ''">send_time = #{sendTime},</if>
+            <if test="expiryTime != null and expiryTime != ''">expiry_time = #{expiryTime},</if>
+            <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+            <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+        </trim>
+    </sql>
+    <sql id="search_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="startSendDate != null and endSendDate != ''"> and (send_time between #{startSendDate} and #{endSendDate})</if>
+        </trim>
+    </sql>
+
+    <select id="search" resultMap="appNoticeResultMap" parameterType="AppNotice">
+        select <include refid="table_columns" />
+        from app_notice
+        <include refid="page_where" />
+    </select>
+
+    <select id="page" resultMap="appNoticeResultMap" parameterType="com.kjs.web.serach.kjs.app.NoticeSearchBean">
+        select <include refid="table_columns" />
+        from app_notice
+        <include refid="search_page_where" />
+        <!--<include refid="page_where" />-->
+        order by send_time desc
+        limit #{start},#{length}
+    </select>
+
+    <select id="count" resultType="long" parameterType="AppNotice">
+        select count(id) from app_notice
+        <include refid="search_page_where" />
+        <!--<include refid="page_where" />-->
+    </select>
+
+    <!-- 其他自定义SQL -->
+
+
+</mapper>

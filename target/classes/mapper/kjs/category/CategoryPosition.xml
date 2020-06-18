@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CategoryPositionMapper">
+	<resultMap type="CategoryPosition" id="categoryPositionResultMap">
+		<result property="id" column="id" />
+		<result property="directionId" column="direction_id" />
+		<result property="categoryDesc" column="category_desc" />
+		<result property="userid" column="userid" />
+		<result property="orderNum" column="order_num" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+		<result property="iconUrl0" column="icon_url0" />
+		<result property="iconUrl1" column="icon_url1" />
+		<result property="timerStatus" column="timer_status" />
+		<result property="examDate" column="exam_date" />
+		<result property="infoStatus" column="info_status" />
+		<result property="infoJson" column="info_json" />
+		<result property="examDesc" column="exam_desc" />
+	</resultMap>
+	
+	
+	<resultMap id="BaseResultMap" type="com.kjs.orm.model.CategoryPosition" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+   <result column="timer_status" property="timerStatus" jdbcType="INTEGER" />
+    <result column="exam_date" property="examDate" jdbcType="DATE" />
+    <result column="info_status" property="infoStatus" jdbcType="INTEGER" />
+    <result column="info_json" property="infoJson" jdbcType="VARCHAR" />
+    <result column="exam_desc" property="examDesc" jdbcType="VARCHAR" />
+    
+  </resultMap>
+	
+	<sql id="table_columns">
+		id,
+		direction_id,
+		category_desc,
+		userid,
+		order_num,
+		create_time,
+		deleted,
+		icon_url0,
+		icon_url1,
+		timer_status,
+		exam_date,
+		info_status,
+		info_json,
+		exam_desc
+		
+		
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{directionId},
+		#{categoryDesc},
+		#{userid},
+		#{orderNum},
+		#{createTime},
+		#{deleted},
+		#{iconUrl0},
+		#{iconUrl1},
+		#{timerStatus},
+		#{examDate},
+		#{infoStatus},
+		#{infoJson},
+		#{examDesc}
+		
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CategoryPosition" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="orderNum" order="BEFORE">
+			select IFNULL(max(order_Num),0)+1 as orderNum from category_position limit 0,1
+		</selectKey>
+		insert into category_position( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<select id="selectMaxId"  resultType="java.lang.Long"  >
+		select  max(id)
+		from category_position
+	</select>
+	
+	<delete id="deleteByIds">
+		delete from category_position
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--物理删除-->
+	<update id="deleteById" parameterType="CategoryPosition">
+		update category_position
+		set deleted = #{deleted}
+		<where>id = #{id}</where>
+	</update>
+	
+
+	<update id="update" parameterType="CategoryPosition">
+		update category_position 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="categoryDesc != null and categoryDesc != ''">category_desc = #{categoryDesc},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="iconUrl0 != null and iconUrl0 != ''">icon_url0 = #{iconUrl0},</if>
+			<if test="iconUrl1 != null and iconUrl1 != ''">icon_url1 = #{iconUrl1},</if>
+			<if test="timerStatus != null and timerStatus != ''">timer_status = #{timerStatus},</if>
+<!-- 			<if test="examDate != null and examDate != ''">exam_date = #{examDate},</if> -->
+			<if test="infoStatus != null and infoStatus != ''">info_status = #{infoStatus},</if>
+<!-- 			<if test="infoJson != null and infoJson != ''">info_json = #{infoJson},</if> -->
+<!-- 			<if test="examDesc != null and examDesc != ''">exam_desc = #{examDesc},</if> -->
+			exam_date = #{examDate},
+			exam_desc = #{examDesc},
+			info_json = #{infoJson},
+			
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="categoryPositionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from category_position
+		where deleted = 0 and id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="categoryPositionResultMap">
+		select <include refid="table_columns" /> 
+		from category_position where deleted = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="categoryDesc != null and categoryDesc != ''">and category_desc = #{categoryDesc}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="categoryPositionResultMap" parameterType="CategoryPosition">
+		select <include refid="table_columns" />
+		from category_position
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="categoryPositionResultMap" parameterType="CategoryPosition">
+		select <include refid="table_columns" />
+		from category_position
+		<include refid="page_where" />
+	</select>
+
+    <select id="count" resultType="long" parameterType="CategoryPosition">
+        select count(id) from category_position
+        <include refid="page_where" />
+    </select>
+
+	<select id="checkCateUnique" resultType="int" parameterType="CategoryPosition">
+		select count(id) from category_position
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="id != null">id != #{id} AND </if>
+			<if test="categoryDesc != null and categoryDesc != ''"> category_Desc = #{categoryDesc} </if>
+			<if test="directionId != null and directionId != ''">AND  direction_id = #{directionId} </if>
+			and deleted = 0
+		</trim>
+	</select>
+
+	<select id="getAll" resultMap="categoryPositionResultMap">
+		select <include refid="table_columns" />
+		from category_position
+		<include refid="page_where" />
+	</select>
+	<!-- 其他自定义SQL -->
+	<select id="getPositionByDirectionId" resultMap="categoryPositionResultMap" parameterType="java.lang.Integer">
+		select <include refid="table_columns" />
+		from category_position
+		WHERE  direction_id=#{directionId} and deleted = 0
+		ORDER BY order_num
+	</select>
+
+	<select id="countCheckDel" resultType="int">
+		select count(id) from category_position
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId} AND </if>
+			deleted = 0
+		</trim>
+	</select>
+	
+	<select id="findPositionById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT p.id , p.category_desc FROM category_position p LEFT JOIN category_direction d ON p.direction_id = d.id
+    WHERE ( p.deleted = 0 and d.deleted = 0)
+    <if test="directionId != null and  directionId != ''">
+      AND p.direction_id = #{directionId}
+    </if>
+    order by d.order_num,p.order_num ASC
+  </select>
+</mapper>

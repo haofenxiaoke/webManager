@@ -1,0 +1,72 @@
+
+.kjs-f-l{border-radius: 2px;}
+.kjs-fotter{ background: #333333 !important;}
+.sjn-ewm{ width: 180px;
+    height: auto;overflow: hidden;position: absolute;top: -20px;
+    right:170px;}
+.sjn_wb{float: left;}
+.sjn_wx{float: right;}
+
+.kjs-fo-tittle {
+    top: 13px !important;
+    right: 0px !important;
+}
+.head_menu a{
+    color: #999999;}
+.head_menu a:hover{
+    color: #333333;}
+.headerBg{background: #ffffff !important;}
+
+.head_search_in{border: 1px solid #e0e0e0;}
+.head_login a{color: #666666;*padding: 0px !important; padding: 0px;}
+.head_login a:hover{color: #333333;}
+.head_center{height: 70px !important;}
+.headerBg{height: 70px !important;}
+.head_menu{padding-top: 20px !important;}
+.head_logo {
+    height: auto;
+    overflow: hidden;
+    padding-top: 10px;
+}
+.head_search_in{margin-top: 20px !important;}
+.head_login{margin-top: 18px !important;
+    height: 35px;
+    line-height: 35px;}
+.kjs-f-about a:hover{color:#ddd !important;}
+.sjn_ewmIcon{background: url("/resources-sjn/index/images/erweima.png") no-repeat;
+    display: inline-block;
+    vertical-align: top;
+    width: 50px !important;
+    height: 50px !important;
+    margin: 0 !important;}
+.wx_ewm{background-position: 0px 2px;}
+.kf_ewm{background-position: 0px -48px;}
+.kf_sjn{ background: #e62c3a !important;}
+.kf_sjn:hover{ background: #dd2a38 !important;}
+.toolbar a{}
+.toolbar a:hover{background: #e62c3a !important;}
+.wx_left{position: absolute;top: -145px;
+    left: -173px;display: none;}
+.head_login a{color: #333333 !important;}
+/*.protocol a{color: #e62c3a !important;}
+.protocol a:hover{color: #dd2a38;}*/
+.close-btn:hover{background: url("/resources-sjn/index/images/sjn_closebtn.png") no-repeat !important;}
+.qieh{background: url("/resources-sjn/index/images/bofangqi.png") no-repeat;}
+.dbX{color:#666666 !important;}
+.HoverRight:hover .dbX{color:#333333 !important;}
+.HoverRight:hover .qieh{color:#333333 !important; background: url("/resources-sjn/index/images/bofangqi-hover.png") no-repeat !important;}
+.head_login_img{border: 1px solid #333333 !important;height: 30px;width: 30px; overflow: hidden;line-height: 30px;}
+.head_login_img img{ width:100%;
+    min-height:100%; text-align:center;}
+.layui-layer-btn .layui-layer-btn0{background: #444444 !important;border-color: #fff !important;}
+.layui-layer-btn .layui-layer-btn0:hover{background: #333333 !important;}
+.head_search_in input{height: 18px !important;*height:18px !important;}
+input[placeholder], [placeholder], *[placeholder] {
+    color:#999 !important;
+}
+.re{background: url("/resources-sjn/index/images/bull_1.png") no-repeat !important;}
+.reUse{background: url("/resources-sjn/index/images/bull_2.png") no-repeat !important;}
+.kjsCrnum1 .wx-bb{min-width: 100%;}
+.re{background: url("/resources-sjn/index/images/bull_1.png") no-repeat !important;}
+.reUse{background: url("/resources-sjn/index/images/bull_2.png") no-repeat !important;}
+.kjsCrnum1 .wx-bb{min-width: 100%;}

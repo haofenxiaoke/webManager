@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserLectureMapper">
+	<resultMap type="UserLecture" id="userLectureResultMap">
+		<result property="id" column="id" />
+		<result property="userid" column="userid" />
+		<result property="lectureid" column="lectureid" />
+		<result property="createTime" column="create_time" />
+		<result property="watchTime" column="watch_time" />
+		<result property="userCourseScore" column="user_course_score" />
+		<result property="watchProgress" column="watch_progress" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		userid,
+		lectureid,
+		create_time,
+		watch_time,
+		user_course_score,
+		watch_progress,
+		deleted
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userid},
+		#{lectureid},
+		#{createTime},
+		#{watchTime},
+		#{userCourseScore},
+		#{watchProgress},
+		#{deleted}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserLecture" useGeneratedKeys="true" keyProperty="id">
+		insert into user_lecture( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from user_lecture
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="UserLecture">
+		update user_lecture
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="lectureid != null and lectureid != ''">lectureid = #{lectureid},</if>
+			<if test="createTime != null and ocreateTime != ''">create_time = #{createTime},</if>
+			<if test="watchTime != null and watchTime != ''">watch_time = #{watchTime},</if>
+			<if test="userCourseScore != null and userCourseScore != ''">user_course_score = #{userCourseScore},</if>
+			<if test="watchProgress != null and watchProgress != ''">watch_progress = #{watchProgress},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="userLectureResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_lecture
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="userLectureResultMap">
+		select <include refid="table_columns" />
+		from user_lecture
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="lectureid != null and lectureid != ''">and lectureid = #{lectureid}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="watchTime != null and watchTime != ''">and watch_time = #{watchTime}</if>
+			<if test="userCourseScore != null and userCourseScore != ''">and user_course_score = #{userCourseScore}</if>
+			<if test="watchProgress != null and watchProgress != ''">and watch_progress = #{watchProgress}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="userLectureResultMap" parameterType="UserLecture">
+		select <include refid="table_columns" />
+		from user_lecture
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="userLectureResultMap" parameterType="UserLecture">
+		select <include refid="table_columns" />
+		from user_lecture
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+	<select id="count" resultType="long" parameterType="UserManagerSerach">
+		select count(id) from user_lecture
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+
+	<!-- 视频记录 -->
+	<select id="pageInfo" resultType="Map" parameterType="UserManagerSerach">
+		select
+			uc.*,
+			c.id as courseId,
+			c.title as courseTitle,
+			l.id as lectureId,
+			l.lecture_name as lectureName
+		from user_lecture uc
+		LEFT JOIN course_lecture l ON uc.lectureid = l.id
+		JOIN course c ON l.course_id = c.id and uc.deleted = 0
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and uc.userid = #{userId}</if>
+			<if test="directionId != null and directionId != ''">and c.direction_id = #{directionId}</if>
+			<if test="courseId != null and courseId != ''">and l.course_id = #{courseId}</if>
+			<if test="(directionId == null or directionId == '') and derectionIds.length > 0">
+				and c.direction_id in
+				<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
+			</if>
+		</trim>
+		limit #{start},#{length}
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="UserManagerSerach">
+		select count(u.id) from user_lecture u
+		LEFT JOIN course_lecture l ON u.lectureid = l.id and l.file_title is not null
+		JOIN course c ON c.id = l.course_id
+		and u.deleted = 0
+		<trim prefix="where" prefixOverrides="and | or ">
+			c.deleted = 0 and c.online_state = 1
+			<if test="userId != null and userId != ''">and u.userid = #{userId}</if>
+			<if test="directionId != null and directionId != ''">and c.direction_id = #{directionId}</if>
+			<if test="courseId != null and courseId != ''">and l.course_id = #{courseId}</if>
+			<if test="(directionId == null or directionId == '') and derectionIds.length > 0">
+				and c.direction_id in
+				<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+
+</mapper>

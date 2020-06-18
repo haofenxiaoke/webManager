@@ -1,0 +1,39 @@
+.crouse_l_nav{color: #222222 !important; border-bottom: 1px solid #222222 !important;}
+.xxk .crouse_l_nav a{color: #222222 !important}
+.xxk li>a{color: #666666 !important;}
+.kc li{color: #666666 !important;border: 1px solid #666666;}
+.shiting{background: #444444;}
+.shiting:hover{background: #333333;}
+.sjn_restBG{background: url("/resources-sjn/course/images/sjn_xingji.png") no-repeat !important;
+    display: inline-block;
+    vertical-align: top;}
+.kjsXxcur{background-position: -46px -3px !important;}
+/*.kjsPfx a{background-position: -61px -3px;}*/
+.liangxing{background-image: url("/resources-sjn/course/images/sjn_xingji.png") !important;
+    display: inline-block;background-position: -46px -3px !important;}
+.rs span{color: #e62c3a;}
+.catalog p button{background: #444444 !important;}
+.catalog p button:hover{background: #333333 !important;}
+.catalog p{height: 25px;line-height: 25px; padding-top: 0px !important; overflow: hidden;position: absolute;top:22px; width: 100%;}
+.catalog p button{position: absolute; right: 30px;}
+.catalog li{ position: relative;}
+.members{background: #444444 !important;}
+.members:hover{background: #333333 !important;}
+.huiyuan{ background: #e62c3a !important;}
+.huiyuan:hover{background: #dd2a38 !important;}
+.teachD{color: #222222 !important;}
+.curriculum-nav a{color: #666666 !important;}
+.curriculum-nav a:hover{color: #333333 !important;}
+.commen div>span{display: inline-block !important; width: 100%;}
+.commen div{width: 50px;height: auto;overflow: hidden;}
+.anxing{background-image: url("/resources-sjn/course/images/sjn_xingji.png") !important;
+    display: inline-block;background-position: -61px -3px !important; }
+.commen ul{width: 600px;}
+.commen .xing{min-width: 100% !important;}
+.lastLi{max-width: 100% !important;}
+.stratLeft img{height: 80px !important;}
+.Made-nav a:hover{color: #333333 !important;}
+.re{background: url("/resources-sjn/index/images/bull_1.png") no-repeat !important;}
+.reUse{background: url("/resources-sjn/index/images/bull_2.png") no-repeat !important;}
+.re{background: url("/resources-sjn/index/images/bull_1.png") no-repeat !important;}
+.reUse{background: url("/resources-sjn/index/images/bull_2.png") no-repeat !important;}

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.SetPlanCourseMapper">
+	<resultMap type="SetPlanCourse" id="setPlanCourseResultMap">
+		<result property="id" column="id" />
+		<result property="planId" column="plan_id" />
+		<result property="planCourseId" column="plan_course_id" />
+		<result property="planStage" column="plan_stage" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		plan_id,
+		plan_course_id,
+		plan_stage,
+		create_time,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{planId},
+		#{planCourseId},
+		#{planStage},
+		#{createTime},
+		#{deleted}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="SetPlanCourse" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="planStage" order="BEFORE">
+			select IFNULL(max(plan_stage),0)+1 as planStage from set_plan_course WHERE plan_id = #{planId} AND deleted = 0 limit 0,1
+		</selectKey>
+		insert into set_plan_course( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from set_plan_course
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="SetPlanCourse">
+		update set_plan_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planId != null and planId != ''">plan_id = #{planId},</if>
+			<if test="planCourseId != null and planCourseId != ''">plan_course_id = #{planCourseId},</if>
+			<if test="planStage != null and planStage != ''">plan_stage = #{planStage},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="setPlanCourseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from set_plan_course
+		where id = #{id} AND deleted = 0
+	</select>
+	
+	<select id="queryAll" resultMap="setPlanCourseResultMap">
+		select <include refid="table_columns" /> 
+		from set_plan_course WHERE AND deleted = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="planId != null and planId != ''">and plan_id = #{planId}</if>
+			<if test="planCourseId != null and planCourseId != ''">and plan_course_id = #{planCourseId}</if>
+			<if test="planStage != null and planStage != ''">and plan_stage = #{planStage}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			c.deleted =0 and c.online_state = 1 and pc.deleted = 0
+			<if test="planId != null and planId != ''">and pc.plan_id = #{planId}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="setPlanCourseResultMap" parameterType="SetPlanCourse">
+		select <include refid="table_columns" />
+		from set_plan_course
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="setPlanCourseResultMap" parameterType="SetPlanCourse">
+		select <include refid="table_columns" />
+		from set_plan_course
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="SetPlanCourse">
+        select count(id) from set_plan_course
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+	<select id="pageInfo" resultType="Map" parameterType="PlanManagerSerach">
+		select pc.*,c.title as courseTitle from set_plan_course pc LEFT JOIN course c ON c.id = pc.plan_course_id
+		<include refid="search_page_where" />
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="PlanManagerSerach">
+		select count(pc.id) from set_plan_course pc LEFT JOIN course c ON c.id = pc.plan_course_id
+		<include refid="search_page_where" />
+	</select>
+	<!-- 删除给该标志位 -->
+	<update id="deletePlanCourses" parameterType="SetPlanCourse">
+		update set_plan_course
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planCourseId != null and planCourseId != ''">plan_course_id = #{planCourseId},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where> plan_id= #{planId}</where>
+	</update>
+
+	<!-- 更新计划课程库 -->
+	<update id="updateByCondition">
+		update  set_plan_course set plan_course_id = #{curId} where plan_course_id = #{preId}
+	</update>
+
+	<delete id="deleteObj" parameterType="Integer">
+		delete from set_plan_course
+		where deleted = 0
+		<if test="planId != null and planId != ''">and plan_id = #{planId}</if>
+	</delete>
+
+</mapper>

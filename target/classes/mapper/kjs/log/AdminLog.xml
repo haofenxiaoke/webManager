@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AdminLogMapper">
+	<resultMap type="AdminLog" id="AdminLogResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="operName" column="oper_name"/>
+		<result property="operType" column="oper_type" />
+		<result property="operDescribe" column="oper_describe" />
+		<result property="operParam" column="oper_param" />
+		<result property="operLevel" column="oper_level" />
+		<result property="operTime" column="oper_time" />
+	</resultMap>
+
+
+    <resultMap type="AdminLogDto" id="AdminLogDtoResultMap" extends="AdminLogResultMap">
+        <result property="operLevelDto" column="oper_level" />
+        <result property="operTypeDto" column="oper_type" />
+    </resultMap>
+
+	<sql id="table_columns">
+		id,
+		user_id,
+		user_name,
+		oper_name,
+		oper_type,
+		oper_describe,
+		oper_param,
+		oper_level,
+		oper_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{userName},
+		#{operName},
+		#{operType},
+		#{operDescribe},
+		#{operParam},
+		#{operLevel},
+		#{operTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AdminLog" useGeneratedKeys="true" keyProperty="id">
+		insert into admin_log( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from admin_log
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AdminLog">
+		update admin_log
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="userName != null and userName != ''">user_name = #{userName},</if>
+			<if test="operType != null and operType != ''">oper_type = #{operType},</if>
+			<if test="operDescribe != null and operDescribe != ''">oper_describe = #{operDescribe},</if>
+			<if test="operParam != null and operParam != ''">oper_param = #{operParam},</if>
+			<if test="operLevel != null and operLevel != ''">oper_level = #{operLevel},</if>
+			<if test="operTime != null and operTime != ''">oper_time = #{operTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="AdminLogResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from admin_log
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="AdminLogResultMap">
+		select <include refid="table_columns" /> 
+		from admin_log
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="userName != null and userName != ''">user_name = #{userName},</if>
+			<if test="operType != null and operType != ''">oper_type = #{operType},</if>
+			<if test="operDescribe != null and operDescribe != ''">oper_describe = #{operDescribe},</if>
+			<if test="operParam != null and operParam != ''">oper_param = #{operParam},</if>
+			<if test="operLevel != null and operLevel != ''">oper_level = #{operLevel},</if>
+			<if test="operTime != null and operTime != ''">oper_time = #{operTime},</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="AdminLogResultMap" parameterType="AdminLog">
+		select <include refid="table_columns" />
+		from admin_log
+		<include refid="page_where" />
+	</select>
+
+    <!--分页查询-->
+    <select id="page" resultMap="AdminLogResultMap" parameterType="AdminLogSerach">
+		select <include refid="table_columns" />
+		from admin_log
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="userName != null and userName != ''">AND user_name like concat('${userName}','%')</if>
+            <if test="operType != null and operType != ''">AND oper_type = #{operType}</if>
+            <if test="operLevel != null and operLevel != ''">AND oper_level = #{operLevel}</if>
+            <if test="operTime != null and operTime != ''">
+                <![CDATA[ AND oper_time>=#{startDatetime} AND oper_time<=#{endDatetime} ]]></if>
+        </trim>
+        ORDER BY oper_time DESC
+        limit #{start},#{length}
+	</select>
+
+
+    <!--分页查询-->
+    <select id="pageDto" resultMap="AdminLogDtoResultMap" parameterType="AdminLogSerach">
+        select <include refid="table_columns" />
+        from admin_log
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="userName != null and userName != ''">AND user_name like concat('${userName}','%')</if>
+            <if test="operType != null and operType != ''">AND oper_type = #{operType}</if>
+            <if test="operLevel != null and operLevel != ''">AND oper_level = #{operLevel}</if>
+            <if test="operTime != null and operTime != ''">
+                <![CDATA[ AND oper_time>=#{startDatetime} AND oper_time<=#{endDatetime} ]]></if>
+        </trim>
+        ORDER BY oper_time DESC
+        limit #{start},#{length}
+    </select>
+
+    <!--数据总量-->
+    <select id="count" resultType="long" parameterType="AdminLogSerach">
+        select count(id) from admin_log
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="userName != null and userName != ''">AND user_name = #{userName}</if>
+            <if test="operType != null and operType != ''">AND oper_type = #{operType}</if>
+            <if test="operLevel != null and operLevel != ''">AND oper_level = #{operLevel}</if>
+            <if test="operTime != null and operTime != ''">
+                <![CDATA[ AND oper_time>=#{startDatetime} AND oper_time<=#{endDatetime} ]]></if>
+        </trim>
+    </select>
+
+	<!-- 其他自定义SQL -->
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.ArticleMapper">
+
+<resultMap type="Article" id="articleResultMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		
+		<result property="coverUrl" column="cover_url" />
+		<result property="directionId" column="direction_id" />
+		<result property="authorName" column="author_name" />
+		<result property="body" column="body" />
+		<result property="positionId" column="position_id" />
+		<result property="viewsNumber" column="views_number" />
+		<result property="createTime" column="create_time" />
+		<result property="saveTime" column="save_time" />
+		<result property="deleted" column="deleted" />
+		
+	</resultMap>
+	
+	<resultMap type="ArticleConditionBean" id="articleSearchMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="body" column="body" />
+		<result property="createTime" column="create_time" />
+		<result property="directionId" column="direction_id" />
+	</resultMap>
+
+
+<sql id="article_base">
+		id,
+		title,
+		position_id,
+		direction_id,
+		cover_url,
+		body,
+		views_number,
+		create_time,
+		save_time,
+  		deleted 
+	</sql>
+	<sql id="base_properties">
+		#{id},
+		#{title},
+		#{positionId},
+		#{directionId},
+		#{coverUrl},
+		#{body},
+		#{viewsNumber},
+		#{createTime},
+		#{saveTime},
+  		#{deleted}
+	</sql>
+	
+	<sql id="table_columns">
+		id,
+		title,
+		cover_url,
+		body,
+		position_id,
+		direction_id,
+		views_number,
+		create_time,
+		save_time,
+		author_name,
+		deleted
+	</sql>
+	
+	
+	<sql id="update">
+		title,
+		cover_url,
+		body,
+		position_id,
+		direction_id,
+		save_time,
+		views_number,
+		deleted
+	</sql>
+	
+	<sql id="update_properties">
+		#{title},	
+		#{coverUrl},
+		#{body},
+		#{positionId},
+		#{directionId},	
+		#{saveTime},
+		#{viewsNumber},
+  		#{deleted}
+	</sql>
+
+<!--新增文章信息-->
+	<insert id="saveArticleBase" parameterType="ArticleBaseDto" useGeneratedKeys="true" keyProperty="id">
+		insert into article( <include refid="article_base" /> )
+		values ( <include refid="base_properties" /> )
+	</insert>
+	<!-- 查询文章信息 -->
+	<select id="findById" resultMap="articleResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from article
+		where id = #{id}
+	</select>
+	
+	<!--删除文章 逻辑删除-->
+	<update id="deleteArticle" parameterType="java.lang.Integer">
+		update  article SET deleted=1
+		where id=#{id}
+	</update>
+	
+	<!-- 编辑文章，更新内容 -->
+	<update id="updateArticle" parameterType="ArticleBaseDto">
+<!-- 		update article set ( <include refid="update" /> ) = ( <include refid="update_properties" /> ) where id=#{id} -->
+		update article set title=#{title} , 
+		cover_url=#{coverUrl},
+		body=#{body},
+		position_id=#{positionId},
+		direction_id=#{directionId},	
+		save_time=#{saveTime},
+		views_number=#{viewsNumber},
+		deleted=#{deleted} where id=#{id}
+	</update>
+	
+	<!-- 查询文章列表 -->
+	<select id="page" resultMap="articleSearchMap" parameterType="ArticleConditionBean">
+		select * from article 
+		WHERE deleted = 0
+		<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+		<if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+		ORDER  BY  create_time DESC 
+<!--  		limit #{start},#{length} -->
+	</select>
+
+</mapper>
+
+

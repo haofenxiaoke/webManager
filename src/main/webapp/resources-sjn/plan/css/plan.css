@@ -1,0 +1,47 @@
+.jdt-bj{background: #e62c3a !important;}
+.xueyuan-bj{background: url(/resources-sjn/index/images/xiaoxingxing.png)!important;}
+.xinsui{color:#333333 !important;}
+.xijie span{color:#333333 !important;}
+.chakan a{color:#333333 !important;}
+.consume{ background: #444444 !important;}
+.consume:hover{background: #333333 !important;}
+.shichang{background: #dddddd !important;}
+.dw-plan{background: #f29098 !important;}
+.fudong{background: url(/resources-sjn/plan/images/sjn_jieduanBG.png) no-repeat;}
+.layui-layer-btn .layui-layer-btn0{background: #444444 !important;}
+.layui-layer-btn .layui-layer-btn0:hover{background: #333333 !important;}
+.qian span{color: #e62c3a !important;}
+.kjsPf {
+    position: absolute;
+    right: 15px;
+    top: 1px;
+}
+.kjsPf a {
+    width: 13px;
+    height: 13px;
+    background-position: -54px -3px;
+    display: block;
+    float: left;
+    margin-left: 2px;
+    cursor: auto;
+}
+.restIcon_sjn{background: url("/resources-sjn/index/images/xingxing.png");background-position: -84px -3px !important;}
+.sjn_restBG {
+    background: url("/resources-sjn/course/images/sjn_xingji.png") no-repeat !important;
+    display: inline-block;
+    vertical-align: top;
+}
+.kjsXxcur {
+    background-position: -46px -3px !important;
+}
+.kjsPfx a {
+    width: 13px;
+    height: 13px;
+    background-position: -54px -3px;
+    display: block;
+    float: left;
+    margin-left: 2px;
+    cursor: auto;
+}.kjsPfx{float: right; margin-right: 10px;}
+.xueyuan-left{float: left;}
+.xueyuan-right{width: 72px;}

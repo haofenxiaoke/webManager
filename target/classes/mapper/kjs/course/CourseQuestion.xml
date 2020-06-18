@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseQuestionMapper">
+	<resultMap type="CourseQuestion" id="courseQuestionResultMap">
+		<result property="id" column="id" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="courseId" column="course_id" />
+		<result property="questions" column="questions" />
+		<result property="userid" column="userid" />
+		<result property="questionTime" column="question_time" />
+		<result property="replyNum" column="reply_num" />
+		<result property="state" column="state" />
+		<result property="hotTop" column="hot_top" />
+		<result property="topUserid" column="top_userid" />
+		<result property="topTime" column="top_time" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		lecture_id,
+		course_id,
+		questions,
+		userid,
+		question_time,
+		reply_num,
+		state,
+		hot_top,
+		top_userid,
+		top_time
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{lectureId},
+		#{courseId},
+		#{questions},
+		#{userid},
+		#{questionTime},
+		#{replyNum},
+		#{state},
+		#{hotTop},
+		#{topUserid},
+		#{topTime}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseQuestion" useGeneratedKeys="true" keyProperty="id">
+		insert into course_question( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course_question
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="CourseQuestion">
+		update course_question
+		<trim prefix="set" suffixOverrides=",">
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="questions != null and questions != ''">questions = #{questions},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="questionTime != null and questionTime != ''">question_time = #{questionTime},</if>
+			<if test="replyNum != null and replyNum != ''">reply_num = #{replyNum},</if>
+			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="hotTop != null and hotTop != ''">hot_top = #{hotTop},</if>
+			<if test="topUserid != null and topUserid != ''">top_userid = #{topUserid},</if>
+			<if test="topTime != null and topTime != ''">top_time = #{topTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="courseQuestionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_question
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseQuestionResultMap">
+		select <include refid="table_columns" />
+		from course_question
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="questions != null and questions != ''">and questions = #{questions}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="questionTime != null and questionTime != ''">and question_time = #{questionTime}</if>
+			<if test="replyNum != null and replyNum != ''">and reply_num = #{replyNum}</if>
+			<if test="state != null and state != ''">and state = #{state}</if>
+			<if test="hotTop != null and hotTop != ''">and hot_top = #{hotTop}</if>
+			<if test="topUserid != null and topUserid != ''">and top_userid = #{topUserid}</if>
+			<if test="topTime != null and topTime != ''">and top_time = #{topTime}</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="startQuestionDate != null and endQuestionDate != null">and (question_time  between #{startQuestionDate} and #{endQuestionDate})</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="courseQuestionResultMap" parameterType="CourseQuestion">
+		select <include refid="table_columns" />
+		from course_question
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="courseQuestionResultMap" parameterType="UserManagerSerach">
+		select <include refid="table_columns" />
+		from course_question
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+	<select id="count" resultType="long" parameterType="UserManagerSerach">
+		select count(id) from course_question
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="pageInfo" resultType="Map" parameterType="UserManagerSerach">
+		select
+			q.*,
+			c.id as courseId,
+			c.title as courseTitle,
+			l.id as lectureId,
+			l.lecture_name as lectureName
+		from  course_question q
+		LEFT JOIN course c ON c.id = q.course_id
+		LEFT JOIN course_lecture l ON l.id = q.lecture_id
+		<trim prefix="where" prefixOverrides="and | or ">
+			c.deleted = 0 and c.online_state = 1
+			<if test="userId != null and userId != ''">and q.userid = #{userId}</if>
+		</trim>
+		order by q.id asc
+		limit #{start},#{length}
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="UserManagerSerach">
+		select count(id) from course_question
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and userid = #{userId}</if>
+		</trim>
+	</select>
+
+	<select id="getQuestions" resultType="Map" parameterType="Map">
+		select
+		    u.id as questionId,
+		    u.questions as replyContent,
+			u.question_time as replyTime,
+			u.userid as replyUserid,
+			us.username
+		from
+		course_question u
+		LEFT JOIN user_stu us ON u.userid = us.id
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and u.userid = #{userId}</if>
+			<if test="questionId != null and questionId != ''">and u.id = #{questionId}</if>
+		</trim>
+	</select>
+
+	<select id="page4DataTable" resultType="com.kjs.common.dto.course.CourseQuestionDto" parameterType="com.kjs.web.serach.kjs.operation.QuestionSearchBean">
+		SELECT
+		q.id AS id,
+		q.questions AS content,
+		q.question_time AS submitDate,
+		q.state AS replyStatus,
+		s.userid AS username,
+		s.username AS nickName,
+		c.title AS courseName,
+		l.lecture_name AS lectureName
+		FROM
+		course_question q
+		LEFT JOIN user_stu s ON q.userid = s.id
+		LEFT JOIN course c  ON q.course_id = c.id
+		LEFT JOIN course_lecture l ON q.lecture_id = l.id
+		<where>
+			c.deleted = 0 and c.online_state = 1
+			<if test="startQuestionDate != null and endQuestionDate != null">and (q.question_time  between #{startQuestionDate} and #{endQuestionDate})</if>
+			<if test="cateId != null "> and c.direction_id = #{cateId}</if>
+			<if test="courseId != null "> and q.course_id = #{courseId}</if>
+			<if test="lectureId != null "> and q.lecture_id = #{lectureId}</if>
+			<if test="replyStatus !=null "> and q.state= #{replyStatus}</if>
+			<if test="content != null and content != '' "> and q.questions like CONCAT('%',#{content},'%')</if>
+		</where>
+		order by q.question_time desc
+		limit #{start},#{length}
+	</select>
+
+	<select id="count4DataTable" resultType="long" parameterType="com.kjs.web.serach.kjs.operation.QuestionSearchBean">
+		SELECT count(q.id)
+		FROM
+		course_question q
+		LEFT JOIN user_stu s ON q.userid = s.id
+		LEFT JOIN course c  ON q.course_id = c.id
+		LEFT JOIN course_lecture l ON q.lecture_id = l.id
+		<where>
+			c.deleted = 0 and c.online_state = 1
+			<if test="startQuestionDate != null and endQuestionDate != null">and (q.question_time  between #{startQuestionDate} and #{endQuestionDate})</if>
+			<if test="cateId != null"> and c.direction_id = #{cateId}</if>
+			<if test="courseId != null"> and q.course_id = #{courseId}</if>
+			<if test="lectureId != null"> and q.lecture_id = #{lectureId}</if>
+			<if test="replyStatus != null"> and q.state= #{replyStatus}</if>
+			<if test="content != null and content != '' "> and q.questions like CONCAT('%',#{content},'%')</if>
+		</where>
+	</select>
+	<select id="todayAddCount" resultType="long" >
+		SELECT
+		count(id)
+		FROM
+		course_question
+		WHERE
+		to_days(question_time) = to_days(now())
+	</select>
+	<select id="noReplyCount" resultType="long" >
+		SELECT
+		count(id)
+		FROM
+		course_question
+		WHERE
+		state = 0
+	</select>
+
+	<resultMap id="detailResultMap" type="CourseQuestion">
+		<result property="id" column="q_id" />
+		<result property="questions" column="q_questions" />
+		<result property="questionTime" column="q_question_time" />
+		<result property="nickName" column="q_nickName" />
+		<collection property="replyList" ofType="CourseQuestionReply" column="q_id" >
+			<id property="id" column="r_id"/>
+			<result property="replyContent" column="r_reply_content" />
+			<result property="replyTime" column="r_reply_time" />
+			<result property="flowerName" column="r_flowerName" />
+		</collection>
+	</resultMap>
+	<select id="detail" resultMap="detailResultMap" >
+		SELECT
+			q.id AS q_id,
+			q.questions AS q_questions,
+			q.question_time AS q_question_time,
+			r.id AS r_id,
+			r.reply_content AS r_reply_content,
+			r.reply_time AS r_reply_time,
+			stu.username AS q_nickName,
+			u.flowerName AS r_flowerName
+		FROM
+			course_question q
+		LEFT OUTER JOIN course_question_reply r ON q.id = r.question_id AND r.deleted = 0
+		LEFT OUTER JOIN user_stu stu ON q.userid = stu.id
+		LEFT OUTER JOIN authority_users u ON r.reply_userid = u.id
+		WHERE
+			q.id = #{id}
+	</select>
+
+	<!-- 答疑导出csv !-->
+	<select id="exportCsvForAnswer" resultType="com.kjs.common.dto.user.ExportCsvForAnswerDto" parameterType="com.kjs.web.serach.kjs.operation.QuestionSearchBean">
+		select q.id,
+		u.userid as userName,
+		u.username as nickName,
+		q.questions as content,
+		c.title as courseTitle,
+		l.lecture_name as lectureName,
+		q.question_time as questionTime,
+		q.state as replyStatus,
+		t.flower_name as flowerName,
+		t.name as teacherName,
+		r.reply_time as replyTime,
+		r.reply_content as replyContent
+		from course_question q
+		left join course_question_reply r on r.question_id = q.id and r.deleted = 0
+		left join teacher t on r.reply_userid = t.teacher_user_id
+		left join course c on q.course_id = c.id and c.deleted = 0 and c.publish_state = 1
+		left join course_lecture l on q.lecture_id = l.id and l.deleted = 0 and l.publish_state = 1
+		left join user_stu u on q.userid = u.id and u.deleted = 0
+		<trim prefix="where" prefixOverrides="and | or ">
+			c.deleted = 0 and c.online_state = 1
+			<if test="startQuestionDate != null and endQuestionDate != null">and (q.question_time  between #{startQuestionDate} and #{endQuestionDate})</if>
+			<if test="cateId != null "> and c.direction_id = #{cateId}</if>
+			<if test="courseId != null "> and q.course_id = #{courseId}</if>
+			<if test="lectureId != null "> and q.lecture_id = #{lectureId}</if>
+			<if test="replyStatus !=null "> and q.state= #{replyStatus}</if>
+			<if test="content != null and content != '' "> and q.questions like CONCAT('%',#{content},'%')</if>
+		</trim>
+		order by q.question_time desc
+	</select>
+
+</mapper>

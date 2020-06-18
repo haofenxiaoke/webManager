@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.VoucherMapper">
+	<resultMap type="Voucher" id="voucherResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="deadline" column="deadline" />
+		<result property="type" column="type" />
+		<result property="locked" column="locked" />
+		<result property="regulation" column="regulation" />
+		<result property="description" column="description" />
+		<result property="ctime" column="ctime" />
+		<result property="mtime" column="mtime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		voucher.id,
+		voucher.user_id,
+		voucher.name,
+		voucher.price,
+		voucher.deadline,
+		voucher.type,
+		voucher.locked,
+		voucher.regulation,
+		voucher.description,
+		voucher.ctime,
+		voucher.mtime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{name},
+		#{price},
+		#{deadline},
+		#{type},
+		#{locked},
+		#{regulation},
+		#{description},
+		#{ctime},
+		#{mtime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="Voucher" useGeneratedKeys="true" keyProperty="id">
+		insert into voucher( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from voucher
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="Voucher">
+		update voucher 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="price != null and price != ''">price = #{price},</if>
+			<if test="deadline != null and deadline != ''">deadline = #{deadline},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="locked != null">locked = #{locked},</if>
+			<if test="regulation != null">regulation = #{regulation},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+			<if test="mtime != null and mtime != ''">mtime = #{mtime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="voucherResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from voucher
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="voucherResultMap">
+		select <include refid="table_columns" /> 
+		from voucher
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="price != null and price != ''">and price = #{price}</if>
+			<if test="deadline != null and deadline != ''">and deadline = #{deadline}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="locked != null and locked != ''">and locked = #{locked}</if>
+			<if test="regulation != null and regulation != ''">and regulation = #{regulation}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="mtime != null and mtime != ''">and mtime = #{mtime}</if>
+			<if test="ctime != null and ctime != ''">and ctime = #{ctime}</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="voucherType != null">and type = #{voucherType}</if>
+			<if test="startCreateDate != null and endCreateDate != null"> and (ctime between #{startCreateDate} and #{endCreateDate})</if>
+			<if test="locked != null"> and locked = #{locked}</if>
+		</trim>
+	</sql>
+
+	
+	<select id="page" resultMap="voucherResultMap" parameterType="com.kjs.web.serach.kjs.operation.VoucherSearchBean">
+		select <include refid="table_columns" />,u.email as createUserName
+		from voucher
+		left join authority_users u
+		on u.id = voucher.user_id
+		<include refid="search_page_where" />
+		order by locked asc,ctime desc
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="com.kjs.web.serach.kjs.operation.VoucherSearchBean">
+        select count(id) from voucher
+        <include refid="search_page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

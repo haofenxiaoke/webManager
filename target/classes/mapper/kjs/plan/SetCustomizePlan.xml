@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.SetCustomizePlanMapper">
+	<resultMap type="SetCustomizePlan" id="setCustomizePlanResultMap">
+		<result property="id" column="id" />
+		<result property="planDescribe" column="plan_describe" />
+		<result property="directionId" column="direction_id" />
+		<result property="industryId" column="industry_id" />
+		<result property="positionId" column="position_id" />
+		<result property="stuNum" column="stu_num" />
+		<result property="stuMonthNum" column="stu_month_num" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+		<result property="state" column="state" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		plan_describe,
+		direction_id,
+		industry_id,
+		position_id,
+		stu_num,
+		stu_month_num,
+		create_time,
+		deleted,
+		state
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{planDescribe},
+		#{directionId},
+		#{industryId},
+		#{positionId},
+		#{stuNum},
+		#{stuMonthNum},
+		#{createTime},
+		#{deleted},
+		#{state}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="SetCustomizePlan" useGeneratedKeys="true" keyProperty="id">
+		insert into set_customize_plan( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from set_customize_plan
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="SetCustomizePlan">
+		update set_customize_plan 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planDescribe != null and planDescribe != ''">plan_describe = #{planDescribe},</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="industryId != null and industryId != ''">industry_id = #{industryId},</if>
+			<if test="positionId != null and positionId != ''">position_id = #{positionId},</if>
+			<if test="stuNum != null">stu_num = #{stuNum},</if>
+			<if test="stuMonthNum != null">stu_month_num = #{stuMonthNum},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="state != null">state = #{state},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="setCustomizePlanResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from set_customize_plan
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="setCustomizePlanResultMap">
+		select <include refid="table_columns" /> 
+		from set_customize_plan WHERE deleted = 0 and state = 1
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0 and state = 1
+			<if test="planDescribe != null and planDescribe != ''">and plan_describe = #{planDescribe}</if>
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="industryId != null and industryId != ''">and industry_id = #{industryId}</if>
+			<if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+			<if test="stuNum != null and stuNum != ''">and stu_num = #{stuNum}</if>
+			<if test="stuMonthNum != null and stuMonthNum != ''">and stu_month_num = #{stuMonthNum}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			sp.deleted = 0
+			<if test="planType != null and planType != '' and planType == 1 ">
+				and sp.state = 1
+			</if>
+			<if test="planType != null and planType != '' and planType == 2 ">
+				and sp.state = 0
+			</if>
+			<if test="planId != null and planId != ''">and sp.id = #{planId}</if>
+			<if test="directionId != null and directionId != ''">and sp.direction_id = #{directionId}</if>
+			<if test="industryId != null and industryId != ''">and sp.industry_id = #{industryId}</if>
+			<if test="positionId != null and positionId != ''">and sp.position_id = #{positionId}</if>
+			<if test="derectionIds!=null and derectionIds.length > 0">
+				and sp.direction_id in
+				<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="select_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			c.deleted = 0 AND c.online_state = 1
+			<if test="directionId != null and directionId != ''">and c.direction_id = #{directionId}</if>
+			<if test="positionId != null and positionId != ''">and c.position_id = #{positionId}</if>
+			<if test="industryId != null and industryId != ''">
+				and EXISTS (select i.* from  course_industry i where i.course_id = c.id and i.industry_id = #{industryId})
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="setCustomizePlanResultMap" parameterType="SetCustomizePlan">
+		select <include refid="table_columns" />
+		from set_customize_plan
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="setCustomizePlanResultMap" parameterType="SetCustomizePlan">
+		select <include refid="table_columns" />
+		from set_customize_plan
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="SetCustomizePlan">
+        select count(id) from set_customize_plan
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!-- 定制计划列表分页 -->
+	<select id="pageInfo" resultType="Map" parameterType="PlanManagerSerach">
+		select sp.*,d.category_desc as directionDesc,i.category_desc as industryDesc,p.category_desc as positionDesc from set_customize_plan sp
+		LEFT JOIN category_direction d ON d.id = sp.direction_id and d.deleted = 0
+		LEFT JOIN category_industry i ON i.id = sp.industry_id and i.deleted = 0
+		LEFT JOIN category_position p ON p.id = sp.position_id and p.deleted = 0
+		<include refid="search_page_where" />
+		limit #{start},#{length}
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="PlanManagerSerach">
+		select count(sp.id) from set_customize_plan sp
+		LEFT JOIN category_direction d ON d.id = sp.direction_id and d.deleted = 0
+		LEFT JOIN category_industry i ON i.id = sp.industry_id and i.deleted = 0
+		LEFT JOIN category_position p ON p.id = sp.position_id and p.deleted = 0
+		<include refid="search_page_where" />
+	</select>
+
+	<!-- 定制计划选择课程列表分页 -->
+	<select id="pageCourseInfo" resultType="Map" parameterType="PlanManagerSerach">
+		select DISTINCT c.id as planCourseId,c.title,pc.id from course c
+		LEFT JOIN (select * from set_plan_course where deleted = 0 and plan_id = #{planId} ) pc ON  pc.plan_course_id = c.id
+		<include refid="select_page_where" />
+	</select>
+
+	<select id="countCourseInfo" resultType="long" parameterType="PlanManagerSerach">
+		select count(DISTINCT c.id) from course c
+		LEFT JOIN (select * from set_plan_course where deleted = 0 and plan_id = #{planId} ) pc ON  pc.plan_course_id = c.id
+		<include refid="select_page_where" />
+	</select>
+
+	<!--保存计划 directionId，positionId，industryId-->
+	<insert id="savePlanByIds" parameterType="SetCustomizePlan" useGeneratedKeys="true" keyProperty="id">
+		insert into set_customize_plan( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<select id="countCheckDel" resultType="int" >
+		select count(id) from set_customize_plan
+		<trim prefix="where" prefixOverrides="and | or" >
+			deleted = 0 AND state = 1
+			<if test="directionId != null ">AND direction_id = #{directionId}  </if>
+			<if test="positionId != null ">AND position_id = #{positionId}  </if>
+		</trim>
+	</select>
+
+	<delete id="deletePlanByCate">
+		DELETE FROM set_customize_plan
+		where deleted = 0
+		<if test="industryId!=null">
+			AND industry_id = #{industryId}
+		</if>
+		<if test="positionId!=null">
+			AND position_id = #{positionId}
+		</if>
+	</delete>
+</mapper>

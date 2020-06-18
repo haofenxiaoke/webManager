@@ -1,0 +1,42 @@
+.anewBuy-all{ width: 90%; height: auto;overflow: hidden;margin: 0px auto; margin-top: 20px;}
+.anewBuy-nav{ width: 100%; height: 30px; line-height: 30px;color: #333333;}
+.anewBuy-nav a{font-size: 12px; color: #333333; padding-right: 5px; padding-left: 5px;}
+.weiwancheng{ width: 100%; height: auto;overflow: hidden; background: #FFFFFF; margin-top: 10px; padding-top: 15px; padding-bottom: 75px;}
+.wwcbt{width: 100%; height: 80px; line-height: 80px; text-align: center; font-size: 16px; color: #5583DB;}
+.wwclist{ width: 95%; height: auto;overflow: hidden; margin: 0px auto;}
+.listborder{ border: 1px solid #e5e5e5; height: auto;overflow: hidden;}
+.listone{ width: 100%; height: 40px; background: #f0f2f5;}
+.listone li{color: #999999; width: 25%; height: 40px; line-height: 40px; font-size: 14px;text-align: center;float: left;}
+.listtwo{ width: 100%; height: 80px; }
+.listtwo li{ color: #666666; width: 25%; height: 80px; line-height: 80px; font-size: 14px;text-align: center;float: left;}
+
+
+.jiesuan{ width: 95%; height: auto;overflow: hidden; margin: 0px auto;}
+.zongji{ font-size: 14px; text-align: right; color: #666666;}
+.jianmian{ font-size: 14px; text-align: right; margin-top: 10px;color: #666666;}
+.jianmian span{margin-left: 30px;}
+.jine{ font-size: 14px; text-align: right;margin-top: 18px;}
+.jine span{ font-size: 28px; color: #ff6700;margin-left: 30px;}
+.mashang{ width: 100%; height: auto;overflow: hidden;margin-top: 18px;}
+.mashang input{ width: 180px; height: 40px; text-align: center;line-height: 40px;border: none;outline: none; font-size: 14px; background: #5583DB; color: #FFFFFF;border-radius: 3px; float: right;}
+.jsdz{width: 100%; height: auto;overflow: hidden;background: #f0f2f5; padding-top: 20px; padding-bottom: 35px;}
+.sr-dz{ font-size: 14px; color: #666666;} 
+.sr-dz span{ color: #999999; margin-left: 20px;}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width:800px ) {
+.anewBuy-all{width: 800px;}
+
+}
+@media only screen and (min-width:1200px ) {
+.anewBuy-all{width: 1200px;}
+	
+}

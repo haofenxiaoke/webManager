@@ -1,0 +1,72 @@
+.buy-all{ width: 1226px; height: auto;overflow: hidden;margin: 0px auto;padding-bottom: 50px;}
+.buy-nav{ width: 100%; color: #666;margin: 30px 0 10px 0;}
+.buy-nav a{font-size: 12px; color: #666; padding-right: 5px; padding-left: 5px;}
+.buy-nav a:hover {
+    color: #5583db !important;
+}
+.plan-top{ width: 100%; height: auto;overflow: hidden; background: #FFFFFF; position: relative; margin-top: 20px;}
+.dw-plan{ height: 35px;line-height: 35px;font-size: 14px;color:#fff;text-align: center; position: absolute; top: 20px;padding: 0 15px; left: 0;z-index: 999;background: #ff6700;}
+.plan-top ul{ width: 100%; height: 160px;}
+.plan-top li{ width: 25%; height: 100%; float: left;}
+.quyu{ height: 80px; line-height: 80px; border-right: 1px solid #f0f0f0; margin-top: 40px; }
+.xinsui{ font-size: 20px; color: #5583DB; text-align: center; }
+.citygrade{ font-size: 12px; color: #999999; text-align: center; margin-top: 15px;}
+.xuexitime{height: 80px;  margin-top: 40px;}
+.xuexitime p{ font-size: 12px; color: #999999; text-align: center;}
+.xuexitime span{ color: #333333;}
+.xuexitime small{ font-size: 28px;}
+
+
+.plan-bottom{ height: auto;overflow: hidden; background: #FFFFFF; padding-left: 20px; padding-right: 20px; padding-bottom: 45px;margin-top:20px;}
+.plan-nr{  height: auto;overflow: hidden; margin: 0px auto;}
+.bottomnrLeft{width: 565px; height: 230px; border: 1px solid #E0E0E0; float: left; margin-right: 22px; margin-top: 20px;position: relative;}
+.bottomnrRight{width: 565px; height: 230px; border: 1px solid #E0E0E0;float: left;margin-top: 20px; position: relative;}
+.kcjd{ float: left;width: 230px; height: 100%;}
+.kcjd-top{ width: 230px; height: 150px;}
+.kcjd-top img{ width: 100%;height:100%;}
+
+
+
+.kcjd-bottom{ width: 100%; height: 80px;}
+.jdtxiaojie{ width: 100%; height: 40px;}
+.xiaojie-left{ width: 80px; height: 6px;float: left; background: #eeeeee; margin-top: 17px; position: relative;  margin-left: 12px; margin-right: 8px;}
+.jdt-bj{ position: absolute;top: 0;left: 0; background: #ff6700;  height: 6px;}
+.xiaojie-right{height: 40px; font-size: 12px; margin-left: 100px;line-height: 40px; color: #999999;}
+
+.xueyuan{ width: 100%; height: 40px;}
+.xueyuan-left{ font-size: 12px; color: #999999; margin-left: 12px; }
+.xueyuan-right{ width: 75px; height: 14px; background: url(../images/xiaoxingxing-00.png); float: right; margin-right: 10px; position: relative;}
+.xueyuan-bj{width: 100%; height: 100%; position: absolute;top: 0; left: 0; background: url(../images/xiaoxingxing-000.png);}
+
+
+.dengji{ height: 198px; background: #eeeeee; margin-left: 230px; padding: 16px;}
+.dengji-nr{ height: 100%;}
+.dengjiBt{font-size: 22px;}
+.shichang{ width: 80px; height: 20px; font-size: 12px; background: #5583DB; color: #FFFFFF; text-align: center; line-height: 20px; border-radius: 3px; margin-top: 10px;}
+.scxj{ width: 100%; height: 60px;padding-bottom: 20px; padding-top: 20px;}
+.xijie{ width: 60px; height: 40px; padding-top: 11px; padding-bottom: 12px; background: url(../images/jhbj_06.png); float: left; margin-right: 15px;}
+.xijie p{ font-size: 12px; color: #999999; text-align: center;}
+.xijie span{ color: #5583DB; font-size: 14px;}
+.chakan{width: 100%; height: auto;overflow: hidden;}
+.chakan p{font-size: 12px; color: #999999;height: 15px; overflow: hidden;display:block;white-space:nowrap;text-overflow:ellipsis;}
+.chakan a{ color: #5583DB; font-size: 12px;cursor: pointer;}
+.chakan a:hover{color:#3b5b98;}
+.goumai{ margin-top: 15px; width: 100%;height: auto;overflow: hidden; padding-top: 15px;}
+.goumai input{cursor:pointer;}
+.qian{ font-size: 14px; color: #999999; text-align: right;}
+.qian span{ font-size: 20px;color: #5583DB; margin-left: 5px;}
+.qixian{font-size: 14px; color: #999999; text-align: right; margin-top: 5px; font-size: 14px;}
+.qixian span{ color: #666666; font-size: 14px;}
+.consume{width: 180px; height: 40px; line-height: 40px;text-align: center; font-size: 14px; background: #5583DB; color: #FFFFFF; border-radius: 3px;outline: none; border: none; float: right; margin-top: 20px;}
+.consume:hover{background: #3b5b98;}
+.fudong{ width: 16px; height: 80px; position: absolute; top: 0; right: 20px; background: url("../images/jieduan_03.png") no-repeat; color: #fff;font-size: 14px; padding-top: 5px;    font-size: 12px;
+    text-align: center;line-height: 14px;padding-left: 3px;padding-right: 3px;}
+
+@media only screen and (max-width:800px ) {
+.buy-all{width: 800px;}
+
+}
+@media only screen and (min-width:1200px ) {
+.buy-all{width: 1200px;}
+	
+}

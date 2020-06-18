@@ -1,0 +1,465 @@
+body, html {
+    font-size: 12px;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, div, p, dl, dt, dd, ul, ol, li, form, fieldset, legend, button, submit, input, textarea, select, table, tr, th, td, hr, pre, sup, address, cite, dfn, em, var, blockquote {
+    margin: 0;
+    padding: 0
+}
+
+html {
+    border: none 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    font-family: "Arial", "Hiragino Sans GB", \5fae\8f6f\96c5\9ed1, "Helvetica", "sans-serif";
+    word-wrap: break-word;
+    word-break: break-all;
+    /* background: #eef3fa !important; */
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+button, submit, input, select, textarea {
+    font: 12px/1.5 Tahoma, "Microsoft YaHei", arial, simsun, sans-serif;
+    outline: none;
+}
+
+button, submit, input, select {
+    vertical-align: middle;
+}
+
+button, submit {
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+    outline: none;
+}
+
+button::-moz-focus-inner,
+submit::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    padding: 0;
+    border: none;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    text-align: left;
+}
+
+address, cite, dfn, var {
+    font-style: normal;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    outline: none !important;
+    cursor: pointer;
+    text-decoration: none !important;
+    color: #fff;
+}
+
+iframe {
+    vertical-align: top;
+}
+
+* html {
+    zoom: expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true)}(this))
+}
+
+.ui_clear {
+    *zoom: 1
+}
+
+.ui_clear:after {
+    content: '\20';
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+
+.hide {
+    display: none;
+}
+
+.clearfloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.clearfloat {
+    zoom: 1;
+}
+
+.clear {
+    *zoom: 1;
+}
+
+.clear:after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.clear {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.kjs {
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+.mt20{
+	margin-top: 20px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.pd20 {
+    padding-left: 20px;
+}
+
+.btn180 {
+    width: 180px;
+    height: 40px;
+    background: #ccc;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 3px;
+    display: block;
+    color: #fff;
+}
+
+.btn70 {
+    width: 70px;
+    height: 30px;
+    background: #5583db;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 3px;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.btn100 {
+    width: 100px;
+    height: 30px;
+    background: #5583db;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 3px;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.btn90{
+	width: 90px;
+    height: 30px;
+    background: #5583db;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.btn70:hover {
+    color: #fff;
+    background: #3b5b98;
+}
+
+.curNo {
+    cursor: default
+}
+
+.curYes {
+    cursor: pointer;
+    background: #5583db;
+}
+
+.h30 {
+    height: 30px;
+}
+
+.textC {
+    text-align: center;
+}
+
+.Made-nav {
+    margin: 30px 0 10px 0;
+}
+
+.Made-nav a {
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.Made-nav a:hover {
+    color: #5583db !important;
+}
+
+.restIcon {
+    background: url("/resources/common/images/indexIcon.png") no-repeat;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.kjs-fotter {
+    width: 100%;
+    height: 110px;
+    background: #3b414f;
+    padding-top: 50px;
+
+    min-width: 1648px;
+}
+
+.kjs-f-con {
+    width: 1226px;
+    margin: 0 auto;
+    height:110px;
+}
+
+.kjs-f-con img{
+	height: 20px;
+}
+
+.kjs-f-l {
+    float: left;
+}
+
+.kjs-f-c {
+    float: left;
+}
+
+.kjs-f-r {
+    float: left;
+}
+
+.kjs-f-about {
+    color: #fff;
+    margin: 5px 0 10px 0;
+}
+
+.kjs-f-about a {
+    margin: 0 10px;
+    line-height: 20px;
+    color: #fff;
+}
+
+.kjs-f-about a:hover {
+    color: #5583db;
+}
+
+.kjs-f-bq {
+    color: #fff;
+    margin-left: 10px;
+}
+
+.kjs-fo-tittle {
+    position: absolute;
+    top: 20px;
+    right: 0;
+}
+
+.kjs-f-r {
+    margin-left: 20px;
+}
+
+.kjs-f-bq span {
+    margin-right: 20px;
+}
+
+.code-img img {
+    height: 40px;
+    width: 90px;
+    float: left
+}
+
+.code-img i {
+    float: left;
+    width: 22px;
+    height: 20px;
+    background-position: -31px 0;
+    margin: 12px;
+    cursor: pointer;
+}
+
+.close-btn {
+    cursor: pointer;
+    float: right;
+    width: 35px;
+    height: 25px;
+    margin-top: 15px;
+    margin-right: 10px;
+    background: url(/resources/login/images/guanbi_03.png) no-repeat center center;
+}
+
+.close-btn:hover {
+    background: url(/resources/login/images/guanbi_07.png) no-repeat center center;
+}
+
+/* RIGHT*/
+
+
+.toolbar {
+    position: fixed;
+    top: 50%;
+    z-index: 12;
+    right: 0;
+
+}
+
+.toolbar a {
+    display:block;
+    width: 50px;
+    height: 50px;
+    background: #444851;
+    position: relative;
+}
+.toolbar .too-consult{ width: 50px !important; height: 84px !important;display: none;}
+.toolbar a:hover {
+    background: #5583db;
+}
+
+.toolbar a i {
+    width: 24px;
+    height: 24px;
+    margin: 15px 0 0 15px;
+}
+
+.toolbar .too-scrollT i {
+    background-position: -142px -45px;
+}
+
+.toolbar .too-userDc i {
+    background-position: -83px -42px;
+}
+
+/*.toolbar .too-xn i {*/
+    /*background-position: -54px -70px;*/
+/*}*/
+
+/*.toolbar .too-ewm i {*/
+    /*background-position: -54px -42px;*/
+/*}*/
+
+.toolbar .too-scrollT:hover i {
+    background-position: -170px -45px;
+}
+
+.toolbar .too-userDc:hover i {
+    background-position: -112px -42px;
+}
+
+/*.toolbar .too-xn:hover i {*/
+    /*background-position: -83px -70px;*/
+/*}*/
+
+/*.toolbar .too-ewm:hover i {*/
+    /*background-position: -114px -70px;*/
+/*}*/
+
+.too-ewm em {
+    background: url("/resources/index/images/app-ewm.png") no-repeat;
+    width: 180px;
+    height: 210px;
+    top: -158px;
+    right: 40px;
+    position: absolute;
+z-index:60;
+    /*display: none;*/
+}
+.too-ewm em small{display: block; width: 15px; height: 15px; background: url("/resources/index/images/ewm-close.png") no-repeat; background-position: 0px -5px; position: absolute;top: 5px;right: 15px; cursor:pointer;}
+/*内容区域行高*/
+.content-m-top{margin-top: 20px;}
+
+.too-xn em {
+    background: url("/resources/index/images/kjs-gzh.png") no-repeat;
+    width: 180px;
+    height: 210px;
+    top: -158px;
+    right: 40px;
+    position: absolute;
+    z-index: 60;
+    display: none;
+}
+.res{ background: url("/resources/index/images/b-all.png") no-repeat; background-position: 0px -4px;    display: inline-block;
+    vertical-align: top; width: 24px; height: 26px !important;}
+.resq{ background: url("/resources/index/images/b-all.png") no-repeat; background-position: -26px -4px;    display: inline-block;
+    vertical-align: top; width: 24px; height: 26px !important;}
+
+.end-res{background-position: -56px -1px; width: 28px !important; height: 28px !important;margin: 13px 0 0 13px;width:30px; height: 30px !important;margin-top: 10px !important; margin-left: 12px !important;}
+.too-xn:hover .resq{background-position: -89px 0px;width: 28px !important; height: 28px !important;margin: 13px 0 0 13px;width:31px; height: 32px !important; margin-top: 9px !important;}
+
+
+.re{ background: url("/resources/index/images/b-1.png") no-repeat;    display: inline-block;
+    vertical-align: top; width: 100% !important; height: 100% !important; margin: 0 !important;}
+.reUse{ background: url("/resources/index/images/b-2.png") no-repeat;display: inline-block;
+    vertical-align: top; width: 100% !important; height: 100% !important; margin: 0 !important; }
+.too-userDc:hover .endyou{background: url("/resources/index/images/b-allT.png") no-repeat !important; background-position: -119px 0px !important;width:31px; height: 32px !important; margin-top: 10px !important; margin-left: 10px !important;}
+.FloatOn{ position: fixed;top: 310px;left: 15px; z-index: 9999;}
+.FloatOn img{width: 100%;}
+
+
+.index-shade{ width: 100%; height: 100%;position: fixed; top: 0;left: 0;background: rgba(0,0,0,0.3);z-index: 99;display: none;}
+.scSee{ width: 400px; height: 200px;position: fixed; top: 50%; left: 50%; margin: -100px 0px 0px -200px; background: #fff; border-radius: 5px;}
+.scSee-top{ text-align: center;font-size: 14px; height: 14px;line-height: 14px;color: #666666; margin-top: 70px;}
+.scSee-top span{color:#ff6700 !important;}
+.scSee-bottom{ text-align: center;font-size: 14px; height: 14px;line-height: 14px;color: #666666; margin-top: 25px;}
+.scSee-bottom span{color:#ff6700 !important;}
+.scSee a{display: block; margin: 0px auto;width: 180px; height: 40px;line-height: 40px; text-align: center;font-size: 12px;background: #ff6700;border-radius: 3px;margin-top: 20px;}
+
+.index-shadeO{ width: 100%; height: 100%;position: fixed; top: 0;left: 0;background: rgba(0,0,0,0.3);z-index: 99; display: none;}
+.scSeeO{ width: 400px; height: 200px;position: fixed; top: 50%; left: 50%; margin: -100px 0px 0px -200px; background: #fff; border-radius: 5px;}
+.scSee-topO{ text-align: center;font-size: 14px !important; height: 14px;line-height: 14px;color: #666666; margin-top: 50px;}
+.scSee-topO span{color:#ff6700 !important;font-size: 14px !important;}
+.scSeeO a{display: block; margin: 0px auto;width: 180px; height: 40px;line-height: 40px; text-align: center;font-size: 12px;background: #ff6700;border-radius: 3px;margin-top: 20px;}
+.scClose{ width: 25px; height: 25px;position: absolute;top: 15px;right: 12px; background: url("/resources/index/images/vipClose.png") no-repeat;cursor: pointer;}
+.endClose{ width:25px; height: 25px;position: absolute;top: 15px;right: 12px; background: url("/resources/index/images/vipClose.png") no-repeat;cursor: pointer;}
+.scSeeO a:hover{color: #fff !important;}
+.old{width: 5px; height: 9px; margin:0px 0px 3px 3px;}

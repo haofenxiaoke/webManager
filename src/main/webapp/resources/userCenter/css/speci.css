@@ -1,0 +1,17 @@
+.specList dt{width: 50px;height: 50px;border-radius: 200px;}
+.specList dt img{border-radius:100%;}
+.specList dd{margin-left: 10px;width: 830px;margin-bottom: 20px;}
+.spec-message{padding-left: 10px;}
+.spec-message a{color:#bbb;margin-right: 10px;}
+.spec-message p{color:#5583db;}
+.spec-message span{color:#bbb;display: block;}
+.spec-message div{color:#777;font-size: 16px;text-align:justify; text-justify:inter-ideograph;}
+
+.spec-reply{width: 790px;background:#f7f9fa;min-height: 20px;margin-top: 10px;border-radius: 3px;padding: 20px 20px 10px 20px;}
+.spec-hlleft{width: 30px;text-align: center;margin-right: 10px;}
+.spec-hlleft img{border-radius: 100%;}
+.spec-hlleft p{color:#5583db;margin-top: 5px;}
+.spec-hlR{width:750px;}
+.spec-hlR p{font-size: 14px;color:#666;}
+.spec-hlR a{color:#5583db;font-size: 14px;margin-left: 5px;}
+.spec-hlR span{font-size: 12px;color:#bbb;}

@@ -1,0 +1,36 @@
+.grade-bj{position: fixed;top: 0; left: 0; width: 100%; height: 100%;background-color:RGBA(136, 136, 136, 0.31) ;}
+.grade{ width: 600px; height: 420px; border-radius: 5px; background: #FFFFFF; position: absolute;top:50%; left: 50%; margin-left: -300px; margin-top: -210px;}
+.grade-bt{height: 45px; line-height: 45px;width: 100%; background: #f7f9fa; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+.grade-bt span{ float: left; margin-left: 20px; font-size: 20px;color: #666666;}
+.gb{ float: right;width: 35px; height: 35px; margin-top: 5px; background: url(../images/guanbi_03.png) no-repeat center center;}
+.gb:hover{background: url(../images/guanbi_07.png) no-repeat center center;}
+.grade-jdt{ width: 540px; height: auto;overflow: hidden; margin: 0px auto;margin-top: 5px;}
+.grade-jdt ul{width: 100%; height: auto;overflow: hidden;}
+.grade-jdt li{width: 100%; height: 20px;margin-top: 15px;}
+.jdt-left{ width: 70px; height: 20px; line-height: 20px; float: left; text-align: center; font-size: 14px;color: #999999;}
+.jdt-right{width: 470px; height: 20px;line-height: 20px; float: right; font-size: 14px;}
+.jdt-right ul{width:110px;height: 100%; float: left;}
+.jdt-right li{width: 20px; height: 20px;background: url(../images/xxxxxx_05.png) no-repeat center center;float: left; margin-top: 0px;}
+.jdt-right p{float: left;}
+.jdt-right p span{ margin-right: 2px;}
+
+
+.jdt-rightone{width: 470px; height: 20px;line-height: 20px; float: right; font-size: 14px;}
+.jdt-rightone ul{width:110px;height: 100%; float: left;}
+.jdt-rightone li{width: 20px; height: 20px;background: url(../images/xxxxxx_05.png) no-repeat center center;float: left; margin-top: 0px;}
+.jdt-rightone p{float: left;}
+.jdt-rightone p span{ margin-right: 2px;}
+
+.jdt-righttwo{width: 470px; height: 20px;line-height: 20px; float: right; font-size: 14px;}
+
+
+
+.fxk{ width: 120px; height: 20px;line-height: 20px; font-size: 14px;float: left; color: #808080;}
+.fxk input{width: 15px; height: 15px;float: left; margin-top: 4px; margin-right: 5px;}
+.suggest{ width: 100%; height: auto;overflow: hidden; margin-top: 5px;}
+.suggest-top{ width: 100%; height: 40px; line-height: 40px; color: #999999;}
+.suggestTop-l{ font-size: 14px; float: left;}
+.suggestTop-r{ float: right; font-size: 12px;}
+.suggest-bottom{ width: 538px; height: 120px; border: 1px solid #e6e6e6; background: #f7f9fa; border-radius: 3px;}
+.suggest-bottom textarea{ border: none; width: 530px; height: 110px; background: #f7f9fa; padding-left: 3px;padding-right: 3px; padding-top: 4px; padding-bottom: 4px; outline: none; color: #999999;}
+.pftj{margin-left: 30px; width: 100px; height: 40px; text-align: center;line-height: 40px; border: 0; outline: none; border-radius: 3px; background: #5583DB; color: #FFFFFF; font-size: 14px;margin-top: 18px;}

@@ -1,0 +1,21 @@
+.register{background: #444444 !important;}
+.register:hover{background: #333333 !important;}
+/*.Findnote-img:hover{background: #333333 !important;filter:alpha(opacity=90);
+    -moz-opacity:0.9;
+    -khtml-opacity: 0.9;
+    opacity: 0.9;}*/
+.positioning{color: #e62c3a !important;;}
+.close-btn{background: url(/resources-sjn/index/images/sjn_loginClose.png) no-repeat center center;
+    margin-top: 9px !important;
+    margin-right: 5px !important;}
+.explain{color: #e62c3a;}
+.explain{line-height: 23px;}
+.resetNext-step{background: #444444 !important;}
+.resetNext-step:hover{background: #333333 !important;}
+.succeedNext-step{background: #444444 !important;}
+.succeedNext-step:hover{background: #333333 !important;}
+.email-register{background: #444444 !important;}
+.email-register:hover{background: #333333 !important;}
+input[placeholder], [placeholder], *[placeholder] {
+    color:#999 !important;
+}

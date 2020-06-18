@@ -1,0 +1,45 @@
+.lr-bottominput{background: #e62c3a !important;}
+.lr-bottominput:hover{background: #dd2a38 !important;}
+.xxk .crouse_l_nav a{color: #222222 !important;}
+.xxk .crouse_l_nav{ border-bottom:1px solid #222222 !important; }
+.one-an{background: #444444 !important;}
+.one-an:hover{background: #333333 !important;}
+.hytj{ background: #444444 !important;}
+.hytj:hover{background: #333333 !important;}
+.tctx span{color: #e62c3a !important;}
+.pftj{background: #444444 !important;}
+.pftj:hover{background: #333333 !important;}
+.jdt-right p{color: #e62c3a !important;}
+.jdt-rightone p{color: #e62c3a !important;}
+.layui-layer-btn0{background: #444444 !important;}
+.layui-layer-btn0:hover{background: #333333 !important;}
+.teachD{color: #222222 !important;}
+.Made-nav a:hover{color: #333333 !important;}
+.tcnrgb:hover{ background: url(/resources-sjn/index/images/sjn_closebtn.png) no-repeat center center;}
+.fxtb:hover .Ico{background: url(/resources-sjn/course/images/sjn_fx.png) no-repeat center center;}
+.fxtb:hover .fxfx{color: #e62c3a;}
+.pftb:hover .PIco{background: url(/resources-sjn/course/images/sjn_pf.png) no-repeat center center;}
+.pftb:hover .pfpf{color: #e62c3a;}
+.gb:hover{background: url(/resources-sjn/index/images/sjn_closebtn.png) no-repeat center center;}
+.layui-layer-btn .layui-layer-btn0{border-color:#ffffff;}
+.fxtc{width: 100%;  height: 100%; position: fixed; top: 0; left: 0; z-index: 9999;background:rgba(0,0,0,0.7); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2000000,endColorstr=#B2000000);}
+.undefined{ width: 400px; height: 200px; border-radius:3px ; background: #FFFFFF; text-align: center; }
+.undefined a{display: inline-block;  height: 35px; line-height: 35px; margin-top: 80px;}
+.undefined span{display: inline-block;font-size: 24px; color: #333333; height: 24px; line-height: 24px; float: right; margin-top: 4px; }
+.NameBt{color: #333333 !important;}
+.teacher a{ color: #e62c3a !important;}
+.teacher-waibu span{color: #e62c3a !important;}
+.picture img{min-height: 100%;}
+.teacher-tx img{min-height: 100%;}
+.stratLeft img{height: 80px !important;}
+
+
+
+.Downimg{width:30px; height: 30px; float: left;  margin:10px 0px 0px 15px;background:url("/resources-sjn/course/images/qietu.png") no-repeat;background-position: -5px -6px;}
+.DownOimg{width:30px; height: 30px; float: left;  margin:10px 0px 0px 15px;background:url("/resources-sjn/course/images/qietu.png") no-repeat;background-position: -34px -6px;}
+.Down1:hover .DownOcontent{color: #e62c3a;}
+.Down:hover .Downcontent{color: #e62c3a;}
+.video{position: relative;}
+.video embed{ position: absolute; top: 0; left: 0;}
+.Down-ewm{background: url("/resources-sjn/index/images/apph.png") no-repeat;}
+.Down-ewm{background: url("/resources-sjn/index/images/apph.png") no-repeat;}

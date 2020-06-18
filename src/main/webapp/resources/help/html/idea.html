@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../../resources/help/css/idea.css"/>
+    <script type="text/javascript" src="/resources-sjn/common/js/jquery.placeholder.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('input, textarea').placeholder();
+        });
+    </script>
+</head>
+<body>
+<div class="helpRight-all">
+    <div class="helpRight-top">
+        <div>意见反馈</div>
+    </div>
+
+    <div class="helpRight-bottom">
+        <form id="feedback-form">
+            <div class="idea-bt">
+                <div class="bt-zt">标题：</div>
+                <div class="bt-srk">
+                    <input type="text" MAXLENGTH="50" name="feedbackTitle" />
+                </div>
+            </div>
+            <div class="idea-bt">
+                <div class="bt-zt">内容：</div>
+                <textarea MAXLENGTH="500" name="feedbackDesc"></textarea>
+            </div>
+
+            <div class="idea-bt">
+                <div class="bt-zt">截图：</div>
+                <div class="addimage" id="preview-img-div" style="display: none">
+                    <img id="preview-img" style="width: 100%;height: 100%;margin:0"/>
+                </div>
+					 <span class="btn fileinput-button " style="padding: 0" id="upload-btn">
+						<span>
+							<div class="addimage">
+								<img src="../../../resources/help/images/jiahao_03.png"/>
+							</div>
+						</span>
+						<input id="imageFile" type="file" name="imageFile">
+						<input type="hidden" id="image-path" name="imgUrl">
+        		    </span>
+            </div>
+            <div class="idea-bt">
+                <div class="bt-zt">联系方式：</div>
+                <div class="bt-srk">
+                    <input type="text" maxlength="50" name="phone" placeholder="(手机、QQ、邮箱)"/>
+                </div>
+            </div>
+            <div class="idea-tj">
+                <input type="button" value="提交" id="submit-btn"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    Util.uploadFile('imageFile', 'preview-img', 'image-path', 'feedback', function () {
+        $('#upload-btn').hide();
+        $('#preview-img-div').show();
+    });
+
+    function validate(){
+        var title = $.trim($('input[name=feedbackTitle]').val());
+        var desc = $.trim($('textarea[name=feedbackDesc]').val());
+        var phone = $.trim($('input[name=phone]').val());
+        var pass = false;
+        if (!title)
+            layer.alert('标题不能为空哦!',{title: '温馨提示'});
+        else if (!desc)
+            layer.alert('内容不能为空哦!',{title: '温馨提示'});
+        else if (!phone)
+            layer.alert('联系方式不能为空哦!',{title: '温馨提示'});
+        else
+            pass = true;
+        return pass;
+    }
+    $('#submit-btn').click(function () {
+        var title = $.trim($('input[name=feedbackTitle]').val());
+
+        if (validate()) {
+            var data = Util.fromToJson('feedback-form');
+            $.post('/feedback/submit', data).done(function (result) {
+                    if (result.success){
+                        layer.alert('感谢您的反馈！', {title: '成功'});
+                        $('#feedback-form')[0].reset();
+                        $('#upload-btn').show();
+                        $('#preview-img-div').hide();
+                    }else {
+                        layer.alert(result.message, {title: '失败'});
+                    }
+            });
+        }
+    });
+</script>
+</body>
+</html>

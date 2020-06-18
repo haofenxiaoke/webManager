@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:task="http://www.springframework.org/schema/task"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc.xsd
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/task
+    					http://www.springframework.org/schema/task/spring-task.xsd">
+    <beans:description>spring mvc 配置</beans:description>
+
+    <!-- 启动aspectjAop -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+    <!-- 扫描注解的控制器 只扫描web层控制器 -->
+    <context:component-scan base-package="com.kjs.web.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!-- 读取属性文件 -->
+    <context:property-placeholder location="classpath:param.properties"/>
+    <!-- spring mvc css js ..资源转发 -->
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <beans:bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+                <beans:property name="supportedMediaTypes">
+                    <beans:list>
+                        <beans:value>text/plain;charset=UTF-8</beans:value>
+                        <beans:value>text/html;charset=UTF-8</beans:value>
+                    </beans:list>
+                </beans:property>
+            </beans:bean>
+            <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <beans:property name="supportedMediaTypes">
+                    <beans:list>
+                        <beans:value>text/json;charset=UTF-8</beans:value>
+                    </beans:list>
+                </beans:property>
+            </beans:bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/view/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+
+    <!-- http 客户端工厂 -->
+    <beans:bean id="httpClientFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <beans:property name="connectTimeout" value="5000" />
+        <beans:property  name="readTimeout" value="5000" />
+    </beans:bean>
+    <!-- rest客户端模板 -->
+    <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <beans:constructor-arg ref="httpClientFactory" />
+    </beans:bean>
+    <!-- 自定义拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/auth/*"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <beans:bean class="com.kjs.web.interceptor.PermissionInterceptor"></beans:bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 日志Aop配置 -->
+    <aop:config>
+        <!-- Web切点 -->
+        <aop:pointcut expression="execution(* com.kjs.web.controller..*.*(..)) and @annotation(logAnn))"  id="LogCut"/>
+        <!-- 数据源切面配置 -->
+        <aop:aspect id="LogAspectjConfig" ref="LogAspectj">
+            <aop:after-returning method="saveLog" pointcut-ref="LogCut" arg-names="point,logAnn"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--文件上传-->
+    <beans:bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- plan the max upload size2MB -->
+        <beans:property name="maxUploadSize">
+            <beans:value>1073741824</beans:value>
+        </beans:property>
+        <beans:property name="maxInMemorySize">
+            <beans:value>4096</beans:value>
+        </beans:property>
+    </beans:bean>
+</beans:beans>

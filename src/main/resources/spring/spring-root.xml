@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd
+	http://www.springframework.org/schema/cache
+	http://www.springframework.org/schema/cache/spring-cache.xsd"
+       default-lazy-init="false">
+
+    <!-- 启动bean扫描，排除 @Controller Bean，该Bean由SpringMVC IOC容器扫描 -->
+    <context:component-scan base-package="com.kjs">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 读取属性文件 -->
+    <context:property-placeholder location="classpath*:*.properties"/>
+    <!-- 读取属性文件 -->
+    <context:property-placeholder location="classpath:param.properties"/>
+
+    <!-- kjs库数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="10"/>
+        <property name="minIdle" value="100"/>
+        <property name="maxActive" value="150"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="6000"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- spring启动事务注解,实现声明式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- spring mybatis-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- mybatis总配置文件 -->
+        <property name="configLocation" value="classpath:mapper/mybatis-config.xml"/>
+        <!-- 自动扫描 mybatis xml文件-->
+        <property name="mapperLocations" value="classpath:mapper/*/**/*.xml"/>
+        <!-- 自动扫描 mybatis 实体类 -->
+        <property name="typeAliasesPackage"
+                  value="com.kjs.orm.model,com.kjs.web.serach.kjs,com.kjs.common.dto"></property>
+    </bean>
+
+
+    <!-- spring 提供的mybatis接口代理对象的工厂配置 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" lazy-init="true">
+        <!-- mybatis的Dao接口 -->
+        <property name="basePackage" value="com.kjs.orm.mapper"></property>
+        <!-- 限定实现的父接口 -->
+        <property name="markerInterface" value="com.kjs.orm.core.BaseMapper"></property>
+        <!-- spring 集成mybatis mapperScanner 时Bug 触发初始化sessionfactory 导致错误 -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+
+    <!-- 系统 URL配置 -->
+    <bean id="sysUrl" class="com.kjs.common.bean.SystemUrl" scope="singleton" lazy-init="false">
+        <!--登录页面URL-->
+        <property name="loginUrl" value="/auth/login"></property>
+        <!-- 不需要登录,即可访问的URL -->
+        <property name="passUrl">
+            <list>
+                <value>/class/index</value>
+                <value>/test.jsp</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="cCPRestSmsBean" class="com.kjs.common.utils.CCPRestSmsUtilBean">
+        <constructor-arg index="0" value="${appid}"/>
+    </bean>
+
+    <!-- 发送邮件的线程池 -->
+    <bean id="sendEmailThreadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+          init-method="initialize" destroy-method="destroy">
+        <!-- 线程池核心线程数量-->
+        <property name="corePoolSize" value="10"/>
+        <!-- 线程池维护线程的时间30秒清除,线程数量不能低于核心线程数 -->
+        <property name="keepAliveSeconds" value="30"/>
+        <!-- 线程池维护线程的最大数量 -->
+        <property name="maxPoolSize" value="10"/>
+        <!-- 缓存队列数量 -->
+        <property name="queueCapacity" value="10"/>
+        <!-- 线程池中线程组的名称 -->
+        <property name="threadGroupName" value="sendDuiaPwd"/>
+        <!-- 密码邮箱线程的前缀 -->
+        <property name="threadNamePrefix" value="pwd"/>
+    </bean>
+
+    <!-- Spring 注释实现任务调度 -->
+    <bean id="threadPoolTaskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"
+          init-method="initialize" destroy-method="destroy" >
+        <property name="poolSize" value="10" />
+    </bean>
+
+    <!-- 启动aspectjAop -->
+    <aop:aspectj-autoproxy/>
+    <!-- spring 3.0后的 aspectj aop配置 -->
+    <!-- 日志Aop配置 -->
+    <aop:config>
+        <!-- Service切点 -->
+        <aop:pointcut expression="execution(* com.kjs.service..*.*(..)) and @annotation(logAnn))" id="LogCut"/>
+        <!-- 数据源切面配置 -->
+        <aop:aspect id="LogAspectjConfig" ref="LogAspectj">
+            <aop:after-returning method="saveLog" pointcut-ref="LogCut" arg-names="point,logAnn"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 识别@Scheduled注解 -->  <!-- 识别@Async注解 -->
+    <!-- 扫描注解Bean 注入Root Context -->
+    <task:annotation-driven scheduler="kjsScheduler" executor="kjsExecutor"/>
+    <task:scheduler id="kjsScheduler" pool-size="10"/>
+    <task:executor id="kjsExecutor" pool-size="10"  />
+</beans>

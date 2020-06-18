@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.SysFeedbackMapper">
+	<resultMap type="SysFeedback" id="sysFeedbackResultMap">
+		<result property="id" column="id" />
+		<result property="feedbackTitle" column="feedback_title" />
+		<result property="feedbackDesc" column="feedback_desc" />
+		<result property="imgUrl" column="img_url" />
+		<result property="phone" column="phone" />
+		<result property="userId" column="user_id" />
+		<result property="feedbackAddTime" column="feedback_add_time" />
+		<result property="feedbackReply" column="feedback_reply" />
+		<result property="feedbackReplyTime" column="feedback_reply_time" />
+		<result property="feedbackReplyUserid" column="feedback_reply_userid" />
+		<result property="flowerName" column="flower_name" />
+		<result property="replyStatus" column="reply_status" />
+	</resultMap>
+
+	<sql id="table_columns">
+		sys_feedback.id,
+		sys_feedback.user_id,
+		sys_feedback.feedback_title,
+		sys_feedback.feedback_desc,
+		sys_feedback.img_url,
+		sys_feedback.phone,
+		sys_feedback.feedback_add_time,
+		sys_feedback.feedback_reply,
+		sys_feedback.feedback_reply_time,
+		sys_feedback.feedback_reply_userid,
+		sys_feedback.flower_name,
+		sys_feedback.reply_status
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{feedbackTitle},
+		#{feedbackDesc},
+		#{imgUrl},
+		#{phone},
+		#{feedbackAddTime},
+		#{feedbackReply},
+		#{feedbackReplyTime},
+		#{feedbackReplyUserid},
+		#{flowerName},
+		#{replyStatus}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="SysFeedback" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_feedback( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from sys_feedback
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="SysFeedback">
+		update sys_feedback
+		<trim prefix="set" suffixOverrides=",">
+			<if test="feedbackTitle != null and feedbackTitle != ''">feedback_title = #{feedbackTitle},</if>
+			<if test="feedbackDesc != null and feedbackDesc != ''">feedback_desc = #{feedbackDesc},</if>
+			<if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+			<if test="phone != null and phone != ''">phone = #{phone},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="feedbackAddTime != null and feedbackAddTime != ''">feedback_add_time = #{feedbackAddTime},</if>
+			<if test="feedbackReply != null and feedbackReply != ''">feedback_reply = #{feedbackReply},</if>
+			<if test="feedbackReplyTime != null and feedbackReplyTime != ''">feedback_reply_time = #{feedbackReplyTime},</if>
+			<if test="feedbackReplyUserid != null and feedbackReplyUserid != ''">feedback_reply_userid = #{feedbackReplyUserid},</if>
+			<if test="flowerName != null and flowerName != ''">flower_name = #{flowerName},</if>
+			<if test="replyStatus != null and replyStatus != ''">reply_status = #{replyStatus},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="sysFeedbackResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_feedback
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="sysFeedbackResultMap">
+		select <include refid="table_columns" />
+		from sys_feedback
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="feedbackTitle != null and feedbackTitle != ''">and feedback_title = #{feedbackTitle}</if>
+			<if test="feedbackDesc != null and feedbackDesc != ''">and feedback_desc = #{feedbackDesc}</if>
+			<if test="imgUrl != null and imgUrl != ''">and img_url = #{imgUrl}</if>
+			<if test="phone != null and phone != ''">and phone = #{phone}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="feedbackAddTime != null and feedbackAddTime != ''">and feedback_add_time = #{feedbackAddTime}</if>
+			<if test="feedbackReply != null and feedbackReply != ''">and feedback_reply = #{feedbackReply}</if>
+			<if test="feedbackReplyTime != null and feedbackReplyTime != ''">and feedback_reply_time = #{feedbackReplyTime}</if>
+			<if test="feedbackReplyUserid != null and feedbackReplyUserid != ''">and feedback_reply_userid = #{feedbackReplyUserid}</if>
+			<if test="flowerName != null and flowerName != ''">and flower_name = #{flowerName}</if>
+			<if test="replyStatus != null and replyStatus != ''">and reply_status = #{replyStatus}</if>
+		</trim>
+	</sql>
+
+	<sql id="page_search_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="status != null and status != ''">and reply_status = #{status}</if>
+			<if test="startFeedbackDate != null and endFeedbackDate != null">
+				<![CDATA[ and feedback_add_time>=#{startFeedbackDate} and feedback_add_time<=#{endFeedbackDate} ]]>
+			</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="sysFeedbackResultMap" parameterType="SysFeedback">
+		select <include refid="table_columns" />
+		from sys_feedback
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="sysFeedbackResultMap" parameterType="com.kjs.web.serach.kjs.operation.FeedbackSearchBean">
+		select <include refid="table_columns" />,userid as username,username as nickName
+		from sys_feedback left join user_stu
+		on user_stu.id = sys_feedback.user_id
+		<include refid="page_search_where" />
+		order by feedback_add_time desc
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="SysFeedback">
+        select count(id) from sys_feedback
+        <include refid="page_search_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+</mapper>

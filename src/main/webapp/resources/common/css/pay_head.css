@@ -1,0 +1,83 @@
+.headerBg {
+    background-color: #2e323e;
+    width: 100%;
+    height: 80px;
+    position: relative;
+    position:fixed;
+}
+
+.head_center {
+    width: 1226px;
+    position: absolute;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin:  auto;
+    height: 50px;
+}
+
+.head_center div {
+    float: left;
+}
+
+.head_logo {
+    height: 30px;
+    display: block;
+    float: left;
+}
+
+.head_logo img{
+	margin-top: 5px;
+}
+
+.head_logo span {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    top: 7px;
+    left: 5px;
+    margin-left:20px
+}
+
+.head_search {
+    float: right !important;
+}
+
+.search {
+    background-color: #ffffff;
+    margin-top: 10px;
+    height: 30px;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.search img {
+    float: left;
+    margin: 5px;
+}
+
+.search input {
+    float: left;
+    border: 0px;
+    margin-top: 7px;
+    outline: none;
+}
+
+.head_login {
+    margin-left: 20px;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+.head_login a {
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.head_login a span {
+    font-weight: bold;
+    font-size: 14px;
+}

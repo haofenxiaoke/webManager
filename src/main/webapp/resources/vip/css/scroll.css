@@ -1,0 +1,75 @@
+body,html,p,ul{
+    margin: 0;
+    padding: 0;
+}
+li{list-style: none;}
+.comboall {
+    width: 100%;
+    height: 360px;
+    margin: 0 auto;
+    background:url("../images/vip-banner.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.combo {
+    float: right;
+    width: 260px;
+    height: 300px;
+    background: #fff;
+    margin-right: 360px;
+    margin-top: 30px;
+}
+
+.comboRigh-top {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+
+.combomoney {
+    height: 48px;
+    padding-top: 40px;
+    font-size: 48px;
+    color: #5583db;
+    text-align: center;
+}
+
+.comboNumber {
+    padding-top: 10px;
+    height: 14px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+.myscroll {
+    width: 200px;
+    margin-left: 30px;
+    height: 130px;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.myscroll li {
+
+    height: 45px;
+    color: #333;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.myscroll li span {
+    color: #ff6700;
+    font-size: 14px;
+}
+
+@media only screen and (max-width:1226px ) {
+    .combo{margin-right: 75px;}
+}
+@media only screen and (min-width:1227px) and (max-width:1366px ) {
+    .combo{margin-right: 115px;}
+}
+@media only screen and (min-width:1367px) and (max-width:1600px ) {
+    .combo{margin-right: 230px;}
+}

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseLiveMapper">
+	<resultMap type="CourseLive" id="courseLiveResultMap">
+		<result property="id" column="id" />
+		<result property="categoryId" column="category_id" />
+		<result property="liveId" column="live_id" />
+		<result property="type" column="type" />
+		<result property="liveTitle" column="live_title" />
+		<result property="teacherName" column="teacher_name" />
+		<result property="courseUrl" column="course_url" />
+		<result property="summary" column="summary" />
+		<result property="recordingId" column="recording_id" />
+		<result property="liveStart" column="live_start" />
+		<result property="liveEnd" column="live_end" />
+		<result property="appType" column="app_type" />
+		<result property="userid" column="userid" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+		<result property="liveType" column="live_type" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="initNum" column="init_num" />
+		<result property="subscriptionCount" column="web_subscription_count"/>
+	</resultMap>
+
+	<sql id="table_columns">
+		course_live.id,
+		course_live.category_id,
+		course_live.live_id,
+		course_live.live_title,
+		course_live.teacher_name,
+		course_live.course_url,
+		course_live.summary,
+		course_live.recording_id,
+		course_live.live_start,
+		course_live.live_end,
+		course_live.type,
+		course_live.app_type,
+		course_live.userid,
+		course_live.create_time,
+		course_live.deleted,
+		course_live.live_type,
+		course_live.teacher_id,
+		course_live.init_num,
+		course_live.web_subscription_count
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{categoryId},
+		#{liveId},
+		#{liveTitle},
+		#{teacherName},
+		#{courseUrl},
+		#{summary},
+		#{recordingId},
+		#{liveStart},
+		#{liveEnd},
+		#{type},
+		#{appType},
+		#{userid},
+		#{createTime},
+		#{deleted},
+		#{liveType},
+		#{teacherId},
+		#{initNum},
+		#{subscriptionCount}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseLive" useGeneratedKeys="true" keyProperty="id">
+		insert into course_live( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course_live
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="CourseLive">
+		update course_live
+		<trim prefix="set" suffixOverrides=",">
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="liveId != null and liveId != ''">live_id = #{liveId},</if>
+			<if test="liveTitle != null and liveTitle != ''">live_title = #{liveTitle},</if>
+			<if test="teacherName != null and teacherName != ''">teacher_name = #{teacherName},</if>
+			<if test="courseUrl != null and courseUrl != ''">course_url = #{courseUrl},</if>
+			<if test="summary != null and summary != ''">summary = #{summary},</if>
+			<if test="recordingId != null ">recording_id = #{recordingId},</if>
+			<if test="liveStart != null and liveStart != ''">live_start = #{liveStart},</if>
+			<if test="liveEnd != null and liveEnd != ''">live_end = #{liveEnd},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="appType != null and appType != ''">app_type = #{appType},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="liveType != null and liveType != ''">live_type = #{liveType},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="courseLiveResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_live
+		where id = #{id}
+	</select>
+	<select id="findByLiveId" resultType="String">
+		select live_title
+		from course_live
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseLiveResultMap">
+		select <include refid="table_columns" />
+		from course_live
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="liveId != null and liveId != ''">and live_id = #{liveId}</if>
+			<if test="liveTitle != null and liveTitle != ''">and live_title = #{liveTitle}</if>
+			<if test="teacherName != null and teacherName != ''">and teacher_name = #{teacherName}</if>
+			<if test="courseUrl != null and courseUrl != ''">and course_url = #{courseUrl}</if>
+			<if test="summary != null and summary != ''">and summary = #{summary}</if>
+			<if test="recordingId != null and recordingId != ''">and recording_id = #{recordingId}</if>
+			<if test="liveStart != null and liveStart != ''">and live_start = #{liveStart}</if>
+			<if test="liveEnd != null and liveEnd != ''">and live_end = #{liveEnd}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="appType != null and appType != ''">and app_type = #{appType}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+			<if test="liveType != null and liveType != ''">and live_type = #{liveType}</if>
+			<if test="teacherId != null and teacherId  != ''">and teacher_id = #{teacherId }</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="derectionId != null and derectionId != ''"> and category_id = #{derectionId}</if>
+			<if test="(derectionId == null or derectionId == '') and derectionIds.length > 0">
+				 and category_id in
+				<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
+			</if>
+			<if test="courseName != null and courseName != ''"> and live_title = #{courseName}</if>
+			<if test="startDate != null and endDate != ''"> and live_start between #{startDate} and #{endDate}</if>
+			<if test="liveIsOverdue == true"> and live_end &lt;  now() </if>
+			<if test="liveIsOverdue == false"> and live_end &gt;  now()</if>
+			<if test="courseName != null and courseName != ''"> and live_title = #{courseName}</if>
+			<if test="liveType!= null and liveType != ''">and live_type = #{liveType}</if>
+		</trim>
+	</sql>
+	<select id="search" resultMap="courseLiveResultMap" parameterType="CourseLive">
+		select <include refid="table_columns" />
+		from course_live
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="courseLiveResultMap" parameterType="com.kjs.web.serach.kjs.course.CourseLiveSearchBean">
+		select
+			l.id,
+			l.live_title,
+			l.live_start,
+			l.live_end ,
+			l.recording_id as recordingId ,
+			d.category_desc as cateDirectionName
+		from course_live l left join category_direction  d on l.category_id = d.id
+		WHERE l.deleted != 1
+		and live_type = #{liveType}
+		<if test="derectionId != null and derectionId != ''"> and category_id = #{derectionId}</if>
+		<if test="(derectionId == null or derectionId == '') and derectionIds.length > 0">
+			and category_id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+		<if test="courseName != null and courseName != ''"> and live_title = #{courseName}</if>
+		<if test="startDate != null and endDate != ''"> and live_start between #{startDate} and #{endDate}</if>
+		<if test="liveIsOverdue == true"> and live_end &lt;  now() </if>
+		<if test="liveIsOverdue == false"> and live_end &gt;  now()</if>
+		<if test="courseName != null and courseName != ''"> and live_title = #{courseName}</if>
+		order by live_end desc
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="com.kjs.web.serach.kjs.course.CourseLiveSearchBean">
+		select
+		count(l.id)
+		from course_live l left join category_direction  d on l.category_id = d.id
+		<include refid="search_page_where" />
+		and l.deleted != 1
+		and live_type = #{liveType}
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!--删除方向时验证关联-->
+	<select id="countCheckDel" resultType="int" parameterType="java.lang.Integer">
+		select count(id) from course_live
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId} AND </if>
+			deleted = 0
+		</trim>
+	</select>
+
+	<select id="findLiveWatchNumByDates" resultType="LiveWatchNumDTO">
+		<foreach collection="ids" item="id" separator="UNION ALL" >
+		SELECT cl.live_title AS titleName,
+				ul.create_time AS date,
+				COUNT(*) AS number,
+				cl.id AS  liveId
+		FROM course_live cl
+		LEFT JOIN user_live ul
+		ON cl.id=ul.liveId
+		WHERE ul.liveId =#{id}
+		AND TO_DAYS(ul.create_time)  IN
+		<foreach collection="betweenTimes" item="watchTime" separator="," open="(" close=")" index="index">
+			TO_DAYS(#{watchTime})
+		</foreach>
+			and ul.liveId =#{id}
+			GROUP BY TO_DAYS(ul.create_time) DESC
+		</foreach>
+
+	</select>
+
+	<select id="findCourseLiveTitleById" resultType="LiveWatchNumDTO">
+		SELECT
+			live_title AS titleName,
+			id AS liveId
+		FROM course_live
+		WHERE id in
+		<foreach collection="ids" item="id" separator="," open="(" close=")" index="index">
+			#{id}
+		</foreach>
+	</select>
+
+	<select id="findLiveTitlesByLiveIds" resultType="LiveWatchNumDTO">
+		SELECT
+		live_title AS titleName,
+		id AS liveId
+		FROM course_live
+		WHERE id in
+		<foreach collection="ids" item="id" separator="," open="(" close=")" index="index">
+			#{id}
+		</foreach>
+	</select>
+	<select id="initScheduled" resultMap="courseLiveResultMap">
+		SELECT c.id,
+		c.live_start
+		FROM course_live c
+		WHERE c.deleted=0
+		and c.live_start > CURRENT_TIME()
+	</select>
+</mapper>

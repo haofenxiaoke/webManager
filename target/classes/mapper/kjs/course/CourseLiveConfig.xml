@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseLiveConfigMapper">
+	<resultMap type="CourseLiveConfig" id="courseLiveConfigResultMap">
+		<result property="id" column="id" />
+		<result property="orderNum" column="order_num" />
+		<result property="courseId" column="course_id" />
+		<result property="categoryId" column="category_id" />
+		<result property="hrefUrl" column="href_url" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="createUserid" column="create_userid" />
+		<result property="lastUpdateTime" column="last_update_time" />
+		<result property="lastUpdateUserid" column="last_update_userid" />
+	</resultMap>
+
+	<sql id="table_columns">
+		course_live_config.id,
+		course_live_config.order_num,
+		course_live_config.course_id,
+		course_live_config.category_id,
+		course_live_config.href_url,
+		course_live_config.type,
+		course_live_config.create_time,
+		course_live_config.create_userid,
+		course_live_config.last_update_time,
+		course_live_config.last_update_userid
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{orderNum},
+		#{courseId},
+		#{categoryId},
+		#{hrefUrl},
+		#{type},
+		#{createTime},
+		#{createUserid},
+		#{lastUpdateTime},
+		#{lastUpdateUserid}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="com.kjs.orm.model.CourseLiveConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into course_live_config( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course_live_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="CourseLiveConfig">
+		update course_live_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="hrefUrl != null and hrefUrl != ''">href_url = #{hrefUrl},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="createUserid != null and createUserid != ''">create_userid = #{createUserid},</if>
+			<if test="lastUpdateTime != null and lastUpdateTime != ''">last_update_time = #{lastUpdateTime},</if>
+			<if test="lastUpdateUserid != null and lastUpdateUserid != ''">last_update_userid = #{lastUpdateUserid},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="courseLiveConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_live_config
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseLiveConfigResultMap">
+		select <include refid="table_columns" />
+		from course_live_config
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="hrefUrl != null and hrefUrl != ''">and href_url = #{hrefUrl}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="createUserid != null and createUserid != ''">and create_userid = #{createUserid}</if>
+			<if test="lastUpdateTime != null and lastUpdateTime != ''">and last_update_time = #{lastUpdateTime}</if>
+			<if test="lastUpdateUserid != null and lastUpdateUserid != ''">and last_update_userid = #{lastUpdateUserid}</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="courseLiveConfigResultMap" parameterType="CourseLiveConfig">
+		select <include refid="table_columns" />
+		from course_live_config
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="courseLiveConfigResultMap" parameterType="CourseLiveConfig">
+		select <include refid="table_columns" />
+		from course_live_config
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseLiveConfig">
+        select count(id) from course_live_config
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<select id="findAllConfigLive" resultType="com.kjs.orm.model.CourseLiveConfig" >
+		SELECT clc.id,
+		clc.type AS type,
+		clc.order_num AS orderNum,
+		clc.category_id AS categoryId,
+		clc.href_url AS hrefUrl,
+		clc.course_id AS courseId,
+		cl.live_title AS liveTitle
+		FROM course_live_config clc
+		LEFT JOIN  course_live cl
+		ON clc.course_id= cl.id
+		ORDER BY order_num
+</select>
+	<select id="findliveListByIdAndType" resultType="com.kjs.orm.model.CourseLive">
+		SELECT id,live_title AS liveTitle
+		FROM course_live a
+		WHERE a.deleted!=1 AND
+		<if test="categoryId != null and categoryId != ''">category_id=#{categoryId} and</if>
+		live_type=#{type}
+		AND a.recording_id is NOT NULL
+		AND a.recording_id != ''
+		AND NOW()>a.live_end
+	</select>
+	<select id="findAllIds" resultType="Integer">
+		SELECT id
+		FROM course_live_config
+	</select>
+
+	<select id="findAllCourseIds" resultType="Integer">
+	SELECT course_id
+	FROM course_live_config
+	</select>
+</mapper>

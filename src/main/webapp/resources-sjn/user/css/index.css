@@ -1,0 +1,36 @@
+.userLt-tx img{border: 1px solid #333333 !important;}
+.userL-list li a:hover{color: #222222 !important;}
+.userL-cur a{border-left: 3px solid #222222 !important;color:#222222 !important;}
+.head_login_img{border: 1px solid #333333 !important;}
+.head_login_img img{ width:100%;
+    min-height:100%; text-align:center;}
+.userR-cur{border-bottom: 2px solid #333333 !important;color: #333333 !important;}
+
+.userLt-time a{color: #e62c3a;}
+.userLt-time a:hover{color: #dd2a38 !important;}
+.userR-twnone a{color:#e62c3a; }
+.userR-twnone a:hover{color: #dd2a38 !important;}
+.btn70{ background: #444444 !important;}
+.btn70:hover{background: #333333 !important;}
+.playRec-left p{ color: #e62c3a !important;}
+.userR-title a:hover{color: #333333 !important;}
+.borR p{color: #e62c3a !important;}
+.layui-layer-btn0{background: #444444 !important;border: 0px solid #dedede;}
+
+.layui-layer-btn0:hover{background: #333333 !important;}
+.layui-layer-btn1:hover{background: #333333 !important; color: #fff !important;}
+.kjsJd>div{background: #e62c3a !important;}
+.kjsSmallj span{color: #e62c3a !important;}
+.userColor{border:1px solid #333333 !important;background: #fff;}
+.layui-layer-btn .layui-layer-btn0{ border-color: #ffffff !important;}
+.layui-layer-btn{}
+.layui-layer-btn a{margin-bottom:15px;width: 100px;height: 36px;text-align: center;border-radius: 3px;line-height: 36px;!important;}
+.crouseT-mon p{color: #333333 !important;}
+.crouseDay{background: #dddddd !important;}
+.crouseMore{color: #444444 !important;}
+.crouseMore:hover{color: #333333 !important;}
+.crouseDay-time span{color: #333333 !important;}
+.superJia{background: url("/resources-sjn/course/images/zengjia.png") no-repeat !important;}
+.message-list dd{width: 730px;}
+.userR-input input{height: 38px !important;*height:38px; margin-top: 0px !important;line-height: 38px !important;}
+.form-control{padding:0 12px !important;line-height: 34px !important;}

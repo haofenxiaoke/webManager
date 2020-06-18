@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserStuMapper">
+	<resultMap type="UserStu" id="userStuResultMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="sex" column="sex" />
+		<result property="job" column="job" />
+		<result property="imgurl" column="imgurl" />
+		<result property="userAddress" column="user_address" />
+		<result property="userProvince" column="user_province" />
+		<result property="profession" column="profession" />
+		<result property="courseBasis" column="course_basis" />
+		<result property="qqNum" column="qq_num" />
+		<result property="education" column="education" />
+		<result property="registTime" column="regist_time" />
+		<result property="loginType" column="login_type" />
+		<result property="authCode" column="auth_code" />
+		<result property="phoneIdCode" column="phone_id_code" />
+		<result property="authSendtime" column="auth_sendtime" />
+		<result property="onlineTime" column="online_time" />
+		<result property="userQuestionNum" column="user_question_num" />
+		<result property="courseScore" column="course_score" />
+		<result property="lectureScore" column="lecture_score" />
+		<result property="lastPayDatetime" column="last_pay_datetime" />
+		<result property="lastLoginDatetime" column="last_login_datetime" />
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+		<result property="lastModifyUserEmail" column="last_modify_user_email" />
+		<result property="deleted" column="deleted" />
+		<result property="registerType" column="register_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		userid,
+		username,
+		password,
+		mobile,
+		email,
+		sex,
+		job,
+		imgurl,
+		user_address,
+		user_province,
+		profession,
+		course_basis,
+		qq_num,
+		education,
+		regist_time,
+		login_type,
+		auth_code,
+		phone_id_code,
+		auth_sendtime,
+		online_time,
+		user_question_num,
+		course_score,
+		lecture_score,
+		last_pay_datetime,
+		last_login_datetime,
+		last_modify_user_id,
+		last_modify_datetime,
+		last_modify_user_email,
+		deleted,
+		register_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userid},
+		#{username},
+		#{password},
+		#{mobile},
+		#{email},
+		#{sex},
+		#{job},
+		#{imgurl},
+		#{userAddress},
+		#{userProvince},
+		#{profession},
+		#{courseBasis},
+		#{qqNum},
+		#{education},
+		#{registTime},
+		#{loginType},
+		#{authCode},
+		#{phoneIdCode},
+		#{authSendtime},
+		#{onlineTime},
+		#{userQuestionNum},
+		#{courseScore},
+		#{lectureScore},
+		#{lastPayDatetime},
+		#{lastLoginDatetime},
+		#{lastModifyUserId},
+		#{lastModifyDatetime},
+		#{lastModifyUserEmail},
+		#{deleted},
+		#{registerType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserStu" useGeneratedKeys="true" keyProperty="id">
+		insert into user_stu( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from user_stu
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="UserStu">
+		update user_stu 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="username != null and username != ''">username = #{username},</if>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="job != null and job != ''">job = #{job},</if>
+			<if test="imgurl != null and imgurl != ''">imgurl = #{imgurl},</if>
+			<if test="userAddress != null and userAddress != ''">user_address = #{userAddress},</if>
+			<if test="userProvince != null and userProvince != ''">user_province = #{userProvince},</if>
+			<if test="profession != null and profession != ''">profession = #{profession},</if>
+			<if test="courseBasis != null and courseBasis != ''">course_basis = #{courseBasis},</if>
+			<if test="qqNum != null and qqNum != ''">qq_num = #{qqNum},</if>
+			<if test="education != null and education != ''">education = #{education},</if>
+			<if test="registTime != null and registTime != ''">regist_time = #{registTime},</if>
+			<if test="loginType != null and loginType != ''">login_type = #{loginType},</if>
+			<if test="authCode != null and authCode != ''">auth_code = #{authCode},</if>
+			<if test="phoneIdCode != null and phoneIdCode != ''">phone_id_code = #{phoneIdCode},</if>
+			<if test="authSendtime != null and authSendtime != ''">auth_sendtime = #{authSendtime},</if>
+			<if test="onlineTime != null and onlineTime != ''">online_time = #{onlineTime},</if>
+			<if test="userQuestionNum != null and userQuestionNum != ''">user_question_num = #{userQuestionNum},</if>
+			<if test="courseScore != null and courseScore != ''">course_score = #{courseScore},</if>
+			<if test="lectureScore != null and lectureScore != ''">lecture_score = #{lectureScore},</if>
+			<if test="lastPayDatetime != null and lastPayDatetime != ''">last_pay_datetime = #{lastPayDatetime},</if>
+			<if test="lastLoginDatetime != null and lastLoginDatetime != ''">last_login_datetime = #{lastLoginDatetime},</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+			<if test="lastModifyUserEmail != null and lastModifyUserEmail != ''">last_modify_user_email = #{lastModifyUserEmail},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userStuResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_stu
+		where id = #{id}
+	</select>
+	<select id="findByUserid" resultMap="userStuResultMap" parameterType="String" >
+		select id,userid,username
+		from user_stu
+		where userid = #{userid}
+	</select>
+
+	<select id="queryAll" resultMap="userStuResultMap">
+		select <include refid="table_columns" /> 
+		from user_stu
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="username != null and username != ''">and username = #{username}</if>
+			<if test="password != null and password != ''">and password = #{password}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="email != null and email != ''">and email = #{email}</if>
+			<if test="sex != null and sex != ''">and sex = #{sex}</if>
+			<if test="job != null and job != ''">and job = #{job}</if>
+			<if test="imgurl != null and imgurl != ''">and imgurl = #{imgurl}</if>
+			<if test="userAddress != null and userAddress != ''">and user_address = #{userAddress}</if>
+			<if test="userProvince != null and userProvince != ''">and user_province = #{userProvince}</if>
+			<if test="profession != null and profession != ''">and profession = #{profession}</if>
+			<if test="courseBasis != null and courseBasis != ''">and course_basis = #{courseBasis}</if>
+			<if test="qqNum != null and qqNum != ''">and qq_num = #{qqNum}</if>
+			<if test="education != null and education != ''">and education = #{education}</if>
+			<if test="registTime != null and registTime != ''">and regist_time = #{registTime}</if>
+			<if test="loginType != null and loginType != ''">and login_type = #{loginType}</if>
+			<if test="authCode != null and authCode != ''">and auth_code = #{authCode}</if>
+			<if test="phoneIdCode != null and phoneIdCode != ''">and phone_id_code = #{phoneIdCode}</if>
+			<if test="authSendtime != null and authSendtime != ''">and auth_sendtime = #{authSendtime}</if>
+			<if test="onlineTime != null and onlineTime != ''">and online_time = #{onlineTime}</if>
+			<if test="userQuestionNum != null and userQuestionNum != ''">and user_question_num = #{userQuestionNum}</if>
+			<if test="courseScore != null and courseScore != ''">and course_score = #{courseScore}</if>
+			<if test="lectureScore != null and lectureScore != ''">and lecture_score = #{lectureScore}</if>
+			<if test="lastPayDatetime != null and lastPayDatetime != ''">and last_pay_datetime = #{lastPayDatetime}</if>
+			<if test="lastLoginDatetime != null and lastLoginDatetime != ''">and last_login_datetime = #{lastLoginDatetime}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+			<if test="lastModifyUserEmail != null and lastModifyUserEmail != ''">and last_modify_user_email = #{lastModifyUserEmail}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<sql id="new_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="currentTime != null and currentTime != '' ">
+				<if test="stuid != null and stuid != '' and stuid == 1">and exists(select distinct(user_id) from user_vip t where t.end_date> #{currentTime} and t.user_id = user_stu.id) </if>
+				<if test="stuid != null and stuid != '' and stuid == 2">and not exists(select distinct(user_id) from user_vip t where t.end_date> #{currentTime} and t.user_id = user_stu.id) </if>
+			</if>
+			<if test="username != null and username != ''">and username like CONCAT('${username}','%')</if>
+			<if test="registTime != null and registTime != ''"><![CDATA[ and regist_time>=#{startDatetime} and regist_time<=#{endDatetime} ]]></if>
+			<if test="lastPayDatetime != null and lastPayDatetime != ''"><![CDATA[ and last_pay_datetime>=#{startPayDatetime} and last_pay_datetime<=#{endPayDatetime} ]]></if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="userStuResultMap" parameterType="UserStu">
+		select <include refid="table_columns" />
+		from user_stu
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="userStuResultMap" parameterType="UserStuSerach">
+		select <include refid="table_columns" />
+		from user_stu
+		<include refid="new_page_where" />
+		<if test="stuid != null and stuid != ''">
+			order by
+			<if test="stuid == 1">last_pay_datetime</if>
+			<if test="stuid == 2">regist_time</if>
+			desc
+		</if>
+		<if test="length != null and length != -1">
+			limit #{start},#{length}
+		</if>
+	</select>
+
+    <select id="count" resultType="long" parameterType="UserStu">
+        select count(id) from user_stu
+        <include refid="new_page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

@@ -1,0 +1,39 @@
+*{
+	list-style: none;
+}
+
+.d{
+	margin-top: 20px;
+}
+
+.kjsCrnum1 .all {
+    height: 40px;
+    line-height: 40px;
+    width: 57px !important;
+}
+
+.kjsCrnum1 a {
+    display: inline-block;
+    cursor: pointer;
+    width: 100px;
+}
+
+
+.list_content_tou {
+	float: left;
+	margin-right: 20px;
+}
+
+.blue{
+	color: #5583db;
+	font-weight: bold;
+}
+
+.up{
+	margin-right: 20px;
+}
+
+#baocun{
+	float: right;
+	margin-right: 20px;
+}

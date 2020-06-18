@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseMapper">
+	<resultMap type="Course" id="courseResultMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="subtitle" column="subtitle" />
+		<result property="orderIndex" column="order_index" />
+		<result property="summary" column="summary" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="publishState" column="publish_state" />
+		<result property="publishTime" column="publish_time" />
+		<result property="publishCancelTime" column="publish_cancel_time" />
+		<result property="publishUserid" column="publish_userid" />
+		<result property="onlineState" column="online_state" />
+		<result property="userid" column="userid" />
+		<result property="authorName" column="author_name" />
+		<result property="authorHeadline" column="author_headline" />
+		<result property="authorPic" column="author_pic" />
+		<result property="score" column="score" />
+		<result property="scoreNum" column="score_num" />
+		<result property="coursePlayNumber" column="course_play_number" />
+		<result property="courseStuNum" column="course_stu_num" />
+		<result property="dayLength" column="day_length" />
+		<result property="dayHours" column="day_hours" />
+		<result property="dayLecture" column="day_lecture" />
+		<result property="dayNode" column="day_node" />
+		<result property="learningIdeas" column="learning_ideas" />
+		<result property="positionId" column="position_id" />
+		<result property="directionId" column="direction_id" />
+		<result property="preCourseId" column="pre_course_id" />
+		<result property="version" column="version" />
+		<result property="createDate" column="create_date" />
+		<result property="updateDate" column="update_date" />
+		<result property="deleted" column="deleted" />
+		<result property="practiceSid" column="practice_sid" />
+	</resultMap>
+
+	<resultMap type="CourseSearchBean" id="courseSearchMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="publishState" column="publish_state" />
+		<result property="publishTime" column="publish_time" />
+		<result property="publishUserid" column="publish_userid" />
+		<result property="publishUserName" column="publish_userName" />
+		<result property="onlineState" column="online_state" />
+		<result property="userid" column="userid" />
+		<result property="authorName" column="author_name" />
+		<result property="positionId" column="position_id" />
+		<result property="positionName" column="position_name" />
+		<result property="directionId" column="direction_id" />
+		<result property="directionName" column="direction_name" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap" type="com.kjs.orm.model.Course" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+    <result column="order_index" property="orderIndex" jdbcType="INTEGER" />
+    <result column="cover_url" property="coverUrl" jdbcType="VARCHAR" />
+    <result column="publish_state" property="publishState" jdbcType="INTEGER" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="publish_cancel_time" property="publishCancelTime" jdbcType="TIMESTAMP" />
+    <result column="publish_userid" property="publishUserid" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="author_name" property="authorName" jdbcType="VARCHAR" />
+    <result column="author_headline" property="authorHeadline" jdbcType="VARCHAR" />
+    <result column="author_pic" property="authorPic" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="score_num" property="scoreNum" jdbcType="INTEGER" />
+    <result column="course_play_number" property="coursePlayNumber" jdbcType="INTEGER" />
+    <result column="course_stu_num" property="courseStuNum" jdbcType="INTEGER" />
+    <result column="day_length" property="dayLength" jdbcType="REAL" />
+    <result column="day_hours" property="dayHours" jdbcType="INTEGER" />
+    <result column="day_lecture" property="dayLecture" jdbcType="INTEGER" />
+    <result column="day_node" property="dayNode" jdbcType="INTEGER" />
+    <result column="learning_ideas" property="learningIdeas" jdbcType="VARCHAR" />
+    <result column="position_id" property="positionId" jdbcType="INTEGER" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="summary" property="summary" jdbcType="LONGVARCHAR" />
+    <result column="pre_course_id" property="preCourseId" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="practice_sid" property="practiceSid" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<sql id="table_columns">
+		id,
+		title,
+		subtitle,
+		order_index,
+		summary,
+		cover_url,
+		publish_state,
+		publish_time,
+		publish_cancel_time,
+		publish_userid,
+		online_state,
+		userid,
+		author_name,
+		author_headline,
+		author_pic,
+		score,
+		score_num,
+		course_play_number,
+		course_stu_num,
+		day_length,
+		day_hours,
+		day_lecture,
+		day_node,
+		learning_ideas,
+		position_id,
+		direction_id,
+		create_date,
+		update_date,
+		deleted,
+		version,
+		pre_course_id,
+		practice_sid
+	</sql>
+	<sql id="search_columns">
+		id,
+		title,
+		publish_state,
+		publish_time,
+		position_id,
+		position_name,
+		online_state,
+		direction_id,
+		direction_name,
+		practice_sid
+	</sql>
+
+	<!--课程基本信息对应字段-->
+	<sql id="course_base">
+		title,
+		cover_url,
+		order_index,
+		publish_time,
+		publish_cancel_time,
+		publish_userid,
+		userid,
+		score,
+		score_num,
+		course_play_number,
+		course_stu_num,
+		day_length,
+		day_hours,
+		day_lecture,
+		day_node,
+		learning_ideas,
+		position_id,
+		direction_id,
+		create_date,
+		update_date,
+		version,
+		pre_course_id,
+		practice_sid
+	</sql>
+	<sql id="base_properties">
+		#{title},
+		#{coverUrl},
+		#{orderIndex},
+		#{publishTime},
+		#{publishCancelTime},
+		#{publishUserid},
+		#{userid},
+		#{score},
+		#{scoreNum},
+		#{coursePlayNumber},
+		#{courseStuNum},
+		#{dayLength},
+		#{dayHours},
+		#{dayLecture},
+		#{dayNode},
+		#{learningIdeas},
+		#{positionId},
+		#{directionId},
+		#{createDate},
+		#{updateDate},
+		#{version},
+		#{preCourseId},
+		#{practiceSid}
+	</sql>
+
+	<sql id="entity_properties">
+		#{id},
+		#{title},
+		#{subtitle},
+		#{orderIndex},
+		#{summary},
+		#{coverUrl},
+		#{publishState},
+		#{publishTime},
+		#{publishCancelTime},
+		#{publishUserid},
+		#{onlineState},
+		#{userid},
+		#{authorName},
+		#{authorHeadline},
+		#{authorPic},
+		#{score},
+		#{score_num},
+		#{coursePlayNumber},
+		#{courseStuNum},
+		#{dayLength},
+		#{dayHours},
+		#{dayLecture},
+		#{dayNode},
+		#{learningIdeas},
+		#{positionId},
+		#{directionId},
+		#{createDate},
+		#{updateDate},
+		#{deleted},
+		#{version},
+		#{preCourseId},
+		#{practiceSid}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
+		insert into course( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="Course">
+		update course
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="subtitle != null and subtitle != ''">subtitle = #{subtitle},</if>
+			<if test="orderIndex != null and orderIndex != ''">order_index = #{orderIndex},</if>
+			<if test="summary != null and summary != ''">summary = #{summary},</if>
+			<if test="coverUrl != null and coverUrl != ''">cover_url = #{coverUrl},</if>
+			<if test="publishState != null and publishState != ''">publish_state = #{publishState},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="publishCancelTime != null and publishCancelTime != ''">publish_cancel_time = #{publishCancelTime},</if>
+			<if test="publishUserid != null ">publish_userid = #{publishUserid},</if>
+			<if test="onlineState != null ">online_state = #{onlineState},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="authorName != null and authorName != ''">author_name = #{authorName},</if>
+			<if test="authorHeadline != null and authorHeadline != ''">author_headline = #{authorHeadline},</if>
+			<if test="authorPic != null and authorPic != ''">author_pic = #{authorPic},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="scoreNum != null and scoreNum != ''">score_num = #{scoreNum},</if>
+			<if test="coursePlayNumber != null and coursePlayNumber != ''">course_play_number = #{coursePlayNumber},</if>
+			<if test="courseStuNum != null and courseStuNum != ''">course_stu_num = #{courseStuNum},</if>
+			<if test="dayLength != null and dayLength != ''">day_length = #{dayLength},</if>
+			<if test="dayHours != null and dayHours != ''">day_hours = #{dayHours},</if>
+			<if test="dayLecture != null and dayLecture != ''">day_lecture = #{dayLecture},</if>
+			<if test="dayNode != null and dayNode != ''">day_node = #{dayNode},</if>
+			<if test="learningIdeas != null and learningIdeas != ''">learning_ideas = #{learningIdeas},</if>
+			<if test="positionId != null and positionId != ''">position_id = #{positionId},</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+			<if test="updateDate != null and updateDate != ''">update_date = #{updateDate},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="practiceSid != null and practiceSid != ''">practice_sid = #{practiceSid},</if>
+			<if test="version != null and version != ''">version = #{version},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateCourse" parameterType="CourseBaseDto">
+		update course
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''">title = #{title},</if>
+<!-- 			order_index = #{orderIndex}, -->
+			<if test="orderIndex != null and orderIndex != ''">order_index = #{orderIndex},</if>
+			
+			<if test="coverUrl != null and coverUrl != ''">cover_url = #{coverUrl},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="publishCancelTime != null and publishCancelTime != ''">publish_cancel_time = #{publishCancelTime},</if>
+			<if test="publishState != null">publish_state = #{publishState},</if>
+			<if test="publishUserid != null ">publish_userid = #{publishUserid},</if>
+			<if test="onlineState != null ">online_state = #{onlineState},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="scoreNum != null and scoreNum != ''">score_num = #{scoreNum},</if>
+			<if test="coursePlayNumber != null and coursePlayNumber != ''">course_play_number = #{coursePlayNumber},</if>
+			<if test="courseStuNum != null and courseStuNum != ''">course_stu_num = #{courseStuNum},</if>
+			<if test="dayLength != null and dayLength != ''">day_length = #{dayLength},</if>
+			<if test="dayHours != null and dayHours != ''">day_hours = #{dayHours},</if>
+			<if test="dayLecture != null and dayLecture != ''">day_lecture = #{dayLecture},</if>
+			<if test="dayNode != null and dayNode != ''">day_node = #{dayNode},</if>
+			<if test="learningIdeas != null and learningIdeas != ''">learning_ideas = #{learningIdeas},</if>
+			<if test="positionId != null and positionId != ''">position_id = #{positionId},</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+			<if test="updateDate != null and updateDate != ''">update_date = #{updateDate},</if>
+			<if test="version != null and version != ''">version = #{version},</if>
+			practice_sid = #{practiceSid},
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="courseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseResultMap">
+		select <include refid="table_columns" />
+		from course
+	</select>
+	<sql id="search_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="publishState != null and publishState != ''">and publish_state = #{publishState}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="onlineState != null ">online_state = #{onlineState},</if>
+			<if test="userid != null ">and userid = #{userid}</if>
+			<if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+		</trim>
+	</sql>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="subtitle != null and subtitle != ''">and subtitle = #{subtitle}</if>
+			<if test="orderIndex != null and orderIndex != ''">and order_index = #{orderIndex}</if>
+			<if test="summary != null and summary != ''">and summary = #{summary}</if>
+			<if test="coverUrl != null and coverUrl != ''">and cover_url = #{coverUrl}</if>
+			<if test="publishState != null and publishState != ''">and publish_state = #{publishState}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="publishCancelTime != null and publishCancelTime != ''">and publish_cancel_time = #{publishCancelTime}</if>
+			<if test="publishUserid != null ">and publish_userid = #{publishUserid}</if>
+			<if test="onlineState != null ">and online_state = #{onlineState}</if>
+			<if test="userid != null ">and userid = #{userid}</if>
+			<if test="authorName != null and authorName != ''">and author_name = #{authorName}</if>
+			<if test="authorHeadline != null and authorHeadline != ''">and author_headline = #{authorHeadline}</if>
+			<if test="authorPic != null and authorPic != ''">and author_pic = #{authorPic}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="scoreNum != null and scoreNum != ''">and score_num = #{scoreNum}</if>
+			<if test="coursePlayNumber != null and coursePlayNumber != ''">and course_play_number = #{coursePlayNumber}</if>
+			<if test="courseStuNum != null and courseStuNum != ''">and course_stu_num = #{courseStuNum}</if>
+			<if test="dayLength != null and dayLength != ''">and day_length = #{dayLength}</if>
+			<if test="dayHours != null and dayHours != ''">and day_hours = #{dayHours}</if>
+			<if test="dayLecture != null and dayLecture != ''">and day_lecture = #{dayLecture}</if>
+			<if test="dayNode != null and dayNode != ''">and day_node = #{dayNode}</if>
+			<if test="learningIdeas != null and learningIdeas != ''">and learning_ideas = #{learningIdeas}</if>
+			<if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="createDate != null and createDate != ''">and create_date = #{createDate}</if>
+			<if test="updateDate != null and updateDate != ''">and update_date = #{updateDate}</if>
+			<if test="deleted != null">and deleted = #{deleted}</if>
+			<if test="practiceSid != null and practiceSid != ''">practice_sid = #{practiceSid},</if>
+			<if test="version != null and version != ''">version = #{version},</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="courseResultMap" parameterType="Course">
+		select <include refid="table_columns" />
+		from course
+		<include refid="page_where" />
+	</select>
+	<!--and u.id=c.publish_userid-->
+	<select id="page" resultMap="courseSearchMap" parameterType="CourseConditionBean">
+		select  c.id,
+		c.title,
+		c.publish_state,
+		c.publish_time,
+		c.userid,
+		u.username as author,
+		c.publish_userid,
+		c.online_state,
+		u.username as publish_userName,
+		d.category_desc as direction_name,
+		c.direction_id,c.version,
+		c.practice_sid
+		from course as c
+		left  JOIN authority_users as u  ON u.id=c.userid
+
+		INNER JOIN category_direction as d on d.id=c.direction_id
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and c.title = #{title}</if>
+			<if test="publishState != null ">and c.publish_state = #{publishState}</if>
+			<if test="publishTime != null and publishTime != ''">and c.publish_time = #{publishTime}</if>
+			<if test="onlineState != null ">online_state = #{onlineState},</if>
+			<if test="startUpdateDate != null and startUpdateDate != ''"><![CDATA[ and c.update_date >= #{startUpdateDate}]]></if>
+			<if test="endUpdateDate != null and endUpdateDate != ''"><![CDATA[ and c.update_date <= #{endUpdateDate}]]></if>
+			<if test="directionId != null and directionId != ''">and c.direction_id = #{directionId}</if>
+		</trim>
+		and c.deleted=0
+		ORDER  BY  update_date DESC
+		limit #{start},#{length}
+	</select>
+
+	<select id="count" resultType="long" parameterType="Course">
+		select count(c.id) from course as c
+		left  JOIN authority_users as u  ON u.id=c.userid
+		INNER JOIN category_direction as d on d.id=c.direction_id
+		INNER JOIN category_position as p on c.position_id=p.id
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and c.title = #{title}</if>
+			<if test="publishState != null ">and c.publish_state = #{publishState}</if>
+			<if test="publishTime != null and publishTime != ''">and c.publish_time = #{publishTime}</if>
+			<if test="onlineState != null ">online_state = #{onlineState},</if>
+			<if test="startUpdateDate != null and startUpdateDate != ''"><![CDATA[ and c.update_date >= #{startUpdateDate}]]></if>
+			<if test="endUpdateDate != null and endUpdateDate != ''"><![CDATA[ and c.update_date <= #{endUpdateDate}]]></if>
+			<if test="directionId != null and directionId != ''">and c.direction_id = #{directionId}</if>
+		</trim>
+		and c.deleted=0
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<!--保存课程基本信息-->
+	<insert id="saveCourseBase" parameterType="CourseBaseDto" useGeneratedKeys="true" keyProperty="id">
+		insert into course( <include refid="course_base" /> )
+		values ( <include refid="base_properties" /> )
+	</insert>
+	<!--获取该用户最新创建的课程实体-->
+	<select id="searchByUserId" resultType="Course" parameterType="java.lang.Integer">
+		select * from course
+		WHERE  userid=#{userid}
+		order by create_date DESC
+		limit 1
+	</select>
+	<!--根据审核状态获取课程列表-->
+	<select id="findCourseList" resultType="Course" parameterType="java.lang.Integer">
+		select * from course
+		WHERE  publish_state=#{publishState}
+		ORDER  BY  create_date DESC
+	</select>
+
+	<!--删除课程 逻辑删除-->
+	<update id="deleteCourse" parameterType="java.lang.Integer">
+		update  course SET  deleted=1
+		where id=#{id}
+	</update>
+	<!--审核课程（将未审核状态改为已审核状态）-->
+	<update id="courseExamine" parameterType="Course">
+		update course set publish_state=1
+		<if test="orderIndex != null and orderIndex != ''">order_index = #{orderIndex},</if>
+		<if test="publishTime != null and publishTime != ''">, publish_time = #{publishTime}</if>
+		<if test="publishUserid != null ">publish_userid = #{publishUserid}</if>
+<!-- 		order_index = #{orderIndex}, publish_time = #{publishTime}, publish_userid = #{publishUserid} -->
+		WHERE  id=#{id}
+	</update>
+	<!--取消课程审核  （只是做更新操作更新课程审核状态码）-->
+	<update id="cancelCourse" parameterType="Course">
+		update  course SET  publish_state=0,online_state=0
+		<if test="orderIndex != null and orderIndex != ''">order_index = #{orderIndex},</if>
+		<if test="publishCancelTime != null and publishCancelTime != ''">, publish_cancel_time = #{publishCancelTime}</if>
+		<if test="updateDate != null and updateDate != ''">, update_date = #{updateDate}</if>
+		<if test="publishUserid != null ">,publish_userid = #{publishUserid}</if>
+		WHERE  id=#{id}
+	</update>
+	<!--课程审核不通过（更新审核状态吗为2）-->
+	<update id="courseExamineFail" parameterType="Course">
+		update  course SET  publish_state=2
+		<if test="orderIndex != null and orderIndex != ''">order_index = #{orderIndex},</if>
+		<if test="publishCancelTime != null and publishCancelTime != ''">, publish_time = #{publishTime}</if>
+		<if test="publishUserid != null ">,publish_userid = #{publishUserid}</if>
+		where id=#{id}
+	</update>
+	<!--根据课程分类方向id查询对应课程信息-->
+	<select id="searchCourseByCateId" resultMap="courseResultMap" parameterType="java.lang.Long">
+		select * from course WHERE deleted = 0 and online_state = 1
+		<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+		ORDER BY create_date DESC
+	</select>
+
+	<!--删除方向时验证关联-->
+	<select id="countCheckDel" resultType="int" parameterType="java.lang.Integer">
+		select count(id) from course
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId} AND </if>
+			deleted = 0
+		</trim>
+	</select>
+	<!--删除职位时验证关联-->
+	<select id="countCheckDelPos" resultType="int" parameterType="java.lang.Integer">
+		select count(id) from course
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="positionId != null and positionId != ''">position_id = #{positionId} AND </if>
+			deleted = 0
+		</trim>
+	</select>
+	<!--根据方向id，职位id，行业id数组查询符合条件的课程列表-->
+	<select id="findCourseListByIds" parameterType="map" resultMap="courseResultMap">
+		select c.* from course c
+		join course_industry industry on c.id=industry.course_id
+		WHERE c.direction_id=#{directionId} and c.position_id=#{positionId} and industry.industry_id in
+		<foreach item="item" collection="industryIds" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND  c.publish_state=1 AND  c.online_state=1
+		GROUP BY id
+	</select>
+	<!--根据方向id，职位id，查询符合条件的课程列表-->
+	<select id="findCourseListBy2Ids" parameterType="map" resultMap="courseResultMap">
+		select c.* from course c
+		WHERE c.direction_id=#{directionId} and c.position_id=#{positionId}
+		AND  c.publish_state=1 AND  c.online_state=1
+		GROUP BY id
+	</select>
+
+	<select id="findHasHigherVersion" parameterType="java.lang.Integer" resultMap="courseResultMap">
+		select * from course WHERE  pre_course_id=#{id} and online_state=1
+	</select>
+
+	<select id="searchCourseByIndustryId" resultMap="courseResultMap" parameterType="java.lang.Long">
+		select * from course c left join course_industry ci on ci.course_id= c.id
+			WHERE deleted = 0 and online_state = 1
+			and ci.industry_id = #{industryId}
+	</select>
+	
+	<select id="searchCourseByPositionId" resultMap="courseResultMap" parameterType="java.lang.Integer">
+		select * from course WHERE  deleted = 0 and online_state = 1 and position_id = #{positionId} order by order_index
+    	
+    	
+	</select>
+	
+	<select id="findByCategory" resultMap="BaseResultMap" parameterType="java.lang.String">
+    	SELECT id , title , create_date , course_stu_num,score FROM course
+    	WHERE
+    	(
+    	deleted = 0 and online_state = 1
+   <if test="directionId !=null and directionId !='' ">
+      	AND direction_id = #{directionId}
+    </if>  
+    <if test="positionId !=null and positionId !='' ">
+      	AND position_id = #{positionId}
+    </if>
+     <if test="industryId !=null and industryId !='' ">
+      	AND EXISTS
+      	(
+      	SELECT s.course_id FROM course_industry s
+      	WHERE s.course_id = course.id and s.industry_id = #{industryId}
+      	)
+    </if>  
+    	)
+    	order by order_index
+  </select>
+  
+  
+ <!--  <update id="updateSort" parameterType="java.lang.Integer">
+  	update course set order_index = #{orderIndex} where position_id = #{positionId}
+  </update> -->
+  <update id="orderUpdate" parameterType="Course">
+		update course set order_index = #{orderIndex} where id = #{id}
+	</update>
+  
+</mapper>

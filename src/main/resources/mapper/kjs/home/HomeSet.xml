@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.HomeSetMapper">
+	<resultMap type="HomeSet" id="homeSetResultMap">
+		<result property="id" column="id" />
+		<result property="directionId" column="direction_id" />
+		<result property="leftModule" column="left_module" />
+		<result property="module1" column="module1" />
+		<result property="module2" column="module2" />
+		<result property="module3" column="module3" />
+		<result property="module4" column="module4" />
+		<result property="module5" column="module5" />
+		<result property="module6" column="module6" />
+		<result property="module7" column="module7" />
+		<result property="module8" column="module8" />
+		<result property="createTime" column="create_time" />
+		<result property="createUserid" column="create_userid" />
+		<result property="lastUpdateTime" column="last_update_time" />
+		<result property="lastUpdateUserid" column="last_update_userid" />
+		<result property="leftHref" column="left_href" />
+		<result property="isEnabled" column="isEnabled" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		direction_id,
+		left_module,
+		module1,
+		module2,
+		module3,
+		module4,
+		module5,
+		module6,
+		module7,
+		module8,
+		create_time,
+		create_userid,
+		last_update_time,
+		last_update_userid,
+		left_href,
+		is_enabled
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{directionId},
+		#{leftModule},
+		#{module1},
+		#{module2},
+		#{module3},
+		#{module4},
+		#{module5},
+		#{module6},
+		#{module7},
+		#{module8},
+		#{createTime},
+		#{createUserid},
+		#{lastUpdateTime},
+		#{lastUpdateUserid},
+		#{leftHref},
+		#{isEnabled}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="HomeSet" useGeneratedKeys="true" keyProperty="id">
+		insert into home_set( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from home_set
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="HomeSet">
+		update home_set 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="leftModule != null and leftModule != ''">left_module = #{leftModule},</if>
+			<if test="module1 != null and module1 != ''">module1 = #{module1},</if>
+			<if test="module2 != null and module2 != ''">module2 = #{module2},</if>
+			<if test="module3 != null and module3 != ''">module3 = #{module3},</if>
+			<if test="module4 != null and module4 != ''">module4 = #{module4},</if>
+			<if test="module5 != null and module5 != ''">module5 = #{module5},</if>
+			<if test="module6 != null and module6 != ''">module6 = #{module6},</if>
+			<if test="module7 != null and module7 != ''">module7 = #{module7},</if>
+			<if test="module8 != null and module8 != ''">module8 = #{module8},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="createUserid != null and createUserid != ''">create_userid = #{createUserid},</if>
+			<if test="lastUpdateTime != null and lastUpdateTime != ''">last_update_time = #{lastUpdateTime},</if>
+			<if test="lastUpdateUserid != null and lastUpdateUserid != ''">last_update_userid = #{lastUpdateUserid},</if>
+			<if test="leftHref != null">left_href = #{leftHref},</if>
+			<if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="homeSetResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from home_set
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="homeSetResultMap">
+		select <include refid="table_columns" /> 
+		from home_set
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="leftModule != null and leftModule != ''">and left_module = #{leftModule}</if>
+			<if test="module1 != null and module1 != ''">and module1 = #{module1}</if>
+			<if test="module2 != null and module2 != ''">and module2 = #{module2}</if>
+			<if test="module3 != null and module3 != ''">and module3 = #{module3}</if>
+			<if test="module4 != null and module4 != ''">and module4 = #{module4}</if>
+			<if test="module5 != null and module5 != ''">and module5 = #{module5}</if>
+			<if test="module6 != null and module6 != ''">and module6 = #{module6}</if>
+			<if test="module7 != null and module7 != ''">and module7 = #{module7}</if>
+			<if test="module8 != null and module8 != ''">and module8 = #{module8}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="createUserid != null and createUserid != ''">and create_userid = #{createUserid}</if>
+			<if test="lastUpdateTime != null and lastUpdateTime != ''">and last_update_time = #{lastUpdateTime}</if>
+			<if test="lastUpdateUserid != null and lastUpdateUserid != ''">and last_update_userid = #{lastUpdateUserid}</if>
+			<if test="leftHref != null and leftHref != ''">and left_href = #{leftHref}</if>
+			<if test="isEnabled != null and isEnabled != ''">and is_enabled = #{isEnabled}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="homeSetResultMap" parameterType="HomeSet">
+		select <include refid="table_columns" />
+		from home_set
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="homeSetResultMap" parameterType="HomeSet">
+		select <include refid="table_columns" />
+		from home_set
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="HomeSet">
+        select count(id) from home_set
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<select id="searchCoursesWithHomeSet" resultType="Map" >
+		select c.* from course c where c.deleted = 0 and c.online_state =1
+		AND EXISTS (select * from home_set s where
+		(
+		s.module1 = c.id ) or (s.module2 = c.id ) or (s.module3 = c.id ) or (s.module4 = c.id )
+		or (s.module5 = c.id ) or (s.module6 = c.id ) or (s.module7 = c.id ) or (s.module8 = c.id )
+		)
+	</select>
+	<select id="searchInfo" resultType="Map" parameterType="HomeSet">
+		select s.*,d.id as directionId,d.category_desc,d.order_num from  category_direction d LEFT JOIN home_set s on d.id = s.direction_id where d.deleted = 0
+	</select>
+
+	<select id="findHomeSet" resultMap="homeSetResultMap">
+		SELECT  * from home_set
+	</select>
+</mapper>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.RefundDetailMapper">
+    <resultMap type="com.kjs.common.dto.RefundDetailDto" id="refundDetailResultMap">
+        <result property="id" column="id" />
+        <result property="orderId" column="order_id" />
+        <result property="orderNum" column="order_num" />
+        <result property="orderUsername" column="order_username" />
+        <result property="proposerName" column="proposer_name" />
+        <result property="refundMoney" column="refund_money" />
+        <result property="bankName" column="bank_name" />
+        <result property="bankAccountName" column="bank_account_name" />
+        <result property="bankCardNum" column="bank_card_num" />
+        <result property="address" column="address" />
+        <result property="openAccountBankName" column="open_account_bank_name" />
+        <result property="description" column="description" />
+        <result property="teacherManagerName" column="teacher_manager_name" />
+        <result property="teacherManagerOpinion" column="teacher_manager_opinion" />
+        <result property="teacherManagerPassTime" column="teacher_manager_pass_time" />
+        <result property="financeName" column="finance_name" />
+        <result property="financeOpinion" column="finance_opinion" />
+        <result property="financePassTime" column="finance_pass_time" />
+        <result property="financeManagerName" column="finance_manager_name" />
+        <result property="financeManagerOpinion" column="finance_manager_opinion" />
+        <result property="financeManagerPassTime" column="finance_manager_pass_time" />
+        <result property="refundStatus" column="refund_status" />
+        <result property="ctime" column="ctime" />
+        <result property="mtime" column="mtime" />
+        <result property="isDelete" column="is_delete" />
+    </resultMap>
+
+    <sql id="table_columns">
+        refund_detail.id,
+        refund_detail.order_id,
+        refund_detail.order_num,
+        refund_detail.order_username,
+        refund_detail.proposer_name,
+        refund_detail.refund_money,
+        refund_detail.bank_name,
+        refund_detail.bank_account_name,
+        refund_detail.bank_card_num,
+        refund_detail.address,
+        refund_detail.open_account_bank_name,
+        refund_detail.description,
+        refund_detail.teacher_manager_name,
+        refund_detail.teacher_manager_opinion,
+        refund_detail.teacher_manager_pass_time,
+        refund_detail.finance_name,
+        refund_detail.finance_opinion,
+        refund_detail.finance_pass_time,
+        refund_detail.finance_manager_name,
+        refund_detail.finance_manager_opinion,
+        refund_detail.finance_manager_pass_time,
+        refund_detail.refund_status,
+        refund_detail.ctime,
+        refund_detail.mtime,
+        refund_detail.is_delete
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{orderId},
+        #{orderNum},
+        #{orderUsername},
+        #{proposerName},
+        #{refundMoney},
+        #{bankName},
+        #{bankAccountName},
+        #{bankCardNum},
+        #{address},
+        #{openAccountBankName},
+        #{description},
+        #{teacherManagerName},
+        #{teacherManagerOpinion},
+        #{teacherManagerPassTime},
+        #{financeName},
+        #{financeOpinion},
+        #{financePassTime},
+        #{financeManagerName},
+        #{financeManagerOpinion},
+        #{financeManagerPassTime},
+        #{refundStatus},
+        #{ctime},
+        #{mtime},
+        #{isDelete}
+    </sql>
+
+    <!-- 适用于主键自增类型 -->
+    <insert id="save" parameterType="RefundDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into refund_detail( <include refid="table_columns" /> )
+        values ( <include refid="entity_properties" /> )
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from refund_detail
+        where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="RefundDetail">
+        update refund_detail
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="orderUsername != null and orderUsername != ''">order_username = #{orderUsername},</if>
+            <if test="proposerName != null and proposerName != ''">proposer_name = #{proposerName},</if>
+            <if test="refundMoney != null">refund_money = #{refundMoney},</if>
+            <if test="bankName != null and bankName != ''">bank_name = #{bankName},</if>
+            <if test="bankAccountName != null and bankAccountName != ''">bank_account_name = #{bankAccountName},</if>
+            <if test="bankCardNum != null and bankCardNum != ''">bank_card_num = #{bankCardNum},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="openAccountBankName != null and openAccountBankName != ''">open_account_bank_name = #{openAccountBankName},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="teacherManagerName != null and teacherManagerName != ''">teacher_manager_name = #{teacherManagerName},</if>
+            <if test="teacherManagerOpinion != null and teacherManagerOpinion != ''">teacher_manager_opinion = #{teacherManagerOpinion},</if>
+            <if test="teacherManagerPassTime != null and teacherManagerPassTime != ''">teacher_manager_pass_time = #{teacherManagerPassTime},</if>
+            <if test="financeName != null and financeName != ''">finance_name = #{financeName},</if>
+            <if test="financeOpinion != null and financeOpinion != ''">finance_opinion = #{financeOpinion},</if>
+            <if test="financePassTime != null and financePassTime != ''">finance_pass_time = #{financePassTime},</if>
+            <if test="financeManagerName != null and financeManagerName != ''">finance_manager_name = #{financeManagerName},</if>
+            <if test="financeManagerOpinion != null and financeManagerOpinion != ''">finance_manager_opinion = #{financeManagerOpinion},</if>
+            <if test="financeManagerPassTime != null and financeManagerPassTime != ''">finance_manager_pass_time = #{financeManagerPassTime},</if>
+            <if test="refundStatus != null">refund_status = #{refundStatus},</if>
+            <if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+            <if test="mtime != null and mtime != ''">mtime = #{mtime},</if>
+            <if test="isDelete != null and isDelete != ''">is_delete = #{isDelete},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+
+    <select id="findById" resultMap="refundDetailResultMap" >
+        select
+        <include refid="table_columns"/>,
+        o.program_name as programName,
+        o.cost_price as costPrice,
+        o.realpay_price as realpayPrice,
+        o.pay_type as payType
+        from refund_detail
+        left join pay_order o on refund_detail.order_id = o.id
+        where refund_detail.id = #{id}
+    </select>
+    <select id="findByOrderId" resultMap="refundDetailResultMap" >
+        select
+        <include refid="table_columns"/>,
+        o.pay_num as payNum,
+        o.program_name as programName,
+        o.cost_price as costPrice,
+        o.realpay_price as realpayPrice,
+        o.pay_type as payType
+        from refund_detail
+        left join pay_order o on refund_detail.order_id = o.id
+        where refund_detail.order_id = #{id}
+        order by refund_detail.ctime desc
+    </select>
+
+    <select id="queryAll" resultMap="refundDetailResultMap">
+        select
+        <include refid="table_columns"/>
+        from refund_detail
+    </select>
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="orderId != null and orderId != ''">and order_id = #{orderId}</if>
+            <if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+            <if test="orderUsername != null and orderUsername != ''">and order_username = #{orderUsername}</if>
+            <if test="proposerName != null and proposerName != ''">and proposer_name = #{proposerName}</if>
+            <if test="refundMoney != null and refundMoney != ''">and refund_money = #{refundMoney}</if>
+            <if test="bankName != null and bankName != ''">and bank_name = #{bankName}</if>
+            <if test="bankAccountName != null and bankAccountName != ''">and bank_account_name = #{bankAccountName}</if>
+            <if test="bankCardNum != null and bankCardNum != ''">and bank_card_num = #{bankCardNum}</if>
+            <if test="address != null and address != ''">and address = #{address}</if>
+            <if test="openAccountBankName != null and openAccountBankName != ''">and open_account_bank_name = #{openAccountBankName}</if>
+            <if test="description != null and description != ''">and description = #{description}</if>
+            <if test="teacherManagerName != null and teacherManagerName != ''">and teacher_manager_name = #{teacherManagerName}</if>
+            <if test="teacherManagerOpinion != null and teacherManagerOpinion != ''">and teacher_manager_opinion = #{teacherManagerOpinion}</if>
+            <if test="teacherManagerPassTime != null and teacherManagerPassTime != ''">and teacher_manager_pass_time = #{teacherManagerPassTime}</if>
+            <if test="financeName != null and financeName != ''">and finance_name = #{financeName}</if>
+            <if test="financeOpinion != null and financeOpinion != ''">and finance_opinion = #{financeOpinion}</if>
+            <if test="financePassTime != null and financePassTime != ''">and finance_pass_time = #{financePassTime}</if>
+            <if test="financeManagerName != null and financeManagerName != ''">and finance_manager_name = #{financeManagerName}</if>
+            <if test="financeManagerOpinion != null and financeManagerOpinion != ''">and finance_manager_opinion = #{financeManagerOpinion}</if>
+            <if test="financeManagerPassTime != null and financeManagerPassTime != ''">and finance_manager_pass_time = #{financeManagerPassTime}</if>
+            <if test="refundStatus != null and refundStatus != ''">and refund_status = #{refundStatus}</if>
+            <if test="ctime != null and ctime != ''">and ctime = #{ctime}</if>
+            <if test="mtime != null and mtime != ''">and mtime = #{mtime}</if>
+            <if test="isDelete != null and isDelete != ''">and is_delete = #{isDelete}</if>
+        </trim>
+    </sql>
+    <sql id="search_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            r.is_delete = 0
+            <if test="orderNum != null and orderNum != ''">and o.order_num = #{orderNum}</if>
+            <if test="username != null and username != ''">and r.order_username= #{username}</if>
+            <if test="refundStatus != null and refundStatus != ''">
+                and r.refund_status= #{refundStatus}
+                <if test="startOrderDate != null and endOrderDate != null ">
+                    <choose>
+                        <when test="refundStatus == 1">
+                            and (r.ctime between #{startOrderDate} and #{endOrderDate})
+                        </when>
+                        <when test="refundStatus == 2">
+                            <choose>
+                                <when test="isRefundManagerPage == 1">
+                                    and (r.ctime between #{startOrderDate} and #{endOrderDate})
+                                </when>
+                                <otherwise>
+                                    and (r.teacher_manager_pass_time between #{startOrderDate} and #{endOrderDate})
+                                </otherwise>
+                            </choose>
+                        </when>
+                        <when test="refundStatus == 3">
+                            and (r.finance_pass_time between #{startOrderDate} and #{endOrderDate})
+                        </when>
+                    </choose>
+                </if>
+                <if test="refundStatus == 3 and isRefundManagerPage == 1">
+                    and o.pay_type != 5
+                </if>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="search" resultMap="refundDetailResultMap" parameterType="RefundDetail">
+        select
+        <include refid="table_columns"/>
+        from refund_detail
+        <include refid="page_where"/>
+    </select>
+
+    <select id="page" resultMap="refundDetailResultMap" parameterType="com.kjs.web.serach.kjs.order.PayOrderSearchBean">
+        SELECT
+        r.id,
+        r.ctime,
+        r.order_username,
+        o.order_num,
+        o.program_name as programName,
+        r.refund_money,
+        r.proposer_name,
+        r.teacher_manager_name,
+        r.teacher_manager_pass_time,
+        r.finance_name,
+        r.finance_pass_time,
+        r.finance_manager_name,
+        r.finance_manager_pass_time,
+        r.order_id
+        FROM
+        refund_detail r
+        LEFT JOIN pay_order o ON r.order_id = o.id
+        <include refid="search_page_where"/>
+        <choose>
+            <when test="refundStatus == 1">
+                order by r.ctime desc
+            </when>
+            <when test="refundStatus == 2">
+                order by r.teacher_manager_pass_time desc
+            </when>
+            <when test="refundStatus == 3">
+                order by r.finance_pass_time desc
+            </when>
+        </choose>
+        limit #{start},#{length}
+    </select>
+
+    <select id="count" resultType="long" parameterType="RefundDetail">
+        SELECT
+        count(r.id)
+        FROM
+        refund_detail r
+        LEFT JOIN pay_order o ON r.order_id = o.id
+        <include refid="search_page_where"/>
+    </select>
+
+    <!-- 其他自定义SQL -->
+
+</mapper>

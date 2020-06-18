@@ -1,0 +1,48 @@
+.member-banner{width: 100%; height: auto;overflow: hidden;}
+.member-banner img{width: 100%;}
+.member-dredge{ width: 90%; height: 130%;overflow: hidden; margin: 0px auto; margin-top: 30px;padding-bottom: 90px; min-width: 1483px;}
+.monthMember{width: 32%; height: auto;overflow: hidden;background: #FFFFFF;border-radius: 3px; float: left; }
+.seasonMember{width: 32%; height: auto;overflow: hidden;background: #FFFFFF;border-radius: 3px; float: left; margin-left: 2%; }
+.yearMember{width: 32%; height: auto;overflow: hidden;background: #FFFFFF;border-radius: 3px; float: left; margin-left: 2%;}
+.member-top{ width: 100%; height: 59px; border-bottom: 1px solid #f0f2f5; text-align: center; line-height: 59px; font-size: 26px;}
+.member-money{ font-size: 14px; width: 100%; height: 80px; padding-top: 40px; }
+.baoguo{width: 100%; height: 40px; line-height: 40px; overflow: hidden; text-align: center;}
+.baoguo span{color: #5583db;}
+.member-list{width: 100%; height: auto;overflow: hidden;}
+.member-list ul{width: 100%; height: auto;overflow: hidden;}
+.member-list li{width: 100%;height: 50px;text-align: center;line-height: 50px; font-size: 14px; color:#666666 ;}
+.dredge{width: auto; height: 170px;}
+.dredge p{ text-align: center; font-size: 14px;background: rgb(250, 251, 252);    line-height: 50px;    color: #666666;}
+.dredge-btn{cursor:pointer; margin: 0px auto; width: 180px; height: 40px; text-align: center;line-height: 40px; background: #5583db; color: #FFFFFF;font-size: 14px; margin-top: 45px; border-radius: 3px;}
+.dredge-btn:hover{background: #3b5b98;}
+
+
+.middle{width: 100%; height: auto; overflow: hidden;margin-bottom: 152px;}
+.middle0{width: 1227px; height: auto; margin: 0 auto;}
+.mtop{width: 100%; height:338px; background: #fff;margin-top:30px;}
+.vipImg{float: left; margin: 32px 120px 0 100px;}
+.vipTxt{float: left; margin-top:60px;}
+.vipTxt1{font-size:26px; color:#333;}
+.vipTxt2 {font-size:22px; color:#999; margin:12px 0 30px 0; font-weight: 500;}
+.vipTxt3{font-size:24px; color:#666;}
+.vipTxt3 span{font-size: 42px; color:#ff6700; font-weight: 600; margin-right: 18px;}
+.vipTxt3 em{ margin-right: 24px; font-style:normal;}
+.vipTxt3 i{font-style:normal; text-decoration:line-through;}
+.vipTxt4{float:left; width:250px; height:60px; background: #5583db; line-height: 60px; text-align: center; font-size: 20px; color:#FFF; margin-top: 10px;  cursor: pointer; margin-right: 15px;}
+.viptxt4:hover{background: #3b5b98;}
+#vipTxt4i{background: #ff6700; font-style: normal;display: none;}
+.mmid{width: 100%; height: auto;}
+.mmidImg{width: 100%; height: 142px; text-align: center; padding-top:60px;}
+.mmidUl{width: 100%; height: 262px;}
+.mmidLi1{width:305px; height:262px;background: #fff; float: left;}
+.mmidLi1:hover{background: #fbfbfb;}
+.mmidP1{width:82px; height:82px; background: url("/resources/vip/images/indx_icon.png") -20px -20px; margin: 48px 0 20px 114px;}
+.mmidP2{width:100%; height:20px; color: #000000; font-size: 20px; text-align: center;}
+.mmidP3{width:100%; height:12px; color: #999; font-size: 12px; text-align: center; margin-top:12px;}
+#mmidp2{background: url("/resources/vip/images/indx_icon.png") -120px -20px;}
+#mmidp3{background: url("/resources/vip/images/indx_icon.png") -120px -112px;}
+#mmidp4{background: url("/resources/vip/images/indx_icon.png") -220px -112px;}
+#mbutp1{background: url("/resources/vip/images/indx_icon.png") -20px -109px;}
+#mbutp2{background: url("/resources/vip/images/indx_icon.png") -220px -20px;}
+#mbutp3{background: url("/resources/vip/images/indx_icon.png") -320px -20px;}
+#mbutp4{background: url("/resources/vip/images/indx_icon.png") -320px -112px;}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AuthorityRolesMapper">
+	<resultMap type="AuthorityRoles" id="authorityRolesResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="parentId" column="parent_id" />
+		<result property="enable" column="enable"/>
+		<result property="count" column="count"/>
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+	</resultMap>
+
+	
+	<sql id="table_columns">
+		id,
+		name,
+		parent_id,
+		enable,
+		last_modify_user_id,
+		last_modify_datetime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{parentId},
+		#{enable},
+		#{lastModifyUserId},
+		#{lastModifyDatetime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityRoles" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_roles( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_roles
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityRoles">
+		update authority_roles 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="parentId != null ">parent_id = #{parentId},</if>
+			<if test="enable != null">enable = #{enable},</if>
+			<if test="lastModifyUserId != null">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityRolesResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from authority_roles
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authorityRolesResultMap">
+		select <include refid="table_columns" /> 
+		from authority_roles
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="authorityRolesResultMap" parameterType="AuthorityRoles">
+		select <include refid="table_columns" />
+		from authority_roles
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="authorityRolesResultMap" parameterType="AuthorityRoles">
+		select <include refid="table_columns" />
+		from authority_roles
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityRoles">
+        select count(id) from authority_roles
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+	 <select id="getParentRole" resultMap="authorityRolesResultMap">
+       select ar.* from authority_roles ar where ar.parent_id = 0
+	 </select>
+
+	<select id="getSubRole" resultMap="authorityRolesResultMap">
+		select ar.* from authority_roles ar where ar.parent_id != 0
+	</select>
+
+	<select id="checkRoleUnique" resultType="int" parameterType="AuthorityRoles" >
+        select count(id) from authority_roles where   id != #{id} and  name = #{name}
+	</select>
+
+	<update id="updateRoleSwitch" parameterType="java.util.Map">
+       update authority_roles set enable = #{enable} where id = #{id}
+	</update>
+</mapper>

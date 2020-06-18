@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CategoryIndustryMapper">
+	<resultMap type="CategoryIndustry" id="categoryIndustryResultMap">
+		<result property="id" column="id" />
+		<result property="directionId" column="direction_id" />
+		<result property="categoryDesc" column="category_desc" />
+		<result property="userid" column="userid" />
+		<result property="orderNum" column="order_num" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+		<result property="iconUrl" column="icon_url" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap" type="com.kjs.orm.model.CategoryIndustry" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+	
+	<sql id="table_columns">
+		id,
+		direction_id,
+		category_desc,
+		userid,
+		order_num,
+		create_time,
+		deleted,
+		icon_url
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{directionId},
+		#{categoryDesc},
+		#{userid},
+		#{orderNum},
+		#{createTime},
+		#{deleted},
+		#{iconUrl}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CategoryIndustry" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="orderNum" order="BEFORE">
+			select IFNULL(max(order_Num),0)+1 as orderNum from category_industry limit 0,1
+		</selectKey>
+		insert into category_industry( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<select id="selectMaxId"  resultType="java.lang.Long"  >
+		select  max(id)
+		from category_industry
+	</select>
+
+	
+	<delete id="deleteByIds">
+		delete from category_industry
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--物理删除-->
+	<update id="deleteById" parameterType="CategoryIndustry">
+		update category_industry
+		set deleted = #{deleted}
+		<where>id = #{id}</where>
+	</update>
+
+	<update id="update" parameterType="CategoryIndustry">
+		update category_industry 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="categoryDesc != null and categoryDesc != ''">category_desc = #{categoryDesc},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="iconUrl != null and iconUrl != ''">icon_url = #{iconUrl},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="categoryIndustryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from category_industry
+		where deleted = 0 and id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="categoryIndustryResultMap">
+		select <include refid="table_columns" /> 
+		from category_industry where deleted = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="categoryDesc != null and categoryDesc != ''">and category_desc = #{categoryDesc}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="categoryIndustryResultMap" parameterType="CategoryIndustry">
+		select <include refid="table_columns" />
+		from category_industry
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="categoryIndustryResultMap" parameterType="CategoryIndustry">
+		select <include refid="table_columns" />
+		from category_industry
+		<include refid="page_where" />
+	</select>
+
+    <select id="count" resultType="long" parameterType="CategoryIndustry">
+        select count(id) from category_industry
+        <include refid="page_where" />
+    </select>
+
+	<select id="checkCateUnique" resultType="int" parameterType="CategoryIndustry">
+		select count(id) from category_industry
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="id != null">id != #{id} AND </if>
+			<if test="categoryDesc != null and categoryDesc != ''"> category_Desc = #{categoryDesc} </if>
+			<if test="directionId != null and directionId != ''">AND  direction_id = #{directionId} </if>
+			and deleted = 0
+		</trim>
+	</select>
+
+	<select id="getAll" resultMap="categoryIndustryResultMap">
+		select <include refid="table_columns" />
+		from category_industry
+		<include refid="page_where" />
+	</select>
+	<!-- 其他自定义SQL -->
+
+	<!--根据方向id查询所有该方向下的行业列表-->
+	<select id="getIndustryByDirectionId" resultMap="categoryIndustryResultMap" parameterType="java.lang.Integer">
+		select * from category_industry
+		<trim prefix="where" prefixOverrides="and | or" >
+			direction_id = #{directionId}
+			and deleted = 0
+		</trim>
+	</select>
+
+	<!--根据课程id查询所有该课程已选择的行业标签-->
+	<select id="getIndustryByCourseId" resultMap="categoryIndustryResultMap" parameterType="java.lang.Integer">
+		select * from category_industry WHERE id in (
+		SELECT DISTINCT(industry_id) from course_industry WHERE course_id=#{courseId}) and deleted=0
+	</select>
+
+	<select id="countCheckDel" resultType="int" parameterType="java.lang.Integer">
+		select count(id) from category_industry
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId} AND </if>
+			deleted = 0
+		</trim>
+	</select>
+	
+	<select id="findIndustryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT i.id , i.category_desc FROM category_industry i LEFT JOIN category_direction d ON i.direction_id = d.id
+    WHERE ( i.deleted = 0 and d.deleted = 0)
+    <if test="directionId != null and  directionId != ''">
+      AND i.direction_id = #{directionId}
+    </if>
+    order by d.order_num,i.order_num ASC
+  </select>
+</mapper>

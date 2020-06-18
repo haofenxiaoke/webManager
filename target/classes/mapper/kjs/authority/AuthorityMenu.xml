@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AuthorityMenuMapper">
+	<resultMap type="AuthorityMenu" id="authorityMenuResultMap">
+		<result property="id" column="id" />
+		<result property="menuName" column="menu_name" />
+		<result property="menuUrl" column="menu_url" />
+		<result property="menuEnable" column="menu_enable" />
+		<result property="menuParentId" column="menu_parent_id" />
+		<result property="menuIcon" column="menu_icon" />
+		<result property="menuCode" column="menu_code"/>
+		<result property="menuDesc" column="menu_desc"/>
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		menu_name,
+		menu_url,
+		menu_enable,
+		menu_parent_id,
+		menu_icon,
+		menu_code,
+		menu_desc,
+		last_modify_user_id,
+		last_modify_datetime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{menuName},
+		#{menuUrl},
+		#{menuEnable},
+		#{menuParentId},
+		#{menuIcon},
+		#{menuCode},
+		#{menuDesc},
+		#{lastModifyUserId},
+		#{lastModifyDatetime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_menu( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_menu
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityMenu">
+		update authority_menu 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="menuName != null and menuName != ''">menu_name = #{menuName},</if>
+			<if test="menuUrl != null and menuUrl != ''">menu_url = #{menuUrl},</if>
+			<if test="menuEnable != null">menu_enable = #{menuEnable},</if>
+			<if test="menuParentId != null and menuParentId != ''">menu_parent_id = #{menuParentId},</if>
+			<if test="menuIcon != null and menuIcon != ''">menu_icon = #{menuIcon},</if>
+			<if test="menuDesc != null and menuDesc != ''">menu_desc = #{menuDesc},</if>
+			<if test="menuCode != null and menuCode != ''">menu_code = #{menuCode},</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityMenuResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from authority_menu
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authorityMenuResultMap">
+		select <include refid="table_columns" /> 
+		from authority_menu
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="menuName != null and menuName != ''">and menu_name = #{menuName}</if>
+			<if test="menuUrl != null and menuUrl != ''">and menu_url = #{menuUrl}</if>
+			<if test="menuEnable != null">and menu_enable = #{menuEnable}</if>
+			<if test="menuParentId != null and menuParentId != ''">and menu_parent_id = #{menuParentId}</if>
+			<if test="menuIcon != null and menuIcon != ''">and menu_icon = #{menuIcon}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="authorityMenuResultMap" parameterType="AuthorityMenu">
+		select <include refid="table_columns" />
+		from authority_menu
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="authorityMenuResultMap" parameterType="AuthorityMenu">
+		select <include refid="table_columns" />
+		from authority_menu
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityMenu">
+        select count(id) from authority_menu
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+	<select id="getParentMenus" resultMap="authorityMenuResultMap" parameterType="java.util.Map">
+       select * from authority_menu where menu_parent_id = 0
+	</select>
+
+	<select id="getSubMenus" resultMap="authorityMenuResultMap" parameterType="java.util.Map">
+	   select * from authority_menu where menu_parent_id != 0
+	</select>
+
+	<select id="checkMenuUnique" resultType="int" parameterType="AuthorityMenu">
+       select count(id) from authority_menu
+	   <trim prefix="where" prefixOverrides="and | or" >
+		    <if test="id != null">id != #{id} AND </if>
+		    (
+			<if test="menuName != null and menuName != ''"> menu_name = #{menuName} </if>
+			<if test="menuUrl != null and menuUrl != ''"> or menu_url = #{menuUrl} </if>
+		    <if test="menuCode != null and menuCode != ''">or menu_code = #{menuCode}</if>
+		   )
+		</trim>
+	</select>
+
+</mapper>

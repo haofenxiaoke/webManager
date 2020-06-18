@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseCustomizePlanMapper">
+	<resultMap type="CourseCustomizePlan" id="courseCustomizePlanResultMap">
+		<result property="id" column="id" />
+		<result property="planDescribe" column="plan_describe" />
+		<result property="directionId" column="direction_id" />
+		<result property="industryId" column="industry_id" />
+		<result property="positionId" column="position_id" />
+		<result property="userid" column="userid" />
+		<result property="duration" column="duration" />
+		<result property="completeProgress" column="complete_progress" />
+		<result property="optime" column="optime" />
+		<result property="deleted" column="deleted" />
+		<result property="setPlanId" column="set_plan_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		plan_describe,
+		direction_id,
+		industry_id,
+		position_id,
+		userid,
+		duration,
+		complete_progress,
+		optime,
+		deleted,
+		set_plan_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{planDescribe},
+		#{directionId},
+		#{industryId},
+		#{positionId},
+		#{userid},
+		#{duration},
+		#{completeProgress},
+		#{optime},
+		#{deleted},
+		#{setPlanId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseCustomizePlan" useGeneratedKeys="true" keyProperty="id">
+		insert into course_customize_plan( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_customize_plan
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseCustomizePlan">
+		update course_customize_plan 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planDescribe != null and planDescribe != ''">plan_describe = #{planDescribe},</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="industryId != null and industryId != ''">industry_id = #{industryId},</if>
+			<if test="positionId != null and positionId != ''">position_id = #{positionId},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="duration != null and duration != ''">duration = #{duration},</if>
+			<if test="completeProgress != null and completeProgress != ''">complete_progress = #{completeProgress},</if>
+			<if test="optime != null and optime != ''">optime = #{optime},</if>set_plan_id
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="setPlanId != null and setPlanId != ''">and set_plan_id = #{setPlanId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseCustomizePlanResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_customize_plan
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseCustomizePlanResultMap">
+		select <include refid="table_columns" /> 
+		from course_customize_plan
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="planDescribe != null and planDescribe != ''">and plan_describe = #{planDescribe}</if>
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+			<if test="industryId != null and industryId != ''">and industry_id = #{industryId}</if>
+			<if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="duration != null and duration != ''">and duration = #{duration}</if>
+			<if test="completeProgress != null and completeProgress != ''">and complete_progress = #{completeProgress}</if>
+			<if test="optime != null and optime != ''">and optime = #{optime}</if>
+			<if test="deleted != null">and deleted = #{deleted}</if>
+			<if test="setPlanId != null and setPlanId != ''">and set_plan_id = #{setPlanId}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseCustomizePlanResultMap" parameterType="CourseCustomizePlan">
+		select <include refid="table_columns" />
+		from course_customize_plan
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseCustomizePlanResultMap" parameterType="CourseCustomizePlan">
+		select <include refid="table_columns" />
+		from course_customize_plan
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseCustomizePlan">
+        select count(id) from course_customize_plan
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

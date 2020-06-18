@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseQuestionReplyMapper">
+	<resultMap type="CourseQuestionReply" id="courseQuestionReplyResultMap">
+		<result property="id" column="id" />
+		<result property="questionId" column="question_id" />
+		<result property="replyUserid" column="reply_userid" />
+		<result property="replyContent" column="reply_content" />
+		<result property="replyTime" column="reply_time" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		question_id,
+		reply_userid,
+		reply_content,
+		reply_time,
+		deleted
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{questionId},
+		#{replyUserid},
+		#{replyContent},
+		#{replyTime},
+		#{deleted}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseQuestionReply" useGeneratedKeys="true" keyProperty="id">
+		insert into course_question_reply( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course_question_reply
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="CourseQuestionReply">
+		update course_question_reply
+		<trim prefix="set" suffixOverrides=",">
+			<if test="questionId != null and questionId != ''">question_id = #{questionId},</if>
+			<if test="replyUserid != null and replyUserid != ''">reply_userid = #{replyUserid},</if>
+			<if test="replyContent != null and replyContent != ''">reply_content = #{replyContent},</if>
+			<if test="replyTime != null and replyTime != ''">reply_time = #{replyTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="courseQuestionReplyResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_question_reply
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseQuestionReplyResultMap">
+		select <include refid="table_columns" />
+		from course_question_reply
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="questionId != null and questionId != ''">and question_id = #{questionId}</if>
+			<if test="replyUserid != null and replyUserid != ''">and reply_userid = #{replyUserid}</if>
+			<if test="replyContent != null and replyContent != ''">and reply_content = #{replyContent}</if>
+			<if test="replyTime != null and replyTime != ''">and reply_time = #{replyTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="courseQuestionReplyResultMap" parameterType="CourseQuestionReply">
+		select <include refid="table_columns" />
+		from course_question_reply
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="courseQuestionReplyResultMap" parameterType="CourseQuestionReply">
+		select <include refid="table_columns" />
+		from course_question_reply
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="count" resultType="long" parameterType="CourseQuestionReply">
+		select count(id) from course_question_reply
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="getQuestionReply" resultType="java.util.HashMap" parameterType="Map">
+		select
+			r.id,
+			r.question_id as questionId,
+			r.reply_content as replyContent ,
+			r.reply_time as replyTime,
+			r.reply_userid as replyUserid,
+			us.username,
+			us.flowerName
+		from course_question_reply r
+		LEFT JOIN authority_users us ON r.reply_userid = us.id
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="questionId != null and questionId != ''">and r.question_id = #{questionId}</if>
+		</trim>
+	</select>
+
+</mapper>

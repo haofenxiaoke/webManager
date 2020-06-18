@@ -1,0 +1,30 @@
+.orderTable{width: 902px;border-top:1px solid #e0e0e0;border-left:1px solid #e0e0e0;margin-bottom: 20px;border-radius: 3px; margin-top: 10px;}
+.orderTable thead tr{border-right:1px solid #e0e0e0;}
+.orderTable thead td{background: #eee;color:#666;font-size: 17px;}
+.orderTable thead td p{float: left;}
+.orderTable td{text-align: center;font-size: 18px;}
+.borR td{border:1px solid #e0e0e0;border-left: 0;padding: 20px 0;color:#666;}
+.borR td a{color:#999;font-size: 13px;}
+.borR td .btn70{color:#171717;}
+.borR td .btn70:hover{background: #f8c208 ;}
+.borB td{border:1px solid #e0e0e0;border-left: 0;border-top:0;padding: 20px 0;color:#999;}
+.borR p{color:#f8c208;font-size: 18px;}
+.borB td span{margin-left:40px;}
+
+.cancelOrder{position: relative;top:7px;}
+.cancelOrder:hover{color:#f8c208 ;}
+
+.studyZl{
+	
+}
+
+.studyZl span{
+	color: #9a9e9f;
+	font-size: 16px;
+	margin-left: 40px;
+}
+
+.layui-layer-btn .layui-layer-btn0{
+	background-color: #f8c208;
+	border: 0px;
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AppCarouselMapper">
+    <resultMap type="AppCarousel" id="appCarouselResultMap">
+        <result property="id" column="id" />
+        <result property="orderNum" column="order_num" />
+        <result property="pathUrl" column="path_url" />
+        <result property="createTime" column="create_time" />
+        <result property="create_userid" column="createUserid" />
+        <result property="lastUpdateTime" column="last_update_time" />
+        <result property="lastUpdateUserid" column="last_update_userid"/>
+        <result property="hrefUrl" column="href_url"/>
+        <result property="bgcolor" column="bgcolor" />
+        <result property="type" column="type" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        order_num,
+        path_url,
+        create_time,
+        create_userid,
+        last_update_time,
+        last_update_userid,
+        href_url,
+        bgcolor,
+        type
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{orderNum},
+        #{pathUrl},
+        #{createTime},
+        #{createUserid},
+        #{lastUpdateTime},
+        #{lastUpdateUserid},
+        #{hrefUrl},
+        #{bgcolor},
+        #{type}
+    </sql>
+
+    <!-- 适用于主键自增类型 -->
+    <insert id="save" parameterType="AppCarousel" useGeneratedKeys="true" keyProperty="id">
+        insert into app_carousel( <include refid="table_columns" /> )
+        values ( <include refid="entity_properties" /> )
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from app_carousel
+        where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="AppCarousel">
+        update app_carousel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orderNum != null ">order_num = #{orderNum},</if>
+            <if test="pathUrl != null and pathUrl != ''">path_url = #{pathUrl},</if>
+            <if test="createTime != null and imgurl != ''">create_time = #{createTime},</if>
+            <if test="createUserid != null ">create_userid = #{createUserid},</if>
+            <if test="lastUpdateTime != null and lastUpdateTime != ''">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUserid != null ">last_update_userid = #{lastUpdateUserid},</if>
+            <if test="hrefUrl != null and hrefUrl != ''">href_url= #{hrefUrl},</if>
+            <if test="bgcolor != null and bgcolor != ''">bgcolor = #{bgcolor},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+
+    <select id="findById" resultMap="appCarouselResultMap" parameterType="String" >
+        select <include refid="table_columns" />
+        from app_carousel
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="appCarouselResultMap">
+        select <include refid="table_columns" />
+        from app_carousel
+    </select>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="orderNum != null ">order_num = #{orderNum},</if>
+            <if test="pathUrl != null and pathUrl != ''">path_url = #{pathUrl},</if>
+            <if test="createTime != null and imgurl != ''">create_time = #{createTime},</if>
+            <if test="createUserid != null ">create_userid = #{createUserid},</if>
+            <if test="lastUpdateTime != null and lastUpdateTime != ''">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUserid != null ">last_update_userid = #{lastUpdateUserid},</if>
+            <if test="hrefUrl != null and hrefUrl != ''">href_url= #{hrefUrl},</if>
+            <if test="bgcolor != null and bgcolor != ''">bgcolor = #{bgcolor},</if>
+        </trim>
+    </sql>
+    <select id="search" resultMap="appCarouselResultMap" parameterType="AppCarousel">
+        select <include refid="table_columns" />
+        from app_carousel
+        <include refid="page_where" />
+    </select>
+    <!-- 其他自定义SQL -->
+
+
+</mapper>

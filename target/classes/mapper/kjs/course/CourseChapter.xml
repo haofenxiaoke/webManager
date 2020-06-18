@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseChapterMapper">
+	<resultMap type="CourseChapter" id="courseChapterResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="chapterName" column="chapter_name" />
+		<result property="chapterDesc" column="chapter_desc" />
+		<result property="chapterOrder" column="chapter_order" />
+		<result property="lectureNum" column="lecture_num" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		course_name,
+		chapter_name,
+		chapter_desc,
+		chapter_order,
+		lecture_num
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{courseName},
+		#{chapterName},
+		#{chapterDesc},
+		#{chapterOrder},
+		#{lectureNum}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseChapter" useGeneratedKeys="true" keyProperty="id">
+		insert into course_chapter( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_chapter
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseChapter">
+		update course_chapter 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+			<if test="chapterName != null and chapterName != ''">chapter_name = #{chapterName},</if>
+			<if test="chapterDesc != null and chapterDesc != ''">chapter_desc = #{chapterDesc},</if>
+			<if test="chapterOrder != null and chapterOrder != ''">chapter_order = #{chapterOrder},</if>
+			<if test="lectureNum != null and lectureNum != ''">lecture_num = #{lectureNum},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseChapterResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_chapter
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseChapterResultMap">
+		select <include refid="table_columns" /> 
+		from course_chapter
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="courseName != null and courseName != ''">and course_name = #{courseName}</if>
+			<if test="chapterName != null and chapterName != ''">and chapter_name = #{chapterName}</if>
+			<if test="chapterDesc != null and chapterDesc != ''">and chapter_desc = #{chapterDesc}</if>
+			<if test="chapterOrder != null and chapterOrder != ''">and chapter_order = #{chapterOrder}</if>
+			<if test="lectureNum != null and lectureNum != ''">and lecture_num = #{lectureNum}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseChapterResultMap" parameterType="CourseChapter">
+		select <include refid="table_columns" />
+		from course_chapter
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseChapterResultMap" parameterType="CourseChapter">
+		select <include refid="table_columns" />
+		from course_chapter
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseChapter">
+        select count(id) from course_chapter
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

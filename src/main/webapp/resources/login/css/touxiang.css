@@ -1,0 +1,24 @@
+.record{ width: 240px; height: 300px; position: absolute;right: 0px; margin-top: 30px; background: #ffffff; border-radius: 3px;z-index: 2}
+.record-top{ width: 100%; height: 110px; padding-top: 20px;}
+.record-top p{ text-align: center; margin-top: 10px;color: #666; font-size: 14px;}
+.record-top a{ font-size: 14px;color: #666;width: 60px;height: 60px;}
+.head-portrait{ width: 60px; height: 60px; margin: 0px auto; border-radius: 30px; overflow: hidden; }
+.head-portrait img{ width: 100%;}
+
+.record-on{width: 100%; height: 85px; background: #f7f9fa;}
+.recordOn-left{width: 55px; height: 100%; float: left; text-align: center;}
+.recordOn-left img{margin-top: 10px;}
+.recordOn-right{width: 185px; height: 100%; float: left;}
+.recordOn-right p{font-size: 12px;}
+.bt{margin-top: 15px;color:#333;}
+.nr{color: #5583db; margin-top: 5px;display: inline-block;}
+.zj{color: #666;margin-top: 5px;}
+.zj span{color: #7f9fe1;}
+.record-bottom{width: 100%; height: 85px;}
+.recordBottom-left{width: 55px; height: 100%; float: left; text-align: center;}
+.recordBottom-left img{margin-top: 10px;}
+.recordBottom-right{width: 185px; height: 100%; float: left;}
+.recordBottom-right p{font-size: 12px;}
+.report{width: 100px; height: 30px; line-height: 30px; text-align: center; font-size: 12px;background: #5583db; color: #ffffff;border-radius: 3px;}
+.report:hover{background: #3b5b98;}
+.bottom-nr{margin-top: 10px;}

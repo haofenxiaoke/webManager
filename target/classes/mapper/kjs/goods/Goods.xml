@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.GoodsMapper">
+
+<resultMap type="Goods" id="goodsResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="price" column="price" />
+		<result property="directionId" column="direction_id" />
+		<result property="type" column="type" />
+		<result property="positionId" column="position_id" />
+		<result property="remain" column="remain" />
+		<result property="createTime" column="create_time" />
+		<result property="share" column="share" />
+		<result property="deleted" column="deleted" />
+		<result property="count" column="count" />
+		<result property="rule" column="rule" />
+		<result property="discript" column="discript" />
+		<result property="goodsUrl" column="goods_url" />
+		<result property="son" column="son" />
+		<result property="days" column="days"/>
+	</resultMap>
+	
+	
+	<resultMap type="GoodsConditionBean" id="goodsSearchMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="createTime" column="create_time" />
+		<result property="price" column="price" />
+		<result property="type" column="type" />
+		<result property="positionId" column="position_id" />
+		<result property="remain" column="remain" />
+		<result property="directionId" column="direction_id" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+
+<sql id="goods_base">
+		id,
+		name,
+		position_id,
+		direction_id,
+		cover_url,
+		price,
+		type,
+		create_time,
+		remain,
+		share,
+		count,
+		rule,
+		discript,
+		goods_url,
+		son,
+		days,
+  		deleted
+  		
+	</sql>
+	<sql id="base_properties">
+		#{id},
+		#{name},
+		#{positionId},
+		#{directionId},
+		#{coverUrl},
+		#{price},
+		#{type},
+		#{createTime},
+		#{remain},
+		#{share},
+		#{count},
+		#{rule},
+		#{discript},
+		#{goodsUrl},
+		#{son},
+		#{days},
+  		#{deleted}
+	</sql>
+	
+	 <sql id="table_columns">
+		id,
+		name,
+		cover_url,
+		price,
+		position_id,
+		direction_id,
+		type,
+		remain,
+		deleted
+	</sql>
+	
+	<!--<sql id="update">
+		title,
+		cover_url,
+		body,
+		position_id,
+		direction_id,
+		save_time,
+		views_number,
+		deleted
+	</sql>
+	
+	<sql id="update_properties">
+		#{title},	
+		#{coverUrl},
+		#{body},
+		#{positionId},
+		#{directionId},	
+		#{saveTime},
+		#{viewsNumber},
+  		#{deleted}
+	</sql> -->
+
+<!--新增文章信息-->
+	<insert id="savegoodsBase" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">
+		insert into goods( <include refid="goods_base" /> )
+		values ( <include refid="base_properties" /> )
+	</insert>
+<!-- 	查询商品信息  -->
+ 	<select id="scanGoods" resultMap="goodsResultMap" parameterType="java.lang.Integer">
+		select *
+		from goods
+		where id = #{id}
+	</select> 
+	
+<!-- 	商品下架  -->
+	 <update id="deleteGoods" parameterType="java.lang.Integer">
+		update  goods SET deleted=#{deleted}
+		where id=#{id}
+	</update> 
+	
+<!--  	编辑文章，更新内容 -->
+	 <update id="updateGoodsBase" parameterType="Goods"> 
+<!--  		update goods set ( <include refid="update" /> ) = ( <include refid="update_properties" /> ) where id=#{id} -->
+		 update goods set name=#{name} ,
+	 	cover_url=#{coverUrl},
+		price=#{price},
+		position_id=#{positionId},
+		direction_id=#{directionId},	
+		type=#{type},
+		remain=#{remain},
+		count=#{count},
+		share=#{share},
+		rule=#{rule},
+		discript=#{discript},
+		goods_url=#{goodsUrl},	
+		son=#{son},
+		days=#{days}  where id=#{id}
+	 </update>
+	
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="directionId != null and directionId != ''">and direction_id = #{directionId}</if>
+		    <if test="positionId != null and positionId != ''">and position_id = #{positionId}</if>
+		    <if test="deleted != null and deleted != 1">and deleted = #{deleted}</if>
+		    <if test="deleted != null and deleted != 0">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+<!--  	查询商品列表  -->
+	 <select id="page" resultMap="goodsResultMap" parameterType="GoodsTest">
+		select <include refid="table_columns" /> 
+		from goods <include refid="page_where" />
+		
+ 		ORDER  BY  create_time DESC  
+<!--   		limit #{start},#{length} -->
+	</select> 
+	
+	<update id="addRemain" parameterType="Integer">
+		update goods set remain = #{newRemain} where id=#{id}
+	</update>
+
+</mapper>
+
+

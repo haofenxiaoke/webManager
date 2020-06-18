@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.SysTagMapper">
+	<resultMap type="SysTag" id="sysTagResultMap">
+		<result property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="content" column="content" />
+		<result property="directionId" column="direction_id" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		type,
+		content,
+		direction_id,
+		create_time,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{type},
+		#{content},
+		#{directionId},
+		#{createTime},
+		#{deleted}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="SysTag" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_tag( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from sys_tag
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="SysTag">
+		update sys_tag
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="sysTagResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_tag
+		where id = #{_parameter,jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryAll" resultMap="sysTagResultMap">
+		select <include refid="table_columns" />
+		from sys_tag
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="id != null and id != ''">and type = #{id}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="type != null">and type = #{type}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="directionId != null and directionId != ''">direction_id = #{directionId},</if>
+			<if test="num != null">and num = #{num}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	<select id="search" resultMap="sysTagResultMap" parameterType="SysTag">
+		select <include refid="table_columns" />
+		from sys_tag
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="sysTagResultMap" parameterType="SysTag">
+		select <include refid="table_columns" />
+		from sys_tag
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="SysTag">
+        select count(id) from sys_tag
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!--根据课程id筛选课程优势标签-->
+	<select id="getTagListByCourseId" resultMap="sysTagResultMap" parameterType="java.lang.Integer">
+		SELECT t.* from sys_tag  t
+		INNER  JOIN course_advantage AS c on t.id=c.advantage_id
+		WHERE
+		 t.type=2
+		 AND c.course_id = #{courseId}
+		 AND t.deleted = 0
+	</select>
+	<!--根据课程id筛选适合对象标签-->
+	<select id="getSuitableListByCourseId" resultMap="sysTagResultMap" parameterType="java.lang.Integer">
+		SELECT t.* from sys_tag AS t
+		INNER  JOIN course_suitable AS c on t.id=c.suitable_id
+		WHERE
+		t.type=1
+		AND c.course_id = #{courseId}
+		AND t.deleted = 0
+
+	</select>
+	<!--筛选出某一种指定的类型标签-->
+	<select id="queryAllAdvantages" resultMap="sysTagResultMap" parameterType="java.lang.Integer">
+		select <include refid="table_columns" />
+		from sys_tag where type=#{type}
+		<if test="directionId != null and directionId != ''"> and direction_id = #{directionId}</if>
+		AND  deleted=0
+	</select>
+
+	<!--&lt;!&ndash;更新标签表  当保存课程时同时 更新课程对标签的使用数&ndash;&gt;
+	<update id="updateSysTagById" parameterType="java.lang.Integer">
+		update sys_tag
+		SET  num=num+1
+		<where>id = #{sysTagId}</where>
+	</update>
+-->
+
+	<!-- 标签管理信息 -->
+	<select id="pageCateInfo" resultType="Map" parameterType="SysTagSerach">
+		select d.id, d.category_desc as tagdesc,st.courseNum as tagNum from category_direction d LEFT JOIN
+		(select count(t.id) as courseNum,t.direction_id from sys_tag t where t.direction_id !=0 and t.deleted = 0 GROUP BY t.direction_id ) st
+		 ON st.direction_id = d.id where d.deleted = 0
+		<if test="derectionIds!=null and derectionIds.length > 0">
+			and d.id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+		 limit #{start},#{length}
+	</select>
+
+	<select id="countCateInfo" resultType="long" parameterType="SysTagSerach">
+		select count(d.id) from category_direction d LEFT JOIN
+		(select count(t.id) as courseNum,t.direction_id from sys_tag t where t.direction_id !=0 and t.deleted = 0 GROUP BY t.direction_id ) st
+		 ON st.direction_id = d.id where d.deleted = 0
+		<if test="derectionIds!=null and derectionIds.length > 0">
+			and d.id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 标签信息 -->
+	<select id="pageInfo" resultMap="sysTagResultMap" parameterType="SysTagSerach">
+		select s.*,t.courseNum from sys_tag  s
+		<if test="type != null and type != '' and type == 1">
+			LEFT JOIN
+			(select count(c.id) as courseNum,a.suitable_id from course c JOIN course_suitable a  ON a.course_id = c.id
+			AND c.deleted = 0 and c.online_state = 1 and c.direction_id = #{directionId} GROUP BY a.suitable_id) t ON  s.id=t.suitable_id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+		<if test="type != null and type != '' and type == 2">
+			LEFT JOIN
+			(select count(c.id) as courseNum,a.advantage_id from course c JOIN course_advantage a ON a.course_id = c.id
+			AND c.deleted = 0 and c.online_state = 1 and c.direction_id = #{directionId} GROUP BY a.advantage_id ) t ON t.advantage_id = s.id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+		<if test="type != null and type != '' and type == 3">
+			LEFT JOIN
+			(
+				select count(c.id) as courseNum,a.plan_id from set_customize_plan c JOIN set_plan_tag a ON a.plan_id = c.id
+				and c.direction_id = #{directionId} GROUP BY a.plan_id
+			) t ON s.id=t.plan_id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+		limit #{start},#{length}
+		<!--
+		<include refid="search_page_where" />-->
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="SysTagSerach">
+		select count(s.id) from sys_tag  s
+		<if test="type != null and type != '' and type == 1">
+			LEFT JOIN
+			(select count(c.id) as courseNum,a.suitable_id from course c JOIN course_suitable a  ON a.course_id = c.id
+			AND c.deleted = 0 and c.online_state = 1 and c.direction_id = #{directionId} GROUP BY a.suitable_id) t ON  s.id=t.suitable_id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+		<if test="type != null and type != '' and type == 2">
+			LEFT JOIN
+			(select count(c.id) as courseNum,a.advantage_id from course c JOIN course_advantage a ON a.course_id = c.id
+			AND c.deleted = 0 and c.online_state = 1 and c.direction_id = #{directionId} GROUP BY a.advantage_id ) t ON t.advantage_id = s.id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+		<if test="type != null and type != '' and type == 3">
+			LEFT JOIN
+			(
+			select count(c.id) as courseNum,a.plan_id from set_customize_plan c JOIN set_plan_tag a ON a.plan_id = c.id
+			and c.direction_id = #{directionId} GROUP BY a.plan_id
+			) t ON s.id=t.plan_id
+			where s.deleted = 0
+			and s.type = #{type}
+			and s.direction_id = #{directionId}
+		</if>
+	</select>
+
+	<update id="deleteById" parameterType="SysTag">
+		update sys_tag
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="checkTagUnique" resultType="int" parameterType="SysTag">
+		select count(id) from sys_tag
+		<trim prefix="where" prefixOverrides="and | or" >
+			deleted = 0
+			<if test="id != null">AND id != #{id} </if>
+			<if test="content != null and content != ''"> AND content = #{content} </if>
+			<if test="directionId != null and directionId != ''">AND direction_id = #{directionId} </if>
+		</trim>
+	</select>
+
+	<!-- 适合对象关联视频 -->
+	<select id="searchSuitableVideo" resultType="Map" parameterType="SysTagSerach">
+		select c.id as courseId,c.title as courseTitle,c.create_date as createTime,l.lecture_name as lectureName from course_suitable s
+		LEFT JOIN course c ON s.course_id = c.id  JOIN course_lecture l ON l.course_id = c.id
+		WHERE  1=1
+		AND c.deleted = 0 and c.online_state = 1
+		<if test="tagId != null and tagId != ''">AND  s.suitable_id = #{tagId}	</if>
+		limit #{start},#{length}
+	</select>
+	<select id="countSuitableInfo" resultType="long" parameterType="SysTagSerach">
+		select count(s.id) from course_suitable s LEFT JOIN course c ON s.course_id = c.id  JOIN course_lecture l ON l.course_id = c.id
+		WHERE  1=1
+		AND c.deleted = 0 and c.online_state = 1
+		<if test="tagId != null and tagId != ''">AND  s.suitable_id = #{tagId}	</if>
+	</select>
+
+	<!-- 课程优势关联视频 -->
+	<select id="searchAdvantageVideo" resultType="Map" parameterType="java.lang.Integer">
+		select c.id as courseId,c.title as courseTitle,c.create_date as createTime,l.lecture_name as lectureName from course_advantage a
+		LEFT JOIN course c ON a.course_id = c.id  JOIN course_lecture l ON l.course_id = c.id
+		WHERE  1=1
+		AND c.deleted = 0 and c.online_state = 1
+		<if test="tagId != null and tagId != ''">AND a.advantage_id = #{tagId} </if>
+		limit #{start},#{length}
+	</select>
+	<select id="countAdvantageInfo" resultType="long" parameterType="SysTagSerach">
+		select count(a.id) from course_advantage a LEFT JOIN course c ON a.course_id = c.id  JOIN course_lecture l ON l.course_id = c.id
+		WHERE  1=1
+		AND c.deleted = 0 and c.online_state = 1
+		<if test="tagId != null and tagId != ''">AND a.advantage_id = #{tagId} </if>
+	</select>
+	<!-- 关联计划 -->
+	<select id="searchPlans" resultType="Map" parameterType="java.lang.Integer">
+		select pt.plan_id as planId,p.plan_describe as planDescribe,p.create_time as createTime  from set_plan_tag pt JOIN set_customize_plan p ON p.id = pt.plan_id
+		WHERE  1=1
+		<if test="tagId != null and tagId != ''">AND pt.plan_tag_id = #{tagId} </if>
+		limit #{start},#{length}
+	</select>
+	<select id="countPlansInfo" resultType="long" parameterType="SysTagSerach">
+		select count(pt.id)  from set_plan_tag pt JOIN set_customize_plan p ON p.id = pt.plan_id
+		WHERE  1=1
+		<if test="tagId != null and tagId != ''">AND pt.plan_tag_id = #{tagId} </if>
+	</select>
+
+</mapper>

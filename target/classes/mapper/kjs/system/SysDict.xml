@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.SysDictMapper">
+	<resultMap type="SysDict" id="sysDictResultMap">
+		<result property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="content" column="content" />
+		<result property="createTime" column="create_time" />
+		<result property="state" column="state" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		type,
+		content,
+		create_time,
+		state
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{type},
+		#{content},
+		#{createTime},
+		#{state}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="SysDict" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_dict( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from sys_dict
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="SysDict">
+		update sys_dict
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="state != null and state != ''">state = #{state},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysDictResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_dict
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysDictResultMap">
+		select <include refid="table_columns" /> 
+		from sys_dict
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="state != null and state != ''">and state = #{state}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="sysDictResultMap" parameterType="SysDict">
+		select <include refid="table_columns" />
+		from sys_dict
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="sysDictResultMap" parameterType="SysDict">
+		select <include refid="table_columns" />
+		from sys_dict
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="SysDict">
+        select count(id) from sys_dict
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+	<delete id="deleteObj">
+		delete from sys_dict where type = #{type}
+	</delete>
+
+</mapper>

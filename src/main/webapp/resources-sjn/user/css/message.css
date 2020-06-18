@@ -1,0 +1,9 @@
+.userR-title a:hover{color: #333333 !important;}
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: #444444 !important;
+    background-color: #444444 !important;
+    color: #fff;
+}
+.layui-layer-btn a:hover{border-color: #333333 !important;
+    background-color: #333333 !important;
+    color: #fff;}

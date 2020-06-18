@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserVipMapper">
+	<resultMap type="UserVip" id="userVipResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="vipId" column="vip_id" />
+		<result property="orderId" column="order_id" />
+		<result property="vipName" column="vip_name" />
+		<result property="addTime" column="add_time" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="describle" column="describle" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		user_id,
+		vip_id,
+		order_id,
+		vip_name,
+		add_time,
+		start_date,
+		end_date,
+		describle
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{vipId},
+		#{orderId},
+		#{vipName},
+		#{addTime},
+		#{startDate},
+		#{endDate},
+		#{describle}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserVip" useGeneratedKeys="true" keyProperty="id">
+		insert into user_vip( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="delete" >
+		delete from user_vip
+		where id = #{id}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from user_vip
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="UserVip">
+		update user_vip
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="vipId != null and vipId != ''">vip_id = #{vipId},</if>
+			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+			<if test="vipName != null and vipName != ''">vip_name = #{vipName},</if>
+			<if test="addTime != null and addTime != ''">add_time = #{addTime},</if>
+			<if test="startDate != null and startDate != ''">start_date = #{startDate},</if>
+			<if test="endDate != null and endDate != ''">end_date = #{endDate},</if>
+			<if test="describle != null and describle != ''">describle = #{describle},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="userVipResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_vip
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="userVipResultMap">
+		select <include refid="table_columns" />
+		from user_vip
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="vipId != null and vipId != ''">and vip_id = #{vipId}</if>
+			<if test="orderId != null and orderId != ''">and order_id = #{orderId}</if>
+			<if test="vipName != null and vipName != ''">and vip_name = #{vipName}</if>
+			<if test="addTime != null and addTime != ''">and add_time = #{addTime}</if>
+			<if test="startDate != null and startDate != ''">and start_date = #{startDate}</if>
+			<if test="endDate != null and endDate != ''">and end_date = #{endDate}</if>
+			<if test="describle != null and describle != ''">and describle = #{describle}</if>
+		</trim>
+	</sql>
+
+	<sql id="new_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="directionId != null and directionId != ''"> </if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="userVipResultMap" parameterType="UserVip">
+		select <include refid="table_columns" />
+		from user_vip
+		<include refid="page_where" />
+	</select>
+
+	<select id="page" resultMap="userVipResultMap" parameterType="UserManagerSerach">
+		select <include refid="table_columns" />
+		from user_vip
+		<include refid="new_page_where" />
+		limit #{start},#{length}
+	</select>
+
+	<select id="count" resultType="long" parameterType="UserManagerSerach">
+		select count(id) from user_vip
+		<include refid="new_page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+
+	<!-- 购买记录 -->
+	<select id="pageInfo" resultType="Map" parameterType="UserManagerSerach">
+		SELECT
+			o.id,o.order_num,o.program_name as vipTerm,o.pay_time
+		FROM pay_order o
+		WHERE o.deleted= 0 and o.pay_status = 1
+		<if test="userId != null and userId != ''">
+			and o.user_id = #{userId}
+		</if>
+		limit #{start},#{length}
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="UserManagerSerach">
+		SELECT count(o.id) FROM pay_order o WHERE o.deleted= 0 and o.pay_status = 1
+		<if test="userId != null and userId != ''">
+			and o.user_id = #{userId}
+		</if>
+	</select>
+	<select id="findByUserId" resultMap="userVipResultMap" >
+		select <include refid="table_columns" />
+		from user_vip
+		where user_id = #{id}
+		order by end_date desc
+	</select>
+	<select id="findByUserId4Refund" resultMap="userVipResultMap" >
+		select <include refid="table_columns" />
+		from user_vip
+		where user_id = #{id} and end_date > now()
+		order by end_date asc
+	</select>
+
+	<select id="findLastPayDate" resultMap="userVipResultMap">
+		select id,user_id,max(add_time) as add_time from user_vip u2 GROUP BY u2.user_id
+	</select>
+
+</mapper>

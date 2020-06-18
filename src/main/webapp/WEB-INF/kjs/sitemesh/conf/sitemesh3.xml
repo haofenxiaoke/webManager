@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <!-- 需要进行装饰的文本类型 -->
+    <mime-type>text/html</mime-type>
+    <!--需要进行装饰的url-->
+    <mapping path="/*" decorator="/WEB-INF/kjs/sitemesh/decorator/main.jsp" />
+    <mapping path="*.html" exclue="true"/>
+    <mapping path="/login" exclue="true"/>
+    <mapping path="/userCenter/right/**" exclue="true"/>
+    <mapping path="/upload/preview" exclude="true"/>
+    <mapping path="/pay/**" exclude="true"/>
+    <mapping path="/live/play/*" exclude="true"/>
+    <mapping path="/live/reviewLive/*" exclude="true"/>
+	<mapping path="/course/*" exclude="true"/>
+	<mapping path="/course" exclude="true"/>
+	
+    <mapping path="/pay/wx" decorator="/WEB-INF/kjs/sitemesh/decorator/buy.jsp"/>
+    <mapping path="/order/buy" decorator="/WEB-INF/kjs/sitemesh/decorator/buy.jsp"/>
+    <mapping path="/test.jsp" exclude="true" />
+    <mapping path="/test" exclude="true" />
+    <mapping path="/consult/setting" exclude="true" />
+</sitemesh>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseCustomizePlanDetailMapper">
+	<resultMap type="CourseCustomizePlanDetail" id="courseCustomizePlanDetailResultMap">
+		<result property="id" column="id" />
+		<result property="planId" column="plan_id" />
+		<result property="planDay" column="plan_day" />
+		<result property="planStage" column="plan_stage" />
+		<result property="describle" column="describle" />
+		<result property="stageHour" column="stage_hour" />
+		<result property="stageLectureNode" column="stage_lecture_node" />
+		<result property="stageDataNode" column="stage_data_node" />
+		<result property="stageCourseId" column="stage_course_id" />
+		<result property="planDuration" column="plan_duration" />
+		<result property="completeProgress" column="complete_progress" />
+		<result property="optime" column="optime" />
+		<result property="userid" column="userid" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		plan_id,
+		plan_day,
+		plan_stage,
+		describle,
+		stage_hour,
+		stage_lecture_node,
+		stage_data_node,
+		stage_course_id,
+		plan_duration,
+		complete_progress,
+		optime,
+		userid,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{planId},
+		#{planDay},
+		#{planStage},
+		#{describle},
+		#{stageHour},
+		#{stageLectureNode},
+		#{stageDataNode},
+		#{stageCourseId},
+		#{planDuration},
+		#{completeProgress},
+		#{optime},
+		#{userid},
+		#{deleted}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseCustomizePlanDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into course_customize_plan_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_customize_plan_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseCustomizePlanDetail">
+		update course_customize_plan_detail 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planId != null and planId != ''">plan_id = #{planId},</if>
+			<if test="planDay != null and planDay != ''">plan_day = #{planDay},</if>
+			<if test="planStage != null and planStage != ''">plan_stage = #{planStage},</if>
+			<if test="describle != null and describle != ''">describle = #{describle},</if>
+			<if test="stageHour != null and stageHour != ''">stage_hour = #{stageHour},</if>
+			<if test="stageLectureNode != null and stageLectureNode != ''">stage_lecture_node = #{stageLectureNode},</if>
+			<if test="stageDataNode != null and stageDataNode != ''">stage_data_node = #{stageDataNode},</if>
+			<if test="stageCourseId != null and stageCourseId != ''">stage_course_id = #{stageCourseId},</if>
+			<if test="planDuration != null and planDuration != ''">plan_duration = #{planDuration},</if>
+			<if test="completeProgress != null and completeProgress != ''">complete_progress = #{completeProgress},</if>
+			<if test="optime != null and optime != ''">optime = #{optime},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseCustomizePlanDetailResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_customize_plan_detail
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseCustomizePlanDetailResultMap">
+		select <include refid="table_columns" /> 
+		from course_customize_plan_detail
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="planId != null and planId != ''">and plan_id = #{planId}</if>
+			<if test="planDay != null and planDay != ''">and plan_day = #{planDay}</if>
+			<if test="planStage != null and planStage != ''">and plan_stage = #{planStage}</if>
+			<if test="describle != null and describle != ''">and describle = #{describle}</if>
+			<if test="stageHour != null and stageHour != ''">and stage_hour = #{stageHour}</if>
+			<if test="stageLectureNode != null and stageLectureNode != ''">and stage_lecture_node = #{stageLectureNode}</if>
+			<if test="stageDataNode != null and stageDataNode != ''">and stage_data_node = #{stageDataNode}</if>
+			<if test="stageCourseId != null and stageCourseId != ''">and stage_course_id = #{stageCourseId}</if>
+			<if test="planDuration != null and planDuration != ''">and plan_duration = #{planDuration}</if>
+			<if test="completeProgress != null and completeProgress != ''">and complete_progress = #{completeProgress}</if>
+			<if test="optime != null and optime != ''">and optime = #{optime}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseCustomizePlanDetailResultMap" parameterType="CourseCustomizePlanDetail">
+		select <include refid="table_columns" />
+		from course_customize_plan_detail
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseCustomizePlanDetailResultMap" parameterType="CourseCustomizePlanDetail">
+		select <include refid="table_columns" />
+		from course_customize_plan_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseCustomizePlanDetail">
+        select count(id) from course_customize_plan_detail
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

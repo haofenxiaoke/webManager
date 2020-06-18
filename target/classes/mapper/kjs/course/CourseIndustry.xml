@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseIndustryMapper">
+	<resultMap type="CourseIndustry" id="courseIndustryResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="industryId" column="industry_id" />
+		<result property="createTime" column="create_time" />
+		<result property="authorityUserId" column="authority_user_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		industry_id,
+		create_time,
+		authority_user_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{industryId},
+		#{createTime},
+		#{authorityUserId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseIndustry" useGeneratedKeys="true">
+		insert into course_industry( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_industry
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseIndustry">
+		update course_industry 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="industryId != null and industryId != ''">industry_id = #{industryId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="authorityUserId != null and authorityUserId != ''">authority_user_id = #{authorityUserId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseIndustryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_industry
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseIndustryResultMap">
+		select <include refid="table_columns" /> 
+		from course_industry
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="industryId != null and industryId != ''">and industry_id = #{industryId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="authorityUserId != null and authorityUserId != ''">and authority_user_id = #{authorityUserId}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseIndustryResultMap" parameterType="CourseIndustry">
+		select <include refid="table_columns" />
+		from course_industry
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseIndustryResultMap" parameterType="CourseIndustry">
+		select <include refid="table_columns" />
+		from course_industry
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseIndustry">
+        select count(id) from course_industry
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+<!--保存课程行业对应关系-->
+	<insert id="saveCourseIndustry" parameterType="CourseIndustry" useGeneratedKeys="true" keyProperty="id">
+		insert into course_industry( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteCourseIndustry" parameterType="java.lang.Integer">
+		delete  from course_industry
+		<where>course_id = #{courseId}</where>
+	</delete>
+	<!--删除行业时验证关联-->
+	<select id="countCheckDelInd" resultType="int" parameterType="java.lang.Integer">
+		select count(id) from course_industry
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="industryId != null and industryId != ''">industry_id = #{industryId}</if>
+		</trim>
+	</select>
+</mapper>

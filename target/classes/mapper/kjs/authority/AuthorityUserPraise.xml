@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.model.AuthorityUserPraise">
+	<resultMap type="AuthorityUserPraise" id="authorityUserPraiseResultMap">
+		<result property="id" column="id" />
+		<result property="praiseContent" column="praise_content" />
+		<result property="url" column="url" />
+		<result property="optime" column="optime" />
+		<result property="userid" column="userid" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		praise_content,
+		url,
+		optime,
+		userid
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{praiseContent},
+		#{url},
+		#{optime},
+		#{userid}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityUserPraise" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_user_praise( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_user_praise
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityUserPraise">
+		update authority_user_praise 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="praiseContent != null and praiseContent != ''">praise_content = #{praiseContent},</if>
+			<if test="url != null and url != ''">url = #{url},</if>
+			<if test="optime != null and optime != ''">optime = #{optime},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityUserPraiseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from authority_user_praise
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authorityUserPraiseResultMap">
+		select <include refid="table_columns" /> 
+		from authority_user_praise
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="praiseContent != null and praiseContent != ''">and praise_content = #{praiseContent}</if>
+			<if test="url != null and url != ''">and url = #{url}</if>
+			<if test="optime != null and optime != ''">and optime = #{optime}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="authorityUserPraiseResultMap" parameterType="AuthorityUserPraise">
+		select <include refid="table_columns" />
+		from authority_user_praise
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="authorityUserPraiseResultMap" parameterType="AuthorityUserPraise">
+		select <include refid="table_columns" />
+		from authority_user_praise
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityUserPraise">
+        select count(id) from authority_user_praise
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

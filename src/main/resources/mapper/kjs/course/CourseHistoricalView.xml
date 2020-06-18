@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseHistoricalViewMapper">
+	<resultMap type="CourseHistoricalView" id="courseHistoricalViewResultMap">
+		<result property="id" column="id" />
+		<result property="liveId" column="live_id" />
+		<result property="courseName" column="course_name" />
+		<result property="courseUrl" column="course_url" />
+		<result property="courseStu" column="course_stu" />
+		<result property="courseScore" column="course_score" />
+		<result property="lectureNum" column="lecture_num" />
+		<result property="lectureTotal" column="lecture_total" />
+		<result property="lectureScore" column="lecture_score" />
+		<result property="watchTime" column="watch_time" />
+		<result property="watchProgress" column="watch_progress" />
+		<result property="lastWatchTime" column="last_watch_time" />
+		<result property="userid" column="userid" />
+		<result property="usertype" column="usertype" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		live_id,
+		course_name,
+		course_url,
+		course_stu,
+		course_score,
+		lecture_num,
+		lecture_total,
+		lecture_score,
+		watch_time,
+		watch_progress,
+		last_watch_time,
+		userid,
+		usertype
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{liveId},
+		#{courseName},
+		#{courseUrl},
+		#{courseStu},
+		#{courseScore},
+		#{lectureNum},
+		#{lectureTotal},
+		#{lectureScore},
+		#{watchTime},
+		#{watchProgress},
+		#{lastWatchTime},
+		#{userid},
+		#{usertype}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseHistoricalView" useGeneratedKeys="true" keyProperty="id">
+		insert into course_historical_view( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_historical_view
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseHistoricalView">
+		update course_historical_view 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="liveId != null and liveId != ''">live_id = #{liveId},</if>
+			<if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+			<if test="courseUrl != null and courseUrl != ''">course_url = #{courseUrl},</if>
+			<if test="courseStu != null and courseStu != ''">course_stu = #{courseStu},</if>
+			<if test="courseScore != null and courseScore != ''">course_score = #{courseScore},</if>
+			<if test="lectureNum != null and lectureNum != ''">lecture_num = #{lectureNum},</if>
+			<if test="lectureTotal != null and lectureTotal != ''">lecture_total = #{lectureTotal},</if>
+			<if test="lectureScore != null and lectureScore != ''">lecture_score = #{lectureScore},</if>
+			<if test="watchTime != null and watchTime != ''">watch_time = #{watchTime},</if>
+			<if test="watchProgress != null and watchProgress != ''">watch_progress = #{watchProgress},</if>
+			<if test="lastWatchTime != null and lastWatchTime != ''">last_watch_time = #{lastWatchTime},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="usertype != null and usertype != ''">usertype = #{usertype},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseHistoricalViewResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_historical_view
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseHistoricalViewResultMap">
+		select <include refid="table_columns" /> 
+		from course_historical_view
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="liveId != null and liveId != ''">and live_id = #{liveId}</if>
+			<if test="courseName != null and courseName != ''">and course_name = #{courseName}</if>
+			<if test="courseUrl != null and courseUrl != ''">and course_url = #{courseUrl}</if>
+			<if test="courseStu != null and courseStu != ''">and course_stu = #{courseStu}</if>
+			<if test="courseScore != null and courseScore != ''">and course_score = #{courseScore}</if>
+			<if test="lectureNum != null and lectureNum != ''">and lecture_num = #{lectureNum}</if>
+			<if test="lectureTotal != null and lectureTotal != ''">and lecture_total = #{lectureTotal}</if>
+			<if test="lectureScore != null and lectureScore != ''">and lecture_score = #{lectureScore}</if>
+			<if test="watchTime != null and watchTime != ''">and watch_time = #{watchTime}</if>
+			<if test="watchProgress != null and watchProgress != ''">and watch_progress = #{watchProgress}</if>
+			<if test="lastWatchTime != null and lastWatchTime != ''">and last_watch_time = #{lastWatchTime}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="usertype != null and usertype != ''">and usertype = #{usertype}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseHistoricalViewResultMap" parameterType="CourseHistoricalView">
+		select <include refid="table_columns" />
+		from course_historical_view
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseHistoricalViewResultMap" parameterType="CourseHistoricalView">
+		select <include refid="table_columns" />
+		from course_historical_view
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseHistoricalView">
+        select count(id) from course_historical_view
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

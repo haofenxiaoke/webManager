@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AuthorityPermissionMapper">
+	<resultMap type="AuthorityPermission" id="authorityPermissionResultMap">
+		<result property="id" column="id" />
+		<result property="roleId" column="role_id" />
+		<result property="resourcesId" column="resources_id" />
+		<result property="resourceCode" column="resources_code" />
+		<result property="operationId" column="operation_id" />
+		<result property="operationCode" column="operation_code" />
+		<result property="categoryId" column="category_id" />
+		<result property="permissionCode" column="permission_code" />
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		role_id,
+		resources_id,
+		resources_code,
+		operation_id,
+		operation_code,
+		category_id,
+		permission_code,
+		last_modify_user_id,
+		last_modify_datetime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{roleId},
+		#{resourcesId},
+		#{resourceCode},
+		#{operationId},
+		#{operationCode},
+		#{categoryId},
+		#{permissionCode},
+		#{lastModifyUserId},
+		#{lastModifyDatetime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityPermission" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_permission( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_permission
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityPermission">
+		update authority_permission 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="roleId != null and roleId != ''">role_id = #{roleId},</if>
+			<if test="resourcesId != null and resourcesId != ''">resources_id = #{resourcesId},</if>
+			<if test="operationId != null and operationId != ''">operation_id = #{operationId},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="permissionCode != null and permissionCode != ''">permission_code = #{permissionCode},</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityPermissionResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from authority_permission
+		where id = #{id}
+	</select>
+
+	<select id="findCateIdByAdmin" resultType="string" >
+		select id,category_id
+		from authority_permission
+	</select>
+
+	<select id="queryAll" resultMap="authorityPermissionResultMap">
+		select <include refid="table_columns" /> 
+		from authority_permission
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="roleId != null and roleId != ''">and role_id = #{roleId}</if>
+			<if test="resourcesId != null and resourcesId != ''">and resources_id = #{resourcesId}</if>
+			<if test="operationId != null and operationId != ''">and operation_id = #{operationId}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="permissionCode != null and permissionCode != ''">and permission_code = #{permissionCode}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="authorityPermissionResultMap" parameterType="AuthorityPermission">
+		select <include refid="table_columns" />
+		from authority_permission
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="authorityPermissionResultMap" parameterType="AuthorityPermission">
+		select <include refid="table_columns" />
+		from authority_permission
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityPermission">
+        select count(id) from authority_permission
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+
+    <!-- 根据用户ID获取权限数据 -->
+	<select id="getPermissionByUserID" resultMap="authorityPermissionResultMap" parameterType="long">
+	    select p.* from authority_roles r
+		inner join authority_user_role ur on r.id = ur.role_id
+		inner join authority_users u on u.id = ur.user_id
+		inner join authority_permission p on ur.role_id = p.role_id
+		where r.enable = 1 and u.id = #{uid}
+	</select>
+
+
+	<select id="getMenuIdByRoleId" resultType="long" parameterType="java.util.Map">
+		select resources_id from authority_permission where  role_id = #{roleId} group by resources_id
+	</select>
+
+	<select id="getOperIdByRoleMenu" resultType="long" parameterType="java.util.Map">
+		select operation_id from authority_permission where  role_id = #{roleId} and resources_id = #{menuId} group by operation_id
+	</select>
+
+	<select id="getCateIdByRoleMenuOper" resultType="String" parameterType="java.util.Map">
+		select category_id from authority_permission where  role_id = #{roleId} and resources_id = #{menuId} and operation_id = #{operId}
+	</select>
+
+    <delete id="delRoleAuth" parameterType="java.util.Map">
+         delete from authority_permission
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="roleId != null">and role_id = #{roleId}</if>
+			<if test="resourcesId != null">and resources_id = #{resourcesId}</if>
+			<if test="operationId != null">and operation_id = #{operationId}</if>
+		</trim>
+	</delete>
+
+
+</mapper>

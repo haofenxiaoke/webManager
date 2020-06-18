@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.VipInfoMapper">
+	<resultMap type="VipInfo" id="vipInfoResultMap">
+		<result property="id" column="id" />
+		<result property="isshelves" column="isshelves" />
+		<result property="addTime" column="add_time" />
+		<result property="describle" column="describle" />
+		<result property="addUserid" column="add_userid" />
+		<result property="permission1" column="permission1" />
+		<result property="permission2" column="permission2" />
+		<result property="permission3" column="permission3" />
+		<result property="permission4" column="permission4" />
+		<result property="permission5" column="permission5" />
+		<result property="permission6" column="permission6" />
+		<result property="permission7" column="permission7" />
+		<result property="permission8" column="permission8" />
+		<result property="price" column="price" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		isshelves,
+		add_time,
+		describle,
+		add_userid,
+		permission1,
+		permission2,
+		permission3,
+		permission4,
+		permission5,
+		permission6,
+		permission7,
+		permission8,
+		price,
+		days
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{isshelves},
+		#{addTime},
+		#{describle},
+		#{addUserid},
+		#{permission1},
+		#{permission2},
+		#{permission3},
+		#{permission4},
+		#{permission5},
+		#{permission6},
+		#{permission7},
+		#{permission8},
+		#{price},
+		#{days}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="VipInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into vip_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from vip_info
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="VipInfo">
+		update vip_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="isshelves != null and isshelves != ''">isshelves = #{isshelves},</if>
+			<if test="addTime != null and addTime != ''">add_time = #{addTime},</if>
+			<if test="describle != null and describle != ''">describle = #{describle},</if>
+			<if test="addUserid != null and addUserid != ''">add_userid = #{addUserid},</if>
+			<if test="permission1 != null and permission1 != ''">permission1 = #{permission1},</if>
+			<if test="permission2 != null and permission2 != ''">permission2 = #{permission2},</if>
+			<if test="permission3 != null and permission3 != ''">permission3 = #{permission3},</if>
+			<if test="permission4 != null and permission4 != ''">permission4 = #{permission4},</if>
+			<if test="permission5 != null and permission5 != ''">permission5 = #{permission5},</if>
+			<if test="permission6 != null and permission6 != ''">permission6 = #{permission6},</if>
+			<if test="permission7 != null and permission7 != ''">permission7 = #{permission7},</if>
+			<if test="permission8 != null and permission8 != ''">permission8 = #{permission8},</if>
+			<if test="price != null and price != ''">price = #{price},</if>
+			<if test="days != null and days != ''">days = #{days},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="vipInfoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from vip_info
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="vipInfoResultMap">
+		select <include refid="table_columns" /> 
+		from vip_info
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="isshelves != null and isshelves != ''">and isshelves = #{isshelves}</if>
+			<if test="addTime != null and addTime != ''">and add_time = #{addTime}</if>
+			<if test="describle != null and describle != ''">and describle = #{describle}</if>
+			<if test="addUserid != null and addUserid != ''">and add_userid = #{addUserid}</if>
+			<if test="permission1 != null and permission1 != ''">and permission1 = #{permission1}</if>
+			<if test="permission2 != null and permission2 != ''">and permission2 = #{permission2}</if>
+			<if test="permission3 != null and permission3 != ''">and permission3 = #{permission3}</if>
+			<if test="permission4 != null and permission4 != ''">and permission4 = #{permission4}</if>
+			<if test="permission5 != null and permission5 != ''">and permission5 = #{permission5}</if>
+			<if test="permission6 != null and permission6 != ''">and permission6 = #{permission6}</if>
+			<if test="permission7 != null and permission7 != ''">and permission7 = #{permission7}</if>
+			<if test="permission8 != null and permission8 != ''">and permission8 = #{permission8}</if>
+			<if test="price != null and price != ''">and price = #{price}</if>
+			<if test="days != null and days != ''">and days = #{days}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="vipInfoResultMap" parameterType="VipInfo">
+		select <include refid="table_columns" />
+		from vip_info
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="vipInfoResultMap" parameterType="VipInfo">
+		select <include refid="table_columns" />
+		from vip_info
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="VipInfo">
+        select count(id) from vip_info
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserVisitMapper">
+	<resultMap type="UserVisit" id="userVisitResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="refererUrl" column="referer_url" />
+		<result property="currentUrl" column="current_url" />
+		<result property="visitTime" column="visit_time" />
+		<result property="stayTime" column="stay_time" />
+		<result property="visitIp" column="visit_ip" />
+		<result property="gid" column="gid" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		user_visit.id,
+		user_visit.user_id,
+		user_visit.referer_url,
+		user_visit.current_url,
+		user_visit.visit_time,
+		user_visit.stay_time,
+		user_visit.visit_ip,
+		user_visit.gid
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{refererUrl},
+		#{currentUrl},
+		#{visitTime},
+		#{stayTime},
+		#{visitIp},
+		#{gid}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserVisit" useGeneratedKeys="true" keyProperty="id">
+		insert into user_visit( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from user_visit
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="UserVisit">
+		update user_visit 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="refererUrl != null and refererUrl != ''">referer_url = #{refererUrl},</if>
+			<if test="currentUrl != null and currentUrl != ''">current_url = #{currentUrl},</if>
+			<if test="visitTime != null and visitTime != ''">visit_time = #{visitTime},</if>
+			<if test="stayTime != null and stayTime != ''">stay_time = #{stayTime},</if>
+			<if test="visitIp != null and visitIp != ''">visit_ip = #{visitIp},</if>
+			<if test="gid != null and gid != ''">gid = #{gid},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userVisitResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_visit
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userVisitResultMap">
+		select <include refid="table_columns" /> 
+		from user_visit
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="refererUrl != null and refererUrl != ''">and referer_url = #{refererUrl}</if>
+			<if test="currentUrl != null and currentUrl != ''">and current_url = #{currentUrl}</if>
+			<if test="visitTime != null and visitTime != ''">and visit_time = #{visitTime}</if>
+			<if test="stayTime != null and stayTime != ''">and stay_time = #{stayTime}</if>
+			<if test="visitIp != null and visitIp != ''">and visit_ip = #{visitIp}</if>
+			<if test="gid != null and gid != ''">and gid = #{gid}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="userVisitResultMap" parameterType="UserVisit">
+		select <include refid="table_columns" />
+		from user_visit
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="userVisitResultMap" parameterType="UserVisit">
+		select <include refid="table_columns" />
+		from user_visit
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="UserVisit">
+        select count(id) from user_visit
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<select id="findByGid" resultMap="userVisitResultMap">
+		select <include refid="table_columns" />
+		from user_visit
+		where gid = #{gid}
+		order by visit_time ASC
+	</select>
+	
+</mapper>

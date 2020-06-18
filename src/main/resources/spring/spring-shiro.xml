@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+    <description>Shiro 配置</description>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+         <property name="securityManager" ref="securityManager"></property>
+         <!-- 添加系统自定义的过滤器 -->
+         <property name="filters">
+             <util:map>
+                 <entry key="access" value-ref="accessCheckFilter"/>
+                 <entry key="cookie" value-ref="cookieFilter"/>
+             </util:map>
+         </property>
+          <property name="filterChainDefinitions">
+              <value>
+                  /resources/** = anon
+                  /auth/* = anon
+                  /** = cookie,access
+              </value>
+          </property>
+    </bean>
+
+    <!-- shiro 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="authRealm"></property>
+        <property name="cacheManager" ref="cacheManager"></property>
+       <!-- <property name="sessionManager" ref="defaultWebSessionManager"></property>-->
+    </bean>
+
+    <!-- Shiro授权数据源 -->
+    <bean id="authRealm" class="com.kjs.common.realm.AuthRealm"></bean>
+
+    <!-- shiro 缓存 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/shiro-ehcache.xml"/>
+    </bean>
+    <!-- shiro web环境下默认的session管理器,自己管理session,独立Servlet容器. -->
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+       <!-- 全局的session 过期时间 -->
+       <property name="globalSessionTimeout" value="1800000"/>
+       <!-- 删除过期无效的session -->
+       <property name="deleteInvalidSessions" value="true"/>
+       <property name="sessionIdCookieEnabled" value="true"></property>
+       <property name="sessionIdCookie" ref="cookieSession"></property>
+       <property name="sessionDAO" ref="shiroSessionDao"></property>
+    </bean>
+    <!-- cookieSession-->
+    <bean id="cookieSession" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <property name="name" value="SID"></property>
+        <property name="httpOnly" value="true"></property>
+        <property name="maxAge" value="-1"></property>
+    </bean>
+    <!-- shiroSessionDao-->
+    <bean id="shiroSessionDao" class="com.kjs.common.session.ShiroSessionDao">
+         <property name="shiroSessionRepository" ref="ShiroSessionRepository"></property>
+    </bean>
+    <!-- shiroSession仓库-->
+    <bean id="ShiroSessionRepository" class="com.kjs.common.session.RedisShiroSessionRepository">
+         <property name="redisTemplate" ref="ShiroSessionRedisTemplate"></property>
+    </bean>
+
+    <!-- 自动绑定SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+    <!-- shiro 入口过滤器  -->
+    <bean id="accessCheckFilter" class="com.kjs.web.filter.AccessCheckFilter">
+        <property name="enabled"   value="true"></property>
+    </bean>
+    <!-- shiro cookie过滤器 start -->
+    <bean id="cookieFilter" class="com.kjs.web.filter.CookieFilter">
+        <property name="enabled"   value="true"></property>
+    </bean>
+
+</beans>

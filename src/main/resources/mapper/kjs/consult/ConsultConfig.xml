@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.ConsultConfigMapper">
+	<resultMap type="ConsultConfig" id="consultConfigResultMap">
+		<result property="id" column="id" />
+		<result property="isSwitch" column="is_switch" />
+		<result property="type" column="type" />
+		<result property="consultUrl" column="consult_url" />
+		<result property="imgUrl" column="img_url" />
+		<result property="pageSwitch" column="page_switch" />
+		<result property="userId" column="user_id" />
+		<result property="ctime" column="ctime" />
+		<result property="utime" column="utime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		consult_config.id,
+		consult_config.is_switch,
+		consult_config.type,
+		consult_config.consult_url,
+		consult_config.img_url,
+		consult_config.page_switch,
+		consult_config.user_id,
+		consult_config.ctime,
+		consult_config.utime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{isSwitch},
+		#{type},
+		#{consultUrl},
+		#{imgUrl},
+		#{pageSwitch},
+		#{userId},
+		#{ctime},
+		#{utime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="ConsultConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into consult_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from consult_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="ConsultConfig">
+		update consult_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="isSwitch != null">is_switch = #{isSwitch},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="consultUrl != null and consultUrl != ''">consult_url = #{consultUrl},</if>
+			<if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+			<if test="pageSwitch != null and pageSwitch != ''">page_switch = #{pageSwitch},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+			<if test="utime != null and utime != ''">utime = #{utime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="consultConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from consult_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="consultConfigResultMap">
+		select <include refid="table_columns" /> 
+		from consult_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="isSwitch != null and isSwitch != ''">and is_switch = #{isSwitch}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="consultUrl != null and consultUrl != ''">and consult_url = #{consultUrl}</if>
+			<if test="imgUrl != null and imgUrl != ''">and img_url = #{imgUrl}</if>
+			<if test="pageSwitch != null and pageSwitch != ''">and page_switch = #{pageSwitch}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="ctime != null and ctime != ''">and ctime = #{ctime}</if>
+			<if test="utime != null and utime != ''">and utime = #{utime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="consultConfigResultMap" parameterType="ConsultConfig">
+		select <include refid="table_columns" />
+		from consult_config
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="consultConfigResultMap" parameterType="ConsultConfig">
+		select <include refid="table_columns" />
+		from consult_config
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="ConsultConfig">
+        select count(id) from consult_config
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

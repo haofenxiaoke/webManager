@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.PayDetailMapper">
+	<resultMap type="PayDetail" id="payDetailResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="orderId" column="order_id" />
+		<result property="money" column="money" />
+		<result property="payNum" column="pay_num" />
+		<result property="payType" column="pay_type" />
+		<result property="payBank" column="pay_bank" />
+		<result property="ctime" column="ctime" />
+		<result property="mtime" column="mtime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		order_id,
+		money,
+		pay_num,
+		pay_type,
+		pay_bank,
+		ctime,
+		mtime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{orderId},
+		#{money},
+		#{payNum},
+		#{payType},
+		#{payBank},
+		#{ctime},
+		#{mtime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="PayDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into pay_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from pay_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="PayDetail">
+		update pay_detail 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+			<if test="money != null and money != ''">money = #{money},</if>
+			<if test="payNum != null and payNum != ''">pay_num = #{payNum},</if>
+			<if test="payType != null and payType != ''">pay_type = #{payType},</if>
+			<if test="payBank != null and payBank != ''">pay_bank = #{payBank},</if>
+			<if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+			<if test="mtime != null and mtime != ''">mtime = #{mtime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="payDetailResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from pay_detail
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="payDetailResultMap">
+		select <include refid="table_columns" /> 
+		from pay_detail
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="orderId != null and orderId != ''">and order_id = #{orderId}</if>
+			<if test="money != null and money != ''">and money = #{money}</if>
+			<if test="payNum != null and payNum != ''">and pay_num = #{payNum}</if>
+			<if test="payType != null and payType != ''">and pay_type = #{payType}</if>
+			<if test="payBank != null and payBank != ''">and pay_bank = #{payBank}</if>
+			<if test="ctime != null and ctime != ''">and ctime = #{ctime}</if>
+			<if test="mtime != null and mtime != ''">and mtime = #{mtime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="payDetailResultMap" parameterType="PayDetail">
+		select <include refid="table_columns" />
+		from pay_detail
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="payDetailResultMap" parameterType="PayDetail">
+		select <include refid="table_columns" />
+		from pay_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="PayDetail">
+        select count(id) from pay_detail
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

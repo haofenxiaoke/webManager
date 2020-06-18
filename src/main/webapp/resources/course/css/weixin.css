@@ -1,0 +1,38 @@
+*{margin: 0;padding: 0;font-family: "微软雅黑";}
+img{border: 0;}
+a{text-decoration: none;}
+input{outline: none;}
+li{list-style-type: none;}
+body{background: #f0f2f5;scrollbar-track-color: #333333;scrollbar-arrow-color: #333333; }
+.weixin-all{width:90%; height:auto;overflow:hidden; margin:20px auto;  }
+.weixin-top{height: 50px; padding-top: 55px; padding-bottom: 55px; background: #FFFFFF;padding-left: 35px; padding-right: 35px;}
+.wxTop-left{height: 100%; float: left;}
+.wxTop-right{float: right;height: 100%;font-size: 14px; color: #666666;}
+.wxTop-right span{font-size: 30px; color: #ff6700; padding-left: 10px; padding-right: 10px;}
+.banphone{font-size: 14px; color: #666666;line-height: 25px;}
+.banbuy{font-size: 12px; color: #999999; line-height: 25px;}
+
+.weixin-bottom{height: auto;overflow: hidden; background: #FFFFFF; margin-top: 15px;padding-left: 35px; padding-right: 35px;padding-bottom: 85px;}
+.botBt{ margin-top: 35px;color: #5583db;font-size: 16px; margin-bottom: 30px;}
+.ewm{ width: 50%; height: auto;overflow: hidden;float: left;}
+.ma{width: 300px;height: auto;overflow: hidden; margin: 0px auto;}
+.ma img{    width: 290px;
+	height: 290px;
+	border: solid 1px #ddd;}
+.ewmsj{ width: 320px; height: 65px;line-height: 65px; font-size: 12px; margin: 0px auto; text-align: center;color: #848484;}
+.ewmsj span{ color: #ff6700;}
+.ewmts{ width: 300px; height: auto;overflow: hidden; margin: 0px auto;}
+.ewmts img{ width: 100%;}
+.tp{ width: 50%; float: right; text-align: left;}
+
+
+
+
+
+
+@media only screen and (max-width: 800px) {
+	.weixin-all{width: 800px; }
+}
+@media only screen and (min-width: 1226px){
+	.weixin-all{width: 1226px; }
+}

@@ -1,0 +1,79 @@
+.liveObj{height: 80px; margin-bottom: 0px;}
+.live_content{ padding-bottom: 0px;
+     min-height:0px;}
+.teacher-all{float: left; width: 200px; height: 80px;}
+.teacher-all img{width: 80px; height: 80px;border-radius: 3px;}
+.end-p{float: left; width: 250px;height: 100%;line-height: 80px;  text-align: center;}
+.liveInfo {
+    margin: 8px 0 0 10px;
+    width:425px;
+}
+.liveJoin{margin-top: 20px;width:170px;}
+.content-m-top{border-bottom: 1px solid #e0e0e0; margin-top: 0px;}
+.heignt-l{height: 15px;}
+.exchange{ height: auto;overflow: hidden;width: 1226px; margin: 0px auto;}
+.near-data{margin-top: 1px; height: auto;overflow: hidden;min-height: 40px; background: #fff;padding: 0px 20px;}
+.near-data ul a{ font-size: 12px; float: left;color: #666666;width: 66px;margin-right: 34px;}
+.near-data ul{ width: 1000px; min-height: 40px; float: left;line-height: 30px;}
+.near-direction{margin-top: 1px; height: auto;overflow: hidden;min-height: 40px; background: #fff;padding: 0px 20px;}
+.dataAll{float: left; width: 50px; font-size: 12px; color: #5583db;min-height: 40px;line-height: 40px;}
+.dataR{float: left;font-size: 12px; color: #999999;width: 40px; min-height: 40px; line-height: 40px;}
+.unwind{float:left; width: 48px; height: 18px; line-height: 20px; border: 1px solid #e0e0e0; margin-top: 10px; color: #5583db; text-align: center;font-size: 12px;display: none; }
+.near-direction ul a{ font-size: 12px; float: left;color: #666666;width: 66px;margin-right: 34px;}
+.near-direction ul{ width: 1000px; min-height: 40px;float: left;line-height: 30px;}
+.each-title{ height: 60px;line-height: 60px;font-size: 18px; padding: 0px 20px;color: #333333;background: #fff;border-bottom: 1px solid #e0e0e0; margin-top: 20px;}
+.sj{ margin-left: 20px;font-size: 14px;}
+
+.None{ height: auto;
+    overflow: hidden;
+background: #fff;}
+.None img{display: block; margin: 0px auto; margin-top: 140px;}
+.None p{ font-size: 18px; height: 18px;line-height: 18px; color: #666666; text-align: center; margin: 30px 0px 140px 0px;}
+.endMan{float: left; font-size: 14px;
+    color: #999999; height: 14px;line-height: 14px; margin: 33px 0px 0px 20px;}
+.kjs-cut{height: 60px; background: #fff; width: 1226px; margin: 0px auto;}
+.kjs-cut li{ float: left; height: 60px;line-height: 60px; text-align: center; width: 100px; }
+.kjs-cut li a{color: #333333; font-size: 14px;}
+.liveInfo .liveInfo_title{ font-weight: 100; font-size: 18px;}
+.pitchUp{
+    height: 58px !important;
+    /*line-height: 58px !important;*/
+    color: #5583db !important;
+    border-bottom: 2px solid #5583db !important;
+    }
+.pitchUpA{ color: #5583db !important;}
+.brother{
+    width: 1226px; height: auto; overflow: hidden; margin: 0px auto;padding-bottom: 50px;
+}
+.liveInfo .fx {
+    display: inline-block;
+    padding: 0px 0px;
+    color: #999999 !important;
+     border-radius: 3px;
+    width: 58px !important;
+    height: 18px;
+    line-height: 20px;
+    border: 1px solid #999999 !important;
+    text-align: center;
+}
+.liveJoin .jjzb{background-color: #fff !important;width: 143px !important; height: 40px !important;}
+.jjzb span{color: #5583db;font-size: 14px;left: 56px;}
+.playback-ico{ background: url("/resources/live/images/yiuhuifang.png") no-repeat; top: 11px;}
+.subscribe-ico{background: url("/resources/live/images/kyuyue.png") no-repeat; top: 11px !important;left: 32px;}
+.subscribe{border: 1px solid #ffffff;}
+.subscribe:hover{border: 1px solid #5583db;}
+.liveObj .liveJoin .end-yes{ background-color: #ffffff !important;border: 1px solid #ffffff !important;    width: 143px !important; height: 40px !important;  line-height: 40px !important;}
+.liveObj .liveJoin .end-no{background-color: #5583db !important;}
+.liveJoin .zzzb{
+    background-color: #ffffff;
+    color: #ff6700;
+}
+.near{}
+.sku-play{top: 1px;}
+.sku-play .sku-one{width: 2px;height: 14px;background:#ff6700;}
+.sku-play .sku-two{width: 2px;height: 10px;background:#ff6700;}
+.sku-play .sku-three{width: 2px;height: 6px;background:#ff6700;}
+.liveJoin .end{background-color: #fff;color: #cccccc;}
+.zw{ height: 5px;}
+.liveInfo .fx{margin-top: 15px;}
+.liveJoin .zzzb img{margin-bottom: 3px;}

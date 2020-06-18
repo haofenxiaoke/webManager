@@ -1,0 +1,37 @@
+.studyZl{width: 902px;margin: 0 auto;padding-bottom: 30px;}
+.studyTable{width: 902px;}
+.studyTable .studyBt{height: 35px;background: #eee;color:#666;text-align: center;}
+.studyTable td{height: 50px;}
+.kjspdf{width: 16px;height: 16px;background-position: 0 -148px;margin-right: 5px;}
+.crouseBtn a{margin: inherit;float:left;margin-right: 10px;color:#fff;}
+.kjsCrouse ul{margin-left: 0px;}
+.crouseAdd{width: 68px;height:28px;background: #fff;border:1px solid #5583db;display: block;border-radius: 3px;text-align: center;float:left;}
+.crouseAdd i{width: 17px;height: 17px;background-position:-143px 0;margin-top: 3px;}
+.crouse-a{float:left;position: relative;}
+.crouse-a a{text-align: left;padding-left: 10px;width:60px;}
+.crouse-a a:hover{color:#fff;}
+.crouse-a i{cursor:pointer;width: 14px;height: 16px;background-position:-162px -3px;margin-top:7px;margin-left: 5px;display:none;position: absolute;right:15px;top:2px;}
+.crouse-time{background: #eee;border:1px solid #e5e5e5;min-height: 120px;margin-top: 20px;}
+.crouseT-mon{float: left;text-align: center;height: 80px;border-right:1px solid #e0e0e0;padding: 0 34px;margin-top: 20px;}
+.crouseT-mon p{color:#5583db;font-size:18px;margin-top: 30px;}
+.crouseT-mon span{color:#999;font-size:12px;}
+.crouseT-study{padding: 0 45px;float: left;margin-top: 20px;font-size: 14px;}
+.crouseT-study i{font-style:normal;color:#999;}
+.crouseT-study p{font-size:24px;}
+.crouseDZ-tit{font-size: 18px;color:#333;margin-top: 30px;}
+.crouseDz-con{padding: 17px 25px 17px 25px;width: 310px;}
+.crouseDz-con p{font-size: 24px;color: #333;}
+.crouseDay{background: #5583db;border-radius: 3px;color:#fff;display: inline-block;height: 20px;line-height: 20px;text-align: center;padding: 0 10px;}
+.crouseDay-time{width: 60px;height: 45px;background: #fff;margin:20px 15px 15px 0px;border-radius:25px;float: left;text-align: center;color:#666;padding-top: 15px;}
+.crouseDay-time span{color:#5583db;}
+.crouseMore{color:#5583DB;}
+.crouse-sl{display: block; color:#666;width: 288px;height: 14px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; margin-bottom: 5px;word-berak:break-all;word-wrap:break-word; }
+.crouseJD{height: 140px;border-left:1px solid #e0e0e0;margin-top: 50px;padding:0 45px;width: 210px;text-align:center;}
+.crouseJD p{font-size: 14px;color:#666;margin-top: -10px;text-align: left;}
+.crouseJD img{margin-top: 30px;}
+
+
+
+
+.play-tc{display:none;width:450px;height:260px;background: #fff;border-radius: 3px;position: fixed;top:0;left:0;bottom:0;right:0;margin:auto;z-index: 1000;}
+.play-black{width: 100%;height: 100%;background: rgba(0,0,0,0.5);position: fixed;z-index: 999;top:0;left:0;}

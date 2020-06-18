@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.PayOrderMapper">
+    <resultMap type="PayOrder" id="payOrderResultMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="payNum" column="pay_num"/>
+        <result property="programId" column="program_id"/>
+        <result property="programName" column="program_name"/>
+        <result property="realpayPrice" column="realpay_price"/>
+        <result property="costPrice" column="cost_price"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="payStatus" column="pay_status"/>
+        <result property="payType" column="pay_type"/>
+        <result property="bankType" column="bank_type"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="sourceChannel" column="source_channel"/>
+        <result property="auditStatus" column="audit_status"/>
+        <result property="backPrice" column="back_price"/>
+        <result property="backType" column="back_type"/>
+        <result property="sourceGid" column="source_gid"/>
+        <result property="ip" column="ip"/>
+        <result property="sourceInfo" column="source_info"/>
+        <result property="remark" column="remark"/>
+        <result property="reduceType" column="reduce_type"/>
+        <result property="voucherNum" column="voucher_num"/>
+        <result property="createTime" column="create_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="backTime" column="back_time"/>
+        <result property="firstIntoUrl" column="first_into_url"/>
+    </resultMap>
+
+    <sql id="table_columns">
+        pay_order.id,
+        pay_order.user_id,
+        pay_order.pay_num,
+        pay_order.program_id,
+        pay_order.program_name,
+        pay_order.realpay_price,
+        pay_order.cost_price,
+        pay_order.order_time,
+        pay_order.pay_time,
+        pay_order.pay_status,
+        pay_order.pay_type,
+        pay_order.bank_type,
+        pay_order.order_num,
+        pay_order.source_channel,
+        pay_order.audit_status,
+        pay_order.back_price,
+        pay_order.back_type,
+        pay_order.source_gid,
+        pay_order.back_time,
+        pay_order.ip,
+        pay_order.source_info,
+        pay_order.remark,
+        pay_order.reduce_type,
+        pay_order.voucher_num,
+        pay_order.create_time,
+        pay_order.deleted,
+        pay_order.first_into_url
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{userId},
+        #{payNum},
+        #{programId},
+        #{programName},
+        #{realpayPrice},
+        #{costPrice},
+        #{orderTime},
+        #{payTime},
+        #{payStatus},
+        #{payType},
+        #{bankType},
+        #{orderNum},
+        #{sourceChannel},
+        #{auditStatus},
+        #{backPrice},
+        #{backType},
+        #{sourceGid},
+        #{backTime},
+        #{ip},
+        #{sourceInfo},
+        #{remark},
+        #{reduceType},
+        #{voucherNum},
+        #{createTime},
+        #{deleted},
+        #{firstIntoUrl}
+    </sql>
+
+    <!-- 适用于主键自增类型 -->
+    <insert id="save" parameterType="PayOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into pay_order(
+        <include refid="table_columns"/>
+        )
+        values (
+        <include refid="entity_properties"/>
+        )
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from pay_order
+        where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="PayOrder">
+        update pay_order
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="payNum != null and payNum != ''">pay_num = #{payNum},</if>
+            <if test="programId != null and programId != ''">program_id = #{programId},</if>
+            <if test="programName != null and programName != ''">program_name = #{programName},</if>
+            <if test="realpayPrice != null and realpayPrice != ''">realpay_price = #{realpayPrice},</if>
+            <if test="costPrice != null and costPrice != ''">cost_price = #{costPrice},</if>
+            <if test="orderTime != null and orderTime != ''">order_time = #{orderTime},</if>
+            <if test="payTime != null and payTime != ''">pay_time = #{payTime},</if>
+            <if test="payStatus != null and payStatus != ''">pay_status = #{payStatus},</if>
+            <if test="payType != null and payType != ''">pay_type = #{payType},</if>
+            <if test="bankType != null and bankType != ''">bank_type = #{bankType},</if>
+            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="sourceChannel != null and sourceChannel != ''">source_channel = #{sourceChannel},</if>
+            <if test="auditStatus != null and auditStatus != ''">audit_status = #{auditStatus},</if>
+            <if test="backPrice != null">back_price = #{backPrice},</if>
+            <if test="backType != null and backType != ''">back_type = #{backType},</if>
+            <if test="sourceGid != null and sourceGid != ''">source_gid = #{sourceGid},</if>
+            <if test="backTime != null and backTime != ''">back_time = #{backTime},</if>
+            <if test="ip != null and ip != ''">ip = #{ip},</if>
+            <if test="sourceInfo != null and sourceInfo != ''">source_info = #{sourceInfo},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="reduceType != null and reduceType != ''">reduce_type = #{reduceType},</if>
+            <if test="voucherNum != null and voucherNum != ''">voucher_num = #{voucherNum},</if>
+            <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+            <if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+
+    <select id="findById" resultMap="payOrderResultMap" parameterType="String">
+        select<include refid="table_columns"/>,userid as username
+        from pay_order left join user_stu
+        on pay_order.user_id = user_stu.id
+        where pay_order.id = #{id}
+    </select>
+    <select id="findRefundInfoById" resultMap="payOrderResultMap">
+        select id,pay_type,order_num,realpay_price,program_name,cost_price,pay_num
+        from pay_order
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="payOrderResultMap">
+        select
+        <include refid="table_columns"/>
+        from pay_order
+    </select>
+
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+            <if test="payNum != null and payNum != ''">and pay_num = #{payNum}</if>
+            <if test="programId != null and programId != ''">and program_id = #{programId}</if>
+            <if test="programName != null and programName != ''">and program_name = #{programName}</if>
+            <if test="realpayPrice != null and realpayPrice != ''">and realpay_price = #{realpayPrice}</if>
+            <if test="costPrice != null and costPrice != ''">and cost_price = #{costPrice}</if>
+            <if test="orderTime != null and orderTime != ''">and order_time = #{orderTime}</if>
+            <if test="payTime != null and payTime != ''">and pay_time = #{payTime}</if>
+            <if test="payStatus != null and payStatus != ''">and pay_status = #{payStatus}</if>
+            <if test="payType != null and payType != ''">and pay_type = #{payType}</if>
+            <if test="bankType != null and bankType != ''">and bank_type = #{bankType}</if>
+            <if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+            <if test="sourceChannel != null and sourceChannel != ''">and source_channel = #{sourceChannel}</if>
+            <if test="auditStatus != null and auditStatus != ''">and audit_status = #{auditStatus}</if>
+            <if test="backPrice != null and backPrice != ''">and back_price = #{backPrice}</if>
+            <if test="backType != null and backType != ''">and back_type = #{backType}</if>
+            <if test="sourceGid != null and sourceGid != ''">and source_gid = #{sourceGid}</if>
+            <if test="ip != null and ip != ''">and ip = #{ip}</if>
+            <if test="sourceInfo != null and sourceInfo != ''">and source_info = #{sourceInfo}</if>
+            <if test="remark != null and remark != ''">and remark = #{remark}</if>
+            <if test="reduceType != null and reduceType != ''">and reduce_type = #{reduceType}</if>
+            <if test="voucherNum != null and voucherNum != ''">and voucher_num = #{voucherNum}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+        </trim>
+    </sql>
+
+    <sql id="search_page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            pay_order.deleted = 0
+            <if test="payNum != null and payNum != ''">and pay_order.pay_num = #{payNum}</if>
+            <if test="orderNum != null and orderNum != ''">and pay_order.order_num = #{orderNum}</if>
+            <if test="payType != null and payType != ''">and pay_order.pay_type = #{payType}</if>
+            <if test="username != null and username != ''">and pay_order.user_id = (select id from user_stu where userid
+                = #{username})
+            </if>
+            <if test="startOrderDate != null and endOrderDate != null">and (pay_order.order_time between
+                #{startOrderDate} and #{endOrderDate})
+            </if>
+            <if test="startPayDate != null and endPayDate != null">and (pay_order.pay_time between #{startPayDate} and
+                #{endPayDate})
+            </if>
+            <if test="orderStatus != null">
+                <choose>
+                    <when test="orderStatus == 1">
+                        and pay_order.pay_status = #{orderStatus} AND (pay_order.audit_status != 2 or
+                        pay_order.audit_status is null)
+                    </when>
+                    <when test="orderStatus == 2">
+                        AND pay_order.audit_status = #{orderStatus}
+                    </when>
+                    <otherwise>
+                        and pay_order.pay_status = #{orderStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="payMoney != null">
+                <choose>
+                    <when test="payMoney == 0">
+                        and pay_order.realpay_price = 0
+                    </when>
+                    <when test="payMoney == 1">
+                        and pay_order.realpay_price > 0
+                    </when>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="search_page_where_bill">
+        <trim prefix="where" prefixOverrides="and | or ">
+            pay_order.deleted = 0 and pay_order.pay_status = 1 and pay_order.pay_type != 5
+            <if test="orderNum != null and orderNum != ''">and pay_order.order_num = #{orderNum}</if>
+            <if test="payType != null and payType != ''">
+                <choose>
+                    <when test="payType == '3'">
+                        and (pay_order.pay_type = 3 or pay_order.pay_type = 4)
+                    </when>
+                    <otherwise>
+                        and pay_order.pay_type = #{payType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startPayDate != null and endPayDate != null">and (pay_order.pay_time between #{startPayDate} and
+                #{endPayDate})
+            </if>
+        </trim>
+    </sql>
+
+    <select id="search" resultMap="payOrderResultMap" parameterType="PayOrder">
+        select
+        <include refid="table_columns"/>
+        from pay_order
+        <include refid="page_where"/>
+    </select>
+
+    <select id="page" resultMap="payOrderResultMap" parameterType="com.kjs.web.serach.kjs.order.PayOrderSearchBean">
+        select<include refid="table_columns"/>,user_stu.userid as username
+        from pay_order left join user_stu
+        on pay_order.user_id = user_stu.id
+        <include refid="search_page_where"/>
+        <choose>
+            <when test="orderStatus == 2">
+                order by pay_order.back_time desc
+            </when>
+            <otherwise>
+                order by pay_order.create_time desc
+            </otherwise>
+        </choose>
+        <if test="length != -1">limit #{start},#{length}</if>
+
+    </select>
+    <select id="page4Bill" resultMap="payOrderResultMap"
+            parameterType="com.kjs.web.serach.kjs.order.PayOrderSearchBean">
+        select
+        <include refid="table_columns"/>
+        from pay_order
+        <include refid="search_page_where_bill"/>
+        order by pay_order.pay_time desc
+        limit #{start},#{length}
+    </select>
+    <select id="count4Bill" resultType="long" parameterType="PayOrder">
+        select count(id) from pay_order
+        <include refid="search_page_where_bill"/>
+    </select>
+    <select id="count" resultType="long" parameterType="PayOrder">
+        select count(id) from pay_order
+        <include refid="search_page_where"/>
+    </select>
+    <select id="financeStatistics" resultType="com.kjs.common.dto.FinanceStatisticsDTO"
+            parameterType="com.kjs.web.serach.kjs.order.PayOrderSearchBean">
+        SELECT
+        pay_type as payType,
+        sum(realpay_price) AS sum,
+        count(id) AS count
+        FROM
+        pay_order
+        WHERE
+        pay_type != 5
+        AND deleted = 0
+        AND pay_status = 1
+        <if test="startPayDate != null and endPayDate != null">and (pay_time between #{startPayDate} and
+            #{endPayDate})
+        </if>
+        <if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+        <if test="payType != null and payType != ''">
+            <choose>
+                <when test="payType == '3'">
+                    and (pay_order.pay_type = 3 or pay_order.pay_type = 4)
+                </when>
+                <otherwise>
+                    and pay_order.pay_type = #{payType}
+                </otherwise>
+            </choose>
+        </if>
+        GROUP BY
+        pay_type
+    </select>
+
+    <!-- 其他自定义SQL -->
+
+</mapper>

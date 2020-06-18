@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserVoucherMapper">
+	<resultMap type="UserVoucher" id="userVoucherResultMap">
+		<result property="id" column="id" />
+		<result property="expireDate" column="expire_date" />
+		<result property="grantUserId" column="grant_user_id" />
+		<result property="userId" column="user_id" />
+		<result property="voucherNum" column="voucher_num" />
+		<result property="used" column="used" />
+		<result property="ctime" column="ctime" />
+		<result property="mtime" column="mtime" />
+		<result column="voucher_name" property="voucherName" jdbcType="VARCHAR"/>
+		<result column="regulation" property="regulation" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		user_voucher.id,
+		user_voucher.expire_date,
+		user_voucher.grant_user_id,
+		user_voucher.user_id,
+		user_voucher.voucher_num,
+		user_voucher.used,
+		user_voucher.ctime,
+		user_voucher.mtime,
+		user_voucher.voucher_name,
+		user_voucher.regulation,
+		user_voucher.type,
+		user_voucher.price
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{expireDate},
+		#{grantUserId},
+		#{userId},
+		#{voucherNum},
+		#{used},
+		#{ctime},
+		#{mtime},
+		#{voucherName},
+		#{regulation},
+		#{type},
+		#{price}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserVoucher" useGeneratedKeys="true" keyProperty="id">
+		insert into user_voucher( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into user_voucher(expire_date,grant_user_id,user_id, voucher_num, used, ctime,voucher_name,regulation,type,price) values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.expireDate},#{item.grantUserId},#{item.userId},#{item.voucherNum},#{item.used},#{item.ctime},#{item.voucherName},#{item.regulation},#{item.type},#{item.price})
+		</foreach>
+	</insert>
+	<delete id="deleteByIds">
+		delete from user_voucher
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="UserVoucher">
+		update user_voucher 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="expireDate != null and expireDate != ''">expire_date = #{expireDate},</if>
+			<if test="grantUserId != null and grantUserId != ''">grant_user_id = #{grantUserId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="voucherNum != null and voucherNum != ''">voucher_num = #{voucherNum},</if>
+			<if test="used != null and used != ''">used = #{used},</if>
+			<if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+			<if test="mtime != null and mtime != ''">mtime = #{mtime},</if>
+			<if test="voucherName != null and voucherName != ''">voucher_name = #{voucherName},</if>
+			<if test="regulation != null and regulation != ''">regulation = #{regulation},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="price != null and price != ''">price = #{price},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userVoucherResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_voucher
+		where id = #{id}
+	</select>
+	<select id="findDetailById" resultMap="userVoucherResultMap" parameterType="long" >
+		SELECT
+		uv.id,
+		uv.expire_date,
+		uv.ctime,
+		uv.voucher_num,
+		uv.voucher_name,
+		uv.price,
+		stu.userId AS stuUsername,
+		stu.username AS stuNickname,
+		u.email as grantUsername
+		FROM
+		user_voucher uv
+		LEFT JOIN user_stu stu ON uv.user_id = stu.id
+		LEFT JOIN authority_users u ON uv.grant_user_id = u.id
+		WHERE uv.id = #{id}
+	</select>
+	<select id="findByUserIdAndPrice" resultMap="userVoucherResultMap"  >
+		SELECT
+		uv.id,
+		uv.expire_date,
+		uv.ctime,
+		uv.voucher_num,
+		uv.voucher_name,
+		uv.price,
+		stu.userId AS stuUsername,
+		stu.username AS stuNickname,
+		u.email as grantUsername
+		FROM
+		user_voucher uv
+		LEFT JOIN user_stu stu ON uv.user_id = stu.id
+		LEFT JOIN authority_users u ON uv.grant_user_id = u.id
+		WHERE uv.user_id = #{id} and uv.price = #{price} and uv.expire_date > now() and used = 0
+	</select>
+
+	<select id="queryAll" resultMap="userVoucherResultMap">
+		select <include refid="table_columns" /> 
+		from user_voucher
+	</select>
+	
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and uv.voucher_name = #{name}</if>
+			<if test="startCreateDate != null"> and (uv.ctime between #{startCreateDate} and #{endCreateDate})</if>
+			<if test="stuUsername != null and stuUsername != ''">and stu.userid = #{stuUsername}</if>
+			<if test="grantUsername != null and grantUsername != ''">and u.email = #{grantUsername}</if>
+			<if test="voucherType != null">and uv.type = #{voucherType}</if>
+			<if test="used != null">and uv.used = #{used}</if>
+		</trim>
+	</sql>
+	<select id="page" resultMap="userVoucherResultMap" parameterType="com.kjs.web.serach.kjs.operation.VoucherGrantSearchBean">
+		SELECT
+		uv.id,
+		uv.ctime,
+		uv.voucher_num,
+		uv.voucher_name,
+		uv.price,
+		uv.regulation,
+		uv.used,
+		stu.userId AS stuUsername,
+		stu.username AS stuNickname,
+		u.email as grantUsername
+		FROM
+		user_voucher uv
+		LEFT JOIN user_stu stu ON uv.user_id = stu.id
+		LEFT JOIN authority_users u ON uv.grant_user_id = u.id
+		<include refid="search_page_where" />
+		order by uv.ctime desc
+		<if test="length != -1">
+		limit #{start},#{length}
+		</if>
+	</select>
+
+    <select id="count" resultType="long" parameterType="com.kjs.web.serach.kjs.operation.VoucherGrantSearchBean">
+		SELECT count(uv.id)
+		FROM
+		user_voucher uv
+		LEFT JOIN user_stu stu ON uv.user_id = stu.id
+		LEFT JOIN authority_users u ON uv.grant_user_id = u.id
+		<include refid="search_page_where" />
+    </select>
+	<!-- 其他自定义SQL -->
+
+</mapper>

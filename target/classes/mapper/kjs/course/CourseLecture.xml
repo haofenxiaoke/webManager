@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseLectureMapper">
+	<resultMap type="CourseLecture" id="courseLectureResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="lectureName" column="lecture_name" />
+		<result property="lectureOrder" column="lecture_order" />
+		<result property="lectureDesc" column="lecture_desc" />
+		<result property="lecturePptUrl" column="lecture_ppt_url" />
+		<result property="lecturePlayNumber" column="lecture_play_number" />
+		<result property="videoId" column="video_id" />
+		<result property="videoLength" column="video_length" />
+		<result property="isvipVideo" column="isvip_video" />
+		<result property="fileTitle" column="file_title" />
+		<result property="fileLength" column="file_length" />
+		<result property="lectureConverswfUrl" column="lecture_converswf_url" />
+		<result property="lectureScore" column="lecture_score" />
+		<result property="userId" column="user_id" />
+		<result property="publishState" column="publish_state" />
+		<result property="publishDate" column="publish_date" />
+		<result property="deleted" column="deleted" />
+		<result property="videoUnique" column="video_unique" />
+		<result property="ccVideoUnique" column="cc_video_unique" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		lecture_name,
+		lecture_order,
+		lecture_ppt_url,
+		video_id,
+		video_length,
+		isvip_video,
+		file_title,
+		user_id,
+		video_unique,
+		cc_video_unique
+    </sql>
+
+	<sql id="lecture_columns">
+		course_id,
+		lecture_name,
+		lecture_order,
+		lecture_desc,
+		lecture_ppt_url,
+		lecture_play_number,
+		video_id,
+		video_length,
+		isvip_video,
+		file_title,
+		lecture_converswf_url,
+		lecture_score,
+		user_id,
+		publish_state,
+		publish_date,
+		deleted,
+		video_unique,
+		cc_video_unique
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{lectureName},
+		#{lectureOrder},
+		#{lectureDesc},
+		#{lecturePptUrl},
+		#{lecturePlayNumber},
+		#{videoId},
+		#{videoLength},
+		#{isvipVideo},
+		#{fileTitle},
+		#{lectureConverswfUrl},
+		#{lectureScore},
+		#{userId},
+		#{publishState},
+		#{publishDate},
+		#{deleted},
+		#{videoUnique},
+		#{ccVideoUnique}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseLecture" useGeneratedKeys="true" keyProperty="id">
+		insert into course_lecture( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<delete id="deleteById">
+		delete from course_lecture
+		where id =#{id}
+	</delete>
+	
+	<delete id="deleteByIds">
+		delete from course_lecture
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseLecture">
+		update course_lecture 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="lectureName != null and lectureName != ''">lecture_name = #{lectureName},</if>
+			<if test="lectureOrder != null and lectureOrder != ''">lecture_order = #{lectureOrder},</if>
+			<if test="lectureDesc != null and lectureDesc != ''">lecture_desc = #{lectureDesc},</if>
+			<if test="lecturePptUrl != null">lecture_ppt_url = #{lecturePptUrl},</if>
+			<if test="lecturePlayNumber != null and lecturePlayNumber != ''">lecture_play_number = #{lecturePlayNumber},</if>
+			<if test="videoId != null and videoId != ''">video_id = #{videoId},</if>
+			<if test="videoLength != null ">video_length = #{videoLength},</if>
+			<if test="fileLength != null">file_length = #{fileLength},</if>
+			<if test="isvipVideo != null">isvip_video = #{isvipVideo},</if>
+			<if test="fileTitle != null">file_title = #{fileTitle},</if>
+			<if test="lectureConverswfUrl != null and lectureConverswfUrl != ''">lecture_converswf_url = #{lectureConverswfUrl},</if>
+			<if test="lectureScore != null and lectureScore != ''">lecture_score = #{lectureScore},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="publishState != null and publishState != ''">publish_state = #{publishState},</if>
+			<if test="publishDate != null and publishDate != ''">publish_date = #{publishDate},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+			<if test="videoUnique != null and videoUnique != ''">video_unique=#{videoUnique},</if>
+			<if test="ccVideoUnique != null and ccVideoUnique != ''">cc_video_unique=#{ccVideoUnique},</if>
+			<if test="videoId == ''">video_id = null,video_unique=null,</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseLectureResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_lecture
+		where id = #{id}
+	</select>
+	<select id="findByCourseId" resultMap="courseLectureResultMap" >
+		select
+		id,
+		lecture_name
+		from course_lecture
+		where course_id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="courseLectureResultMap">
+		select <include refid="table_columns" /> 
+		from course_lecture
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="lectureName != null and lectureName != ''">and lecture_name = #{lectureName}</if>
+			<if test="lectureOrder != null and lectureOrder != ''">and lecture_order = #{lectureOrder}</if>
+			<if test="lectureDesc != null and lectureDesc != ''">and lecture_desc = #{lectureDesc}</if>
+			<if test="lecturePptUrl != null and lecturePptUrl != ''">and lecture_ppt_url = #{lecturePptUrl}</if>
+			<if test="lecturePlayNumber != null and lecturePlayNumber != ''">and lecture_play_number = #{lecturePlayNumber}</if>
+			<if test="videoId != null and videoId != ''">and video_id = #{videoId}</if>
+			<if test="videoLength != null and videoLength != ''">and video_length = #{videoLength}</if>
+			<if test="isvipVideo != null and isvipVideo != ''">and isvip_video = #{isvipVideo}</if>
+			<if test="fileTitle != null and fileTitle != ''">and file_title = #{fileTitle}</if>
+			<if test="lectureConverswfUrl != null and lectureConverswfUrl != ''">and lecture_converswf_url = #{lectureConverswfUrl}</if>
+			<if test="lectureScore != null and lectureScore != ''">and lecture_score = #{lectureScore}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="publishState != null and publishState != ''">and publish_state = #{publishState}</if>
+			<if test="publishDate != null and publishDate != ''">and publish_date = #{publishDate}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseLectureResultMap" parameterType="CourseLecture">
+		select <include refid="table_columns" />
+		from course_lecture
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseLectureResultMap" parameterType="CourseLecture">
+		select <include refid="table_columns" />
+		from course_lecture
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseLecture">
+        select count(id) from course_lecture
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!--根据课程ID删除章节-->
+	<delete id="deleteByCourseId" parameterType="java.lang.Integer">
+		delete from course_lecture
+		where course_id=#{courseId}
+	</delete>
+
+	<!--插入讲座集合  多条批量插入-->
+	<insert id="insertLecture" >
+		insert into course_lecture ( id,course_id,lecture_name,lecture_order,video_id,video_length,isvip_video,file_title,file_length,lecture_ppt_url,lecture_converswf_url,user_id,publish_state ,deleted,video_unique,cc_video_unique)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(null,#{item.courseId},#{item.lectureName},#{item.lectureOrder},#{item.videoId},#{item.videoLength},#{item.isvipVideo},#{item.fileTitle},#{item.fileLength},#{item.lecturePptUrl},#{item.lectureConverswfUrl},#{item.userId},#{item.publishState},#{item.deleted},#{item.videoUnique},#{item.ccVideoUnique})
+		</foreach>
+
+	</insert>
+	<select id="findAll" resultMap="courseLectureResultMap" >
+		select *
+		from course_lecture
+		where deleted=0
+	</select>
+	<select id="findByCourseIdComplete" resultMap="courseLectureResultMap" >
+		select *
+		from course_lecture
+		where course_id = #{id} ORDER BY lecture_order
+	</select>
+
+	<update id="deleteLecturesByCourseId" parameterType="java.lang.Integer">
+		UPDATE  course_lecture SET  deleted=1 WHERE  course_id=#{courseId}
+	</update>
+	
+	<!-- course包含的数量 -->
+  <select id="findCourseNum" resultType="Map">
+    select count(id) AS lectureNum ,course_id  AS courseId from course_lecture GROUP BY course_id
+  </select>
+
+</mapper>

@@ -1,0 +1,18 @@
+.banner-left{width: 240px; height: 300px; position: fixed;top: 50%;left: 50%; margin-left: -120px; margin-top: -150px; background: #FFFFFF;overflow: hidden; border-radius: 3px;}
+.banLeft-top{width: 100%; height: 95px;padding-top: 15px; text-align: center;}
+.welcome{width: 100%; height: 20px; line-height: 20px; text-align: center; color: #CCCCCC; font-size: 14px;}
+.dl-anniu{width: 150px; height: 50px; margin: 0px auto; padding-top: 20px;}
+.dl-bt{ width: 70px; height: 30px; float: left;line-height: 30px; border: 1px solid #5583db; text-align: center; color: #5583db; font-size: 14px;}
+.zc-bt{ width: 70px; height: 30px; line-height: 30px; float: right;border: 1px solid #5583db; text-align: center;color: #5583db;font-size: 14px;}
+.dl-bt:hover{background: #5583db;color: #FFFFFF;}
+.zc-bt:hover{background: #5583db;color: #FFFFFF;}
+.xuanxiang{width: 100%; height: 120px;}
+.xuanxiang ul{ width: 100%; height: 59px; border-top: 1px solid #F3F3F3;}
+.xuanxiang li{ width: 119px; height: 60px; float: left;}
+.xuanxiang li img{width: 100%; height: 100%;}
+.jihua{position: relative;}
+.jilu{position: relative;}
+.yc{width:240px; height: 48px; padding-top: 12px; background: #f7f9fa; position: absolute;top: 0;left: -240px;}
+.yd{width:240px; height: 48px; padding-top: 12px; background: #f7f9fa; position: absolute;top: 0;left: -240px;}
+.yc p{ text-align: center;font-size: 14px;line-height: 18px;}
+.yd p{ text-align: center;font-size: 14px;line-height: 18px;}

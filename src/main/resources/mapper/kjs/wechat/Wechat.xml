@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.WechatMapper">
+
+<resultMap type="com.kjs.common.dto.wechat.WechatDto" id="wechatResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="type" column="type" />
+		<result property="showTime" column="show_time" />
+		<result property="wechat" column="wechat" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	
+	<resultMap type="com.kjs.common.dto.wechat.WechatTypeDto" id="wechatListMap">	
+		<result property="type" column="type" />
+	</resultMap>
+
+	<sql id="wechat_base">
+		id,
+		name,
+		url,
+		type,
+		wechat,
+		deleted,
+		status	
+	</sql>
+	<sql id="base_properties">
+		#{id},
+		#{name},
+		#{url},
+		#{type},
+		#{wechat},
+		#{deleted},
+		#{status}
+	</sql>
+	
+	<sql id="wechat_search">
+		id,
+		name,
+		url,
+		type,
+		wechat,
+		deleted,
+		status	
+	</sql>
+	
+
+<!--新增文章信息-->
+	<insert id="saveWechatBase" parameterType="com.kjs.common.dto.wechat.WechatDto" useGeneratedKeys="true" keyProperty="id">
+		insert into wechat( <include refid="wechat_base" /> )
+		values ( <include refid="base_properties" /> )
+	</insert>
+<!-- 	查询商品信息  -->
+ 	<select id="scanWechat" resultMap="wechatResultMap" parameterType="java.lang.Integer">
+		select *
+		from wechat
+		where id = #{id}
+	</select> 
+	
+<!-- 	商品下架  -->
+	 <update id="deleteWechat" parameterType="java.lang.Integer">
+		update  wechat SET deleted=1
+		where id=#{id}
+	</update> 
+	
+<!--  	编辑，更新内容 -->
+	 <update id="updateWechat" parameterType="com.kjs.common.dto.wechat.WechatDto"> 
+<!--  		update goods set ( <include refid="update" /> ) = ( <include refid="update_properties" /> ) where id=#{id} -->
+		 update wechat set name=#{name} ,
+	 	url=#{url},
+		wechat=#{wechat},
+		status=#{status} where id=#{id}
+	 </update>
+	
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+		    <if test="type != null and type != 0">and type = #{type}</if>
+		    <if test="type != null and type != 1">and type = #{type}</if>
+		    <if test="deleted != null and deleted != 1">and deleted = #{deleted}</if>
+		    <if test="deleted != null and deleted != 0">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+<!-- 	parameterType="com.kjs.common.dto.wechat.WechatTypeDto" -->
+<!--  	查询商品列表  -->
+	 <select id="findGoodsList" resultMap="wechatResultMap" >
+		select * from wechat  where deleted =0
+<!-- 		<include refid="page_where" /> -->
+ 		ORDER  BY  show_time DESC
+<!--   		limit #{start},#{length} -->
+	</select> 
+	
+	
+	<resultMap type="com.kjs.common.dto.wechat.WechatDataDto" id="wechatDataResultMap">
+		<result property="head" column="head" />
+		<result property="showCount" column="show_count" />
+		<result property="pinCount" column="pin_count" />
+		<result property="copyCount" column="copy_count" />
+	</resultMap>
+	
+	<select id="findList" resultMap="wechatDataResultMap" statementType="STATEMENT">
+		SELECT ${dimesion} AS head,
+		COUNT(*) AS show_count ,
+		COUNT(CASE WHEN pin=1 THEN 1 ELSE NULL END) AS pin_count,
+		COUNT(CASE WHEN copy=1 THEN 1 ELSE NULL END) AS copy_count 
+		FROM   (SELECT wd.* , w.`name` 
+		FROM wechat_data wd 
+		LEFT JOIN wechat w ON wd.wechatid = w.id 
+		WHERE w.type=${type} 
+		AND wd.create_time &gt; '${startTime}' 
+		AND wd.create_time &lt; '${endTime}' )AS wcd 
+		GROUP BY ${dimesion}
+	</select>
+	
+	
+
+</mapper>
+
+

@@ -1,0 +1,19 @@
+/*设计牛登陆*/
+.login{background: #444444 !important;}
+.login:hover{background: #333333 !important;}
+
+.link a{color: #666666 !important;}
+.link a:hover{color: #333333 !important;text-decoration:underline;}
+
+.daw span{color: #777777 !important;}
+.sjn_login_title{ background: url("/resources-sjn/index/images/sjn_bt.png") no-repeat; height: 14px; width: 300px;margin: 0px auto; text-align: center;line-height: 14px;font-size: 14px;color: #999999;margin-top: 5px;}
+.search{padding-bottom: 25px !important;}
+.link{height: 14px !important;line-height: 14px !important;}
+.link span{height: 14px !important;line-height: 14px !important;}
+/*.protocol a{color: #e62c3a !important;}
+.protocol a:hover{color:#dd2a38 !important;}*/
+input[placeholder], [placeholder], *[placeholder] {
+    color:#999 !important;
+}
+.phone input{*height:36px !important; *line-height:36px !important;}
+.btn-hover:hover{background: url("/resources-sjn/index/images/sjn_closebtn.png") no-repeat !important;}

@@ -1,0 +1,165 @@
+.buy-all{ width: 1226px; height: 138%;overflow: hidden;margin: 0px auto;}
+.buy-nav{ width: 100%; height: 30px; line-height: 30px;}
+.buy-nav a{font-size: 12px; color: #333333; padding-right: 5px; padding-left: 5px; }
+.Made-nav a{color: #666a6b; font-size: 16px;}
+.buy-succeed{ width: 100%; padding-top: 30px; padding-bottom: 30px; background: #FFFFFF;}
+.buySucceed-left{width: 160px; float: left; text-align: right;}
+.buySucceed-left img{ margin-right: 20px;}
+.buySucceed-right{ height: auto;overflow: hidden;}
+.dingdan{ font-size: 16px; color: #333333;}
+.dingdan span{ color: #F8C208;font-size: 16px;}
+.mingcheng{ font-size: 14px; color: #999999;margin-top: 5px;}
+.mingcheng span{ color: #171717;font-size: 13px;}
+.shangpin{font-size: 14px; color: #999999;margin-top: 5px;}
+.shangpin span{ color: #666666;}
+.jiage{font-size: 14px; color: #999999;margin-top: 5px;}
+.jiage span{ color: #171717;font-size: 14px;}
+
+.buy-bottom{ width: 100%; height: auto;overflow: hidden; background: #FFFFFF; padding-bottom: 30px; margin-top: 15px;margin-bottom:50px;}
+.site{width: 95%; height: auto;overflow: hidden;border-bottom: 1px dashed #838383; margin: 0px auto; padding-bottom: 30px;}
+.buyBt{ width: 100%;font-size: 18px; color: #F8C208;margin-bottom: 20px;}
+.buyBt span{font-size: 16px;}
+.site-phone{ width: 100%; height: auto;overflow: hidden;}
+.site-sjr{ width: 280px; height: 40px; float: left;}
+.sjr-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left; text-align: right;}
+.sjr-right{width: 197px; height: 38px; float: right; border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;}
+.sjr-right input{ width: 187px;border: 0; outline: none; height: 12px; padding-top: 13px; padding-bottom: 13px;*padding-top: 12px; *padding-bottom: 12px; background: #f7f9fa; padding-left: 10px;}
+
+
+.site-sjh{ width: 280px; height: 40px; float: left; overflow: hidden;}
+.sjh-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left;text-align: right;}
+.sjh-right{width: 197px; height: 38px; float: right; border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;}
+.sjh-right input{ width: 187px;border: 0; outline: none;  height: 12px; padding-top: 13px; padding-bottom: 13px;*padding-top: 12px; *padding-bottom: 12px; background: #f7f9fa; padding-left: 10px;}
+
+.site-region{ width: 100%; height: auto;overflow: hidden; }
+.site-province{ width: 280px; height: 40px; float: left; margin-top: 20px;overflow: hidden;}
+.province-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left;text-align: right;}
+.province-right{width: 197px; height: 38px; float: right; border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;}
+.province-right select{ width: 197px;border: 0;padding:8px 0; outline: none; height: 38px;  background: #f7f9fa;
+*border:0;*width:197px;*font-size: 28px;*height:38px;*background:#f7f9fa;}
+
+
+.site-city{ width: 280px; height: 40px; float: left; margin-top: 20px;overflow: hidden;}
+.city-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left;text-align: right;}
+.city-right{width: 197px; height: 38px; float: right; border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;*background:#fff;}
+.city-right select{ width: 197px; border: 0;padding:8px 0; outline: none; height: 38px; line-height: 38px; background: #f7f9fa;
+*border:0;*width:197px;*font-size: 28px;*height:38px;*background:#f7f9fa;}
+
+
+.site-district{ width: 280px; height: 40px; float: left;margin-top: 20px;overflow: hidden;}
+.district-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left;text-align: right;}
+.district-right{width: 197px; height: 38px; float: right; border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;}
+.district-right select{ width: 197px;border: 0; padding:8px 0; outline: none; height: 38px; background: #f7f9fa; 
+*border:0;*width:197px;*font-size: 28px;*height:38px;*background:#f7f9fa;}
+
+.site-goods{ width: 100%; height: auto;overflow: hidden; margin-top: 20px;}
+.site-objective{ width: 74%; height: 40px; float: left;overflow: hidden;}
+.objective-left{width: 80px; height: 40px;line-height:40px;font-size: 12px; color: #999999; float: left; text-align: right;}
+.objective-right{margin-left: 80px;*margin-left: 0; height: 38px;  border: 1px solid #E0E0E0; background: #f7f9fa; border-radius: 3px;}
+.objective-right input{ width: 95%;border: 0; outline: none;  height: 12px; padding-top: 13px; padding-bottom: 13px;
+*padding-top: 12px; *padding-bottom: 12px; background: #f7f9fa; padding-left: 10px;}
+
+.site-save{width: 100%; height: auto;overflow: hidden; margin-top: 20px;}
+.site-tijiao{width: 180px; height: 40px; border: 0; outline: none; text-align: center;line-height: 40px; background: #5583DB; color: #FFFFFF; font-size: 14px; border-radius: 3px; margin-left: 80px;}
+
+.terrace{width: 95%; height: auto;overflow: hidden;border-bottom: 1px solid #f1f1f1; margin: 0px auto;margin-top: 40px; padding-bottom: 30px;}
+.select-pay{ width: 100%; height: auto;overflow: hidden;}
+.select-div{height: 36px; float: left; margin-right: 45px;padding-left:1px;}
+.select-div input{ width: 15px; height: 15px; margin-top: 11px; float: left; border: 0;outline: none;}
+.and-images{ width: 120px; height: 36px; float: left; margin-left: 5px;}
+.and-images img{ width: 100%;}
+.tishi{width: 100px; height: 36px; line-height: 36px; float: left; font-size: 12px; color: #999999;}
+.djsj{ font-size: 14px; margin-top: 20px;float: right; color: #ff6700; height: 36px; line-height: 36px; margin-right: 90px;}
+.moren{ width: 100%; height:0px;overflow: hidden;}
+
+.remit{width: 95%; height: auto;overflow: hidden;border-bottom: 1px dashed #838383; margin: 0px auto; padding-bottom: 30px;padding-top: 20px;}
+.remitBt{ width: 100%; height: 55px; line-height: 55px;font-size: 18px; color: #5583DB;}
+.remitBt span{ margin-left: 10px;}
+.remit-bottom{width: 100%; height: auto;overflow: hidden;}
+.remit-left{ width: 180px; text-align: left; float: left; padding-top: 15px; padding-bottom: 15px;}
+.remit-right{ margin-left: 180px;}
+.remit-right p{line-height: 22px;}
+.huming{color: #666666;font-size: 14px;}
+.yinhang{color: #666666;font-size: 14px;}
+.zhanghao{color: #666666;font-size: 14px;}
+.zhanghao span{color: #ff6700;}
+.remitxy{color: #ff6700; font-size: 12px;}
+.favorable-wai{width: 95%; height: auto;overflow: hidden; margin: 0px auto; padding-bottom: 30px;padding-top: 20px;}
+.favorable{ width: 100%; height: auto;overflow: hidden; padding-top: 25px; padding-bottom: 25px; }
+.favorable-top{ height: 40px; padding-top: 24px;padding-bottom: 24px; border: 1px solid #edd28b; background: #fffdee;}
+.favorable-wz{ float: left;width: 80px; height: 40px; line-height: 40px;text-align: center;font-size: 12px;}
+.favorable-srk{ width: 248px; height: 38px; border: 1px solid #cccccc; float: left;}
+.favorable-srk input{ color: #cccccc; width: 238px;* width: 235px; padding-left: 10px; height: 12px; padding-top: 13px; padding-bottom: 13px;*border: 0;*padding-top: 12px; *padding-bottom: 12px; border: none;outline: none;}
+.favorable-tj{width: 100px;height: 40px; margin-left: 5px;float: left;}
+.favorable-tj input{ width: 100px; height: 40px;line-height: 40px; border: none;outline: none; text-align: center;font-size: 14px; color: #FFFFFF; background: #5583DB;}
+.cwts{width:170px;height: 40px; font-size: 12px; line-height: 40px; margin-left: 10px; float: left; color: #666666;}
+.jiesuan{ width: 95%; height: auto;overflow: hidden;margin: 0px auto;}
+
+.zongji{ font-size: 14px; text-align: right; color: #666666;}
+.jianmian{ font-size: 14px; text-align: right; margin-top: 10px;color: #666666;}
+.jine{ font-size: 14px; text-align: right;margin-top: 18px;}
+.jine span{ font-size: 28px; color: #F8C208;}
+.mashang{ width: 100%; height: auto;overflow: hidden;margin-top: 18px;}
+.mashang input{cursor: pointer; width: 180px; height: 40px; text-align: center;line-height: 40px;border: none;outline: none; font-size: 14px; background: #f8c208; color: #171717;border-radius: 3px; float: right;}
+
+
+.fkcg{width: 100%;  height: 100%; position: fixed; top: 0; left: 0; z-index: 9999; background-color:rgba(199, 205, 209, 0.4); display: none;}
+.fknr{ width: 600px; height: 420px; border-radius: 5px; background: #FFFFFF; position: absolute;top:50%; left: 50%; margin-left: -300px; margin-top: -210px;}
+.fknr-top{ width: 100%; height: 40px;line-height: 40px; background: #f7f9fa;  border-top-left-radius: 5px; border-top-right-radius: 5px;}
+.fknr-top span{font-size: 16px; margin-left: 20px; color: #666666;}
+
+
+.fknrgb{float: right;width: 35px; height: 35px; margin-top: 5px; background: url(../../login/images/guanbi_03.png) no-repeat center center; cursor: pointer}
+
+.fktb{ width: 100%; height: 180px; text-align: center;}
+.fktb img{ margin-top: 50px;}
+.fkts{ text-align: center; font-size: 20px; color: #666666;}
+.fkwc{ text-align: center;font-size: 12px; color: #999999; margin-top: 18px;}
+.leixing{width: 320px; height: 40px; margin: 0px auto;margin-top: 18px;}
+.wancheng{ width: 98px; height: 38px; border-radius: 5px; background: #f8c208; color: #171717; text-align: center;line-height: 38px;border:none; outline: none; float: left;}
+
+.zhifu{width: 98px; height: 38px; border-radius: 5px; background: #f8c208; color: #171717; text-align: center;line-height: 38px;border:none; outline: none; margin-left: 10px;float: left;}
+
+.zflx{width: 98px; height: 38px; border-radius: 5px; background: #f8c208; color: #171717; text-align: center;line-height: 38px;border:none; outline: none;margin-left: 10px;float: left;}
+
+
+.favorable-title{ font-size: 16px;color: #F8C208;}
+.bound-title{ font-size: 16px;color:  #f8c208;}
+.flexible{margin-top: 20px;height: auto;overflow: hidden;}
+.flexible-btn{float: left; width: 14px; height: 14px; background: url("../images/jian.png");margin-top: 3px;}
+.favorable-quantity{float: left; margin-left: 5px; font-size: 14px; height: 20px;line-height: 20px; color: #333333;}
+.favorable-quantity span{ color: #f8c208;font-size: 14px;  float: left;}
+.watch-list td{ text-align: center; height: 50px;line-height: 50px; font-size: 14px; color: #666a6b;}
+.bound-list td{ text-align: center; height: 50px;line-height: 50px; font-size: 14px; color: #666666;}
+.modification{display:inline-block; width: 40px;height: 20px; background:  #f8c208;color: #171717;font-size: 14px; text-align: center;line-height: 20px; border-radius: 5px;}
+.modificationFloat{margin-top: 20px;height: auto;overflow: hidden;}
+.watch-head{ height: 28px; background: #fad98f;}
+.watch-head td{ text-align: center; height: 28px;line-height: 28px; color: #666a6b; font-size: 12px;}
+.even-more{ margin-top: 10px; float: right;font-size: 14px; color: #5583db; margin-right: 73px;}
+.watch-listBtn{ margin-top: 15px;float: right; width: 100px; height: 40px; line-height: 40px; font-size: 14px;color: #171717; text-align: center; background: #f8c208; border-radius: 3px;margin-right: 73px;}
+.whole{height: auto;overflow: hidden;}
+.alert-listBtn{ margin-top: 15px;float: right; width: 100px; height: 40px; line-height: 40px; font-size: 14px;color: #171717; text-align: center; background: #f8c208; border-radius: 3px;margin-right:31px;}
+.long-logo{width: auto;}
+.long-logo li{padding-left: 1px;margin-bottom: 30px;}
+
+#tenpayBankList .long-logo{width: auto;}
+#tenpayBankList .ui-list-icons li{margin-bottom: 20px;}
+
+.reply-all{position: fixed;top: 0;left: 0;width: 100%;height: 100%;background:rgba(51, 51, 51, 0.4);}
+.reply{width: 600px;height: 420px; border-radius: 5px; position: absolute;top: 50%; left: 50%;margin-top: -210px; margin-left: -300px; background: #fff;}
+.reply-top{ height: 45px;line-height: 45px;background: #f7f9fa;text-indent: 10px; font-size: 18px;color: #666666; border-top-left-radius: 5px;border-top-right-radius: 5px;}
+.replyTop-right{float: right; width: 15px; height: 15px; background: url("../images/close-t.png") no-repeat; margin-right: 15px; margin-top: 15px;}
+.Farme{ margin: 0px auto; margin-top: 30px; width: 540px;height: 260px;border: 1px solid #cccccc;}
+.sum{text-align: right; font-size: 14px;color: #666666;margin-top: 10px;}
+.sum span{ display:inline-block; width: 50px;}
+.reduce{text-align: right; font-size: 14px;color: #666666; margin-top: 10px;}
+.reduce span{ display:inline-block; width:50px;}
+.TimeLeft{float: left; color:#666666; min-width: 120px; font-size: 14px; height: 20px;line-height: 20px;}
+.TimeRight{float: left; color:#666666; min-width: 120px; font-size: 14px;height: 20px;line-height: 20px;}
+@media only screen and (max-width:800px ) {
+.buy-all{width: 800px;}
+
+}
+@media only screen and (min-width:1200px ) {
+.buy-all{width: 1226px;}
+}

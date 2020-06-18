@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AuthorityUserRoleMapper">
+	<resultMap type="AuthorityUserRole" id="authorityUserRoleResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="roleId" column="role_id" />
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		role_id,
+		last_modify_user_id,
+		last_modify_datetime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{roleId},
+		#{lastModifyUserId},
+		#{lastModifyDatetime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityUserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_user_role( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_user_role
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityUserRole">
+		update authority_user_role 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="roleId != null and roleId != ''">role_id = #{roleId},</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityUserRoleResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from authority_user_role
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authorityUserRoleResultMap">
+		select <include refid="table_columns" /> 
+		from authority_user_role
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="roleId != null and roleId != ''">and role_id = #{roleId}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="authorityUserRoleResultMap" parameterType="AuthorityUserRole">
+		select <include refid="table_columns" />
+		from authority_user_role
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="authorityUserRoleResultMap" parameterType="AuthorityUserRole">
+		select <include refid="table_columns" />
+		from authority_user_role
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityUserRole">
+        select count(id) from authority_user_role
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+
+	<select id="getUsersByRoleId" resultType="AuthorityUsers" parameterType="long">
+		select au.* from authority_user_role ur inner join authority_users au on ur.user_id = au.id  where ur.role_id = #{roleid}
+	</select>
+
+	<delete id="deleteRoleUser" parameterType="AuthorityUserRole">
+		delete from authority_user_role where user_id = ${userId} and role_id = ${roleId}
+	</delete>
+	
+	<!-- resultType="AuthorityUserRole" -->
+	<!-- 根据userid获取到roleid -->
+	<select id="findRoleIdByUserId" resultType="Integer" parameterType="Long" >
+		select role_id from authority_user_role  where user_id = #{userId}
+<!-- 		select ur.role_id from authority_user_role ur inner join authority_users au on ur.user_id = au.id = #{userId} -->
+	</select>
+
+</mapper>

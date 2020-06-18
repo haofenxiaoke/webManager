@@ -1,0 +1,11 @@
+.myscroll li span{color:#e62c3a;}
+.combomoney{color:#333333;}
+.comboall {
+    width: 100%;
+    height: 360px;
+    margin: 0 auto;
+    background:url("../images/vip-banner.png") no-repeat;
+    background-size: 100% 100%;
+}
+.all-combo{ width: 1200px; height: 360px; margin: 0px auto;}
+.combo{margin-right: 0px;}

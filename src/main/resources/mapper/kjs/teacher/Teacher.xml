@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.TeacherMapper">
+	<resultMap type="Teacher" id="teacherResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="flowerName" column="flower_name" />
+		<result property="num" column="num" />
+		<result property="sex" column="sex" />
+		<result property="imgUrl" column="img_url" />
+		<result property="introduction" column="introduction" />
+		<result property="userLock" column="user_lock" />
+		<result property="teacherUserId" column="teacher_user_id" />
+		<result property="userId" column="user_id" />
+		<result property="ctime" column="ctime" />
+		<result property="utime" column="utime" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		teacher.id,
+		teacher.name,
+		teacher.flower_name,
+		teacher.num,
+		teacher.sex,
+		teacher.img_url,
+		teacher.introduction,
+		teacher.user_lock,
+		teacher.teacher_user_id,
+		teacher.user_id,
+		teacher.ctime,
+		teacher.utime
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{flowerName},
+		#{num},
+		#{sex},
+		#{imgUrl},
+		#{introduction},
+		#{userLock},
+		#{teacherUserId},
+		#{userId},
+		#{ctime},
+		#{utime}
+	</sql>
+	
+	<!-- 閫傜敤浜庝富閿嚜澧炵被鍨�-->
+	<insert id="save" parameterType="Teacher" useGeneratedKeys="true" keyProperty="id">
+		insert into teacher( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from teacher
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="Teacher">
+		update teacher 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="flowerName != null and flowerName != ''">flower_name = #{flowerName},</if>
+			<if test="num != null and num != ''">num = #{num},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+			<if test="introduction != null and introduction != ''">introduction = #{introduction},</if>
+			<if test="userLock != null">user_lock = #{userLock},</if>
+			<if test="teacherUserId != null and teacherUserId != ''">teacher_user_id = #{teacherUserId},</if>
+			<if test="userId != null">user_id = #{userId},</if>
+			<if test="ctime != null and ctime != ''">ctime = #{ctime},</if>
+			<if test="utime != null and utime != ''">utime = #{utime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="teacherResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from teacher
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="teacherResultMap">
+		select <include refid="table_columns" /> 
+		from teacher
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="flowerName != null and flowerName != ''">and flower_name = #{flowerName}</if>
+			<if test="num != null and num != ''">and num = #{num}</if>
+			<if test="sex != null and sex != ''">and sex = #{sex}</if>
+			<if test="imgUrl != null and imgUrl != ''">and img_url = #{imgUrl}</if>
+			<if test="introduction != null and introduction != ''">and introduction = #{introduction}</if>
+			<if test="userLock != null and userLock != ''">and user_lock = #{userLock}</if>
+			<if test="teacherUserId != null and teacherUserId != ''">and teacher_user_id = #{teacherUserId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="ctime != null and ctime != ''">and ctime = #{ctime}</if>
+			<if test="utime != null and utime != ''">and utime = #{utime}</if>
+		</trim>
+	</sql>
+
+	<sql id="search_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and t.name = #{name}</if>
+			<if test="num != null and num != ''">and t.num = #{num}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="teacherResultMap" parameterType="Teacher">
+		select <include refid="table_columns" />
+		from teacher
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="teacherResultMap" parameterType="Teacher">
+		select <include refid="table_columns" />
+		from teacher
+		<include refid="page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="Teacher">
+        select count(id) from teacher
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!-- 定制计划列表分页 -->
+	<select id="pageInfo" resultType="java.util.Map" parameterType="TeacherManagerSerach">
+		select t.*,u.username from teacher t LEFT JOIN authority_users u on t.user_id = u.id
+		<include refid="search_page_where" />
+		limit #{start},#{length}
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="TeacherManagerSerach">
+		select count(t.id) from teacher t
+		<include refid="search_page_where" />
+	</select>
+   <select id="findTeacherList" resultMap="teacherResultMap">
+	   select * from teacher
+   </select>
+	
+</mapper>

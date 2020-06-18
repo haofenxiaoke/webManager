@@ -1,0 +1,88 @@
+.wrap{
+	width:85%;
+	height:auto;
+	margin: 50px 50px 0 50px;
+}
+
+.ceBar{
+	font-size:16px;
+	float:left;
+	width:100px;
+	height:50px;
+	font-weight:600;
+	line-height: 34px;
+}
+
+#htmlEditor{
+	float:left;
+	background-color:white;
+	width:80%;
+}
+.w-e-toolbar{
+	overflow-x:scroll;
+}
+.clear:after{
+	content: " ";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both;
+}
+
+#tijiao{
+	margin:20px 95px 20px 0;
+	float:right;
+}
+#rule{
+	width:50%;
+}
+.w-e-text-container{
+	height:700px !important;
+}
+
+input[type="file"] {
+  color: transparent;
+  display:none;
+}
+
+.caozuo {
+	width: 100px;
+	height: 40px;
+	border-radius: 5px;
+	font-size: 16px;
+	line-height: 40px;
+	text-align: center;
+	background-color: rgb(22, 155, 213);
+	color: white;
+	margin:30px 90px 0;
+	cursor: pointer;
+}
+
+.mask{
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index:10050;
+	background-color:rgba(0,0,0,0.5);	
+	transition: opacity .3s linear;
+	display:none;
+}
+
+td img {
+	width: 100px;
+	height: 100px;
+	vertical-align: middle;
+}
+
+td {
+	text-align: center;
+	vertical-align: middle;
+	width: 132px;
+	height: 100px;
+	line-height: 100px !important;
+	font-size:16px;
+}

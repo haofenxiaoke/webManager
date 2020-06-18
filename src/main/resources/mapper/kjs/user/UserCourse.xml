@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.UserCourseMapper">
+	<resultMap type="UserCourse" id="userCourseResultMap">
+		<result property="id" column="id" />
+		<result property="userid" column="userid" />
+		<result property="courseid" column="courseid" />
+		<result property="createTime" column="create_time" />
+		<result property="latestLecture" column="latest_lecture" />
+		<result property="userCourseScore" column="user_course_score" />
+		<result property="watchProgress" column="watch_progress" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		userid,
+		courseid,
+		create_time,
+		latest_lecture,
+		user_course_score,
+		watch_progress,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userid},
+		#{courseid},
+		#{createTime},
+		#{latestLecture},
+		#{userCourseScore},
+		#{watchProgress},
+		#{deleted}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="UserCourse" useGeneratedKeys="true" keyProperty="id">
+		insert into user_course( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from user_course
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="UserCourse">
+		update user_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="courseid != null and courseid != ''">courseid = #{courseid},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="latestLecture != null and latestLecture != ''">latest_lecture = #{latestLecture},</if>
+			<if test="userCourseScore != null and userCourseScore != ''">user_course_score = #{userCourseScore},</if>
+			<if test="watchProgress != null and watchProgress != ''">watch_progress = #{watchProgress},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userCourseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_course
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userCourseResultMap">
+		select <include refid="table_columns" /> 
+		from user_course
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="courseid != null and courseid != ''">and courseid = #{courseid}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="latestLecture != null and latestLecture != ''">and latest_lecture = #{latestLecture}</if>
+			<if test="userCourseScore != null and userCourseScore != ''">and user_course_score = #{userCourseScore}</if>
+			<if test="watchProgress != null and watchProgress != ''">and watch_progress = #{watchProgress}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+
+	<sql id="new_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="userId != null and userId != ''">and userid = #{userId}</if>
+			<if test="directionId != null and directionId != ''"> </if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="userCourseResultMap" parameterType="UserCourse">
+		select <include refid="table_columns" />
+		from user_course
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="userCourseResultMap" parameterType="UserManagerSerach">
+		select <include refid="table_columns" />
+		from user_course
+		<include refid="new_page_where" />
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="UserManagerSerach">
+        select count(id) from user_course
+        <include refid="new_page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

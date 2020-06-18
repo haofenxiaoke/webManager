@@ -1,0 +1,48 @@
+.Made-all{width: 1226px; margin: 0px auto;padding-bottom: 50px; }
+.Made-nav{ width: 100%;color: #333333;margin: 30px 0 10px 0;}
+.Made-nav a{font-size: 12px; color: #666; padding-right: 5px; padding-left: 5px;}
+.Heg{ width: 100%; }
+.Made-bottom{ width: 100%; height:500px;background: #FFFFFF; position: relative;min-height:650px;}
+.MadeBt{ width: 95%; height: 64px; padding-top: 90px; border-bottom: 1px dotted #e0e0e0; margin: 0px auto; text-align: center;font-size: 30px; color: #5583DB;}
+.Made-sr{ width: 100%; height: 195px;}
+.post{ width: 498px; height: 40px; border: 1px solid #e0e0e0; margin: 0px auto; margin-top: 50px;border-radius: 3px; background: #f7f9fa; }
+.post input{ border: 0; outline: none; width: 453px; padding-left: 10px; height: 38px;line-height: 38px; font-size: 12px;  float: left;background: #f7f9fa;}
+.postShow{cursor:pointer; width: 35px; height:40px;float: right; line-height: 40px; text-align: center;font-size: 20px;background:url(../../login/images/fff_03.png) no-repeat center center;}
+.xskPost{width:498px; height:370px;overflow: auto; position: absolute;top:270px; left: 50%; margin-left:-250px; z-index: 999; background:#f7f9fa;border: 1px solid #e0e0e0; border-radius: 5px; display: none;}
+.jiaoyu{width: 455px; height: auto; overflow: hidden;margin-bottom:-1px; padding-bottom: 15px; margin: 0px auto; border-bottom: 1px solid #e0e0e0;}
+.jiaoyu ul{ width: 100%; height: auto;overflow: hidden; }
+.jiaoyu li{cursor:pointer; font-size: 14px; float: left; margin:3px 28px 3px 0;color: #666666;}
+.xskPost{width:498px; height:220px;overflow: auto; position: absolute;top:270px; left: 50%; margin-left:-250px; z-index: 999; background:#f7f9fa;border: 1px solid #e0e0e0; border-radius: 5px; display: none;}
+.jiaoyu li:hover{
+	color: #5583DB;}
+.jiaoyu p{ font-size: 14px; color: #5583DB;margin-bottom: 5px;}
+.sanjiao{border-bottom: 15px solid #f7f9fa; border-left: 15px solid transparent; border-right:15px solid transparent ; width: 0;height: 0; position: absolute;top: 256px;right: 50%;z-index: 10001; margin-right: -220px; display: none;}
+.sanjiaoBorder{border-bottom: 15px solid #E0E0E0; border-left: 16px solid transparent; border-right:16px solid transparent ; width: 0;height: 0; position: absolute;top: 255px;right: 50%;z-index: 10000; margin-right: -221px; display: none;}
+.xsanjiao{border-bottom: 15px solid #f7f9fa; border-left: 15px solid transparent; border-right:15px solid transparent ; width: 0;height: 0; position: absolute;top: 331px;right: 50%;z-index: 890; margin-right: -220px; display: none;}
+.xsanjiaoBorder{border-bottom: 15px solid #E0E0E0; border-left: 16px solid transparent; border-right:16px solid transparent ; width: 0;height: 0; position: absolute;top: 330px;right: 50%;z-index: 889; margin-right: -221px; display: none;}
+
+.xskIndustry{ width: 498px; height:auto;overflow: hidden;  background: #f7f9fa; position: absolute; top: 345px; left: 50%; margin-left: -250px;z-index: 888; border: 1px solid #e0e0e0;border-radius: 5px; display: none;}
+.shangye{width: 455px; height: auto; overflow: hidden; padding-top: 15px; padding-bottom: 15px; margin: 0px auto;}
+.xskIndustry ul{ width: 100%; height: auto;overflow: hidden; margin-top: 3px;}
+.xskIndustry li{cursor:pointer; font-size: 14px; float: left;margin-right: 30px; line-height:35px;color: #666666; text-align: center;}
+.xskIndustry li:hover{
+	color: #5583db;}
+
+
+.industry{ width: 498px; height: 40px; border: 1px solid #e0e0e0; margin: 0px auto; margin-top: 30px; border-radius: 3px;background: #f7f9fa;}
+.industry input{ border: 0; outline: none; width: 453px; padding-left: 10px;  height:38px;line-height: 38px; font-size: 12px;float: left;background: #f7f9fa;}
+.industryShow{cursor:pointer; width: 35px; height:40px;float: right;line-height: 40px; text-align: center; font-size: 20px;background:url(../../login/images/fff_03.png) no-repeat center center;}
+
+
+.kecheng{cursor:pointer; width: 180px; height: 40px;line-height: 40px; text-align: center; border-radius: 3px; background: #5583DB;color: #FFFFFF;font-size: 14px; margin: 0px auto;margin-top: 40px;}
+.kecheng:hover{background: #3b5b98;}
+
+
+@media only screen and (max-width:800px ) {
+	.Made-all{width: 800px;}
+	
+}
+@media only screen and (min-width:1200px ) {
+	.Made-all{width: 1226px;}
+	
+}

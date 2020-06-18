@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.AuthorityUsersMapper">
+	<resultMap type="AuthorityUsers" id="authorityUsersResultMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="flowerName" column="flowerName" />
+		<result property="password" column="password" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="sex" column="sex" />
+		<result property="job" column="job" />
+		<result property="num" column="num" />
+		<result property="userLock" column="user_lock" />
+		<result property="userStatus" column="user_status" />
+		<result property="bigImg" column="big_img" />
+		<result property="smallImg" column="small_img" />
+		<result property="administrator" column="administrator"/>
+		<result property="createDatetime" column="create_datetime" />
+		<result property="lastModifyUserId" column="last_modify_user_id" />
+		<result property="lastModifyUserEmail" column="last_modify_user_email" />
+		<result property="lastModifyDatetime" column="last_modify_datetime" />
+		<result property="lastLoginDatetime" column="last_login_datetime" />
+		<result property="wechatStatus" column="wechat_status" />
+		<result property="wechatDi" column="wechat_di" />
+		<result property="wechatUrl" column="wechat_url" />
+		<result property="wechatShowTime" column="wechat_showtime" />
+	</resultMap>
+	
+	
+	<sql id="table_columns">
+		id,
+		username,
+		flowerName,
+		password,
+		mobile,
+		email,
+		sex,
+		job,
+		num,
+		user_lock,
+		user_status,
+		big_img,
+		small_img,
+		administrator,
+		create_datetime,
+		last_modify_user_id,
+		last_modify_user_email,
+		last_modify_datetime,
+		last_login_datetime
+<!-- 		wechat_status, -->
+<!-- 		wechat_di, -->
+<!-- 		wechat_url -->
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{username},
+		#{flowerName},
+		#{password},
+		#{mobile},
+		#{email},
+		#{sex},
+		#{job},
+		#{num},
+		#{userLock},
+		#{userStatus},
+		#{bigImg},
+		#{smallImg},
+		#{administrator},
+		#{createDatetime},
+		#{lastModifyUserId},
+		#{lastModifyUserEmail},
+		#{lastModifyDatetime},
+		#{lastLoginDatetime}
+	</sql>
+	
+	
+	<sql id="wechat_columns">
+		wechat_status,
+		wechat_di,
+		wechat_url
+<!-- 		wechat_showtime -->
+	</sql>
+	
+	
+	<sql id="wechatentity_properties">
+		#{wechatStatus},
+		#{wechatDi},
+		#{wechatUrl}
+<!-- 		#{wechatShowTime} -->
+	</sql>
+	
+	
+	
+	
+	
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="AuthorityUsers" useGeneratedKeys="true" keyProperty="id">
+		insert into authority_users( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from authority_users
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="AuthorityUsers">
+		update authority_users 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null and username != ''">username = #{username},</if>
+			<if test="flowerName != null and flowerName != ''">flowerName = #{flowerName},</if>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="job != null and job != ''">job = #{job},</if>
+			<if test="num != null and num != ''">num = #{num},</if>
+			<if test="userLock != null">user_lock = #{userLock},</if>
+			<if test="userStatus != null">user_status = #{userStatus},</if>
+			<if test="bigImg != null and bigImg != ''">big_img = #{bigImg},</if>
+			<if test="smallImg != null and smallImg != ''">small_img = #{smallImg},</if>
+			<if test="createDatetime != null and createDatetime != ''">create_datetime = #{createDatetime},</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">last_modify_user_id = #{lastModifyUserId},</if>
+			<if test="lastModifyUserEmail != null and lastModifyUserEmail != ''">last_modify_user_email = #{lastModifyUserEmail},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">last_modify_datetime = #{lastModifyDatetime},</if>
+			<if test="lastLoginDatetime != null and lastLoginDatetime != ''">last_login_datetime = #{lastLoginDatetime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authorityUsersResultMap" parameterType="long" >
+		select <include refid="table_columns" />
+		from authority_users
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authorityUsersResultMap">
+		select <include refid="table_columns" /> 
+		from authority_users
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="username != null and username != ''">and username = #{username}</if>
+			<if test="flowerName != null and flowerName != ''">and flowerName = #{flowerName}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="email != null and email != ''">and email = #{email}</if>
+			<if test="sex != null and sex != ''">and sex = #{sex}</if>
+			<if test="job != null and job != ''">and job = #{job}</if>
+			<if test="num != null and num != ''">and num = #{num}</if>
+			<if test="userLock != null and userLock != ''">and user_lock = #{userLock}</if>
+			<if test="userStatus != null and userStatus != ''">and user_status = #{userStatus}</if>
+			<if test="bigImg != null and bigImg != ''">and big_img = #{bigImg}</if>
+			<if test="smallImg != null and smallImg != ''">and small_img = #{smallImg}</if>
+			<if test="createDatetime != null and createDatetime != ''">and create_datetime = #{createDatetime}</if>
+			<if test="lastModifyUserId != null and lastModifyUserId != ''">and last_modify_user_id = #{lastModifyUserId}</if>
+			<if test="lastModifyUserEmail != null and lastModifyUserEmail != ''">and last_modify_user_email = #{lastModifyUserEmail},</if>
+			<if test="lastModifyDatetime != null and lastModifyDatetime != ''">and last_modify_datetime = #{lastModifyDatetime}</if>
+			<if test="lastLoginDatetime != null and lastLoginDatetime != ''">and last_login_datetime = #{lastLoginDatetime}</if>
+		</trim>
+	</sql>
+
+
+	<sql id="new_page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="email != null and email != ''">and email like CONCAT('%','${email}','%')</if>
+			<if test="num != null and num != ''">and num = #{num}</if>
+			<if test="userStatus != null and userStatus != -1">and user_status = #{userStatus}</if>
+			<if test="createDatetime != null and createDatetime != ''"><![CDATA[ and create_datetime>=#{startDatetime} and create_datetime<=#{endDatetime} ]]></if>
+		</trim>
+	</sql>
+
+	<select id="search" resultMap="authorityUsersResultMap" parameterType="AuthorityUsers">
+		select <include refid="table_columns" />
+		from authority_users
+		<include refid="page_where" />
+	</select>
+
+	<select id="getUsersByEmail" resultMap="authorityUsersResultMap" parameterType="String">
+		select <include refid="table_columns"/> from authority_users where email = #{email} limit 0,1
+	</select>
+	
+	<select id="page" resultMap="authorityUsersResultMap" parameterType="AuthorityUserSerach">
+		select <include refid="table_columns" />
+		from authority_users
+        <include refid="new_page_where"/>
+		ORDER BY create_datetime DESC
+		limit #{start},#{length}
+	</select>
+
+    <select id="count" resultType="long" parameterType="AuthorityUserSerach">
+        select count(id) from authority_users
+		<include refid="new_page_where"/>
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<select id="getUsersByRoleId" parameterType="long" resultMap="authorityUsersResultMap">
+		select u.* from authority_user_role ur
+        inner join authority_users u on u.id = ur.user_id
+        where ur.role_id = #{roleId} ORDER BY ur.last_modify_datetime DESC
+	</select>
+
+	<select id="getUserByEmailAndRoleId" parameterType="java.util.Map" resultMap="authorityUsersResultMap">
+     select u.* from authority_users u where u.email like  CONCAT(#{email},'%')  and
+     not exists(select ur.id from authority_user_role ur where ur.role_id = #{roleId} and ur.user_id = u.id)
+	</select>
+
+	<update id="updateUserLoginDate" parameterType="AuthorityUsers">
+         update authority_users set last_login_datetime = #{lastLoginDatetime} where id = #{id}
+	</update>
+
+
+	<update id="lockingUser" parameterType="AuthorityUsers">
+		update authority_users set user_lock = #{userLock},last_modify_user_id = #{lastModifyUserId},last_modify_user_email = #{lastModifyUserEmail},last_modify_datetime = #{lastModifyDatetime} where id = #{id}
+	</update>
+
+
+	<select id="checkUserEmailUnique" resultType="int" parameterType="AuthorityMenu">
+		select count(id) from authority_users
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="id != null">id != #{id} AND </if>
+			<if test="email != null and email != ''"> email = #{email} </if>
+		</trim>
+	</select>
+
+	<select id="checkUserNumUnique" resultType="int" parameterType="AuthorityMenu">
+		select count(id) from authority_users
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="id != null">id != #{id} AND </if>
+			<if test="num != null and num != ''"> num = #{num} </if>
+		</trim>
+	</select>
+
+	<update id="updateUserByNum" parameterType="AuthorityUsers">
+		UPDATE authority_users set flowerName = #{flowerName},sex = #{sex} where num = #{num}
+	</update>
+	
+<!-- 	<insert id="savewechat"  > -->
+<!-- 		insert into authority_users( <include refid="wechat_columns" /> )  -->
+<!-- 		values ( <include refid="wechatentity_properties" /> ) -->
+<!-- 	</insert> -->
+
+	<update id="savewechat" parameterType="AuthorityUsers">
+		UPDATE authority_users set 
+		wechat_status=#{wechatStatus},
+		wechat_di=#{wechatDi},
+		wechat_url=#{wechatUrl}
+		 where id=#{id}
+	</update>
+
+
+</mapper>

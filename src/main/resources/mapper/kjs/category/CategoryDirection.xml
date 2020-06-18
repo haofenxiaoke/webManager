@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CategoryDirectionMapper">
+	<resultMap type="CategoryDirection" id="categoryDirectionResultMap">
+		<result property="id" column="id" />
+		<result property="categoryDesc" column="category_desc" />
+		<result property="userid" column="userid" />
+		<result property="orderNum" column="order_num" />
+		<result property="createTime" column="create_time" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap" type="com.kjs.orm.model.CategoryDirection" >
+  <!--
+    WARNING - @mbggenerated
+  -->
+  <id column="id" property="id" jdbcType="INTEGER" />
+  <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+  <result column="userid" property="userid" jdbcType="INTEGER" />
+  <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+  <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  <collection property="industries" ofType="com.kjs.orm.model.CategoryIndustry" resultMap="CategoryIndustryResultMap" columnPrefix="i_"/>
+  <collection property="positions" ofType="com.kjs.orm.model.CategoryPosition" resultMap="CategoryPositionResultMap" columnPrefix="p_"/>
+</resultMap>
+
+<resultMap id="CategoryIndustryResultMap" type="com.kjs.orm.model.CategoryIndustry" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="CategoryPositionResultMap" type="com.kjs.orm.model.CategoryPosition" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+	
+	<sql id="table_columns">
+		id,
+		category_desc,
+		userid,
+		order_num,
+		create_time,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{categoryDesc},
+		#{userid},
+		#{orderNum},
+		#{createTime},
+		#{deleted}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CategoryDirection" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="orderNum" order="BEFORE">
+			select IFNULL(max(order_Num),0)+1 as orderNum from category_direction limit 0,1
+		</selectKey>
+		insert into category_direction( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from category_direction
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!--物理删除-->
+	<update id="deleteById" parameterType="CategoryDirection">
+		update category_direction
+		set deleted = #{deleted}
+		<where>id = #{id}</where>
+	</update>
+
+	<update id="update" parameterType="CategoryDirection">
+		update category_direction 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="categoryDesc != null and categoryDesc != ''">category_desc = #{categoryDesc},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="categoryDirectionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from category_direction
+		where id = #{id} and deleted = 0
+	</select>
+	
+	<select id="queryAll" resultMap="categoryDirectionResultMap">
+		select <include refid="table_columns" /> 
+		from category_direction where deleted = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			deleted = 0
+			<if test="categoryDesc != null and categoryDesc != ''">and category_desc = #{categoryDesc}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="categoryDirectionResultMap" parameterType="CategoryDirection">
+		select <include refid="table_columns" />
+		from category_direction
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="categoryDirectionResultMap" parameterType="CategoryDirection">
+		select <include refid="table_columns" />
+		from category_direction
+		<include refid="page_where" />
+	</select>
+
+    <select id="count" resultType="long" parameterType="CategoryDirection">
+        select count(id) from category_direction
+        <include refid="page_where" />
+    </select>
+	<!-- 查询所有分类信息-->
+	<select id="getAllCates" resultMap="categoryDirectionResultMap" parameterType="java.lang.String">
+		select * from category_direction where deleted = 0
+		<if test="derectionIds!=null and derectionIds.length > 0 ">
+			and id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="checkCateUnique" resultType="int" parameterType="CategoryDirection">
+		select count(id) from category_direction
+		<trim prefix="where" prefixOverrides="and | or" >
+			<if test="id != null">id != #{id} AND </if>
+			<if test="categoryDesc != null and categoryDesc != ''"> category_Desc = #{categoryDesc} </if>
+			and deleted = 0
+		</trim>
+	</select>
+	<!-- 其他自定义SQL -->
+
+	<select id="findByUserIdAndResourceId" resultType="string" >
+		SELECT
+		p.category_id
+		FROM
+		authority_permission p INNER JOIN authority_user_role u_r
+		ON p.role_id = u_r.role_id
+		WHERE
+		u_r.user_id = #{userId}
+		AND p.resources_id = #{resId}
+	</select>
+
+	<select id="findByUserIdAndOperationCode" resultType="string" >
+		SELECT
+		p.category_id
+		FROM
+		authority_permission p INNER JOIN authority_user_role u_r
+		ON p.role_id = u_r.role_id
+		WHERE
+		u_r.user_id = #{userId}
+		AND p.operation_code = #{operationCode}
+	</select>
+	<select id="findByUserIdAndResourceCodeAndOperationCode" resultType="string" >
+		SELECT
+		p.category_id
+		FROM
+		authority_permission p INNER JOIN authority_user_role u_r
+		ON p.role_id = u_r.role_id
+		WHERE 1=1
+		<if test="userId !=null">
+			AND u_r.user_id = #{userId}
+		</if>
+		AND p.operation_code = #{operationCode} AND p.resources_code = #{resourceCode}
+	</select>
+	<select id="findByIds" resultMap="categoryDirectionResultMap" >
+		select <include refid="table_columns" />
+		from category_direction
+		where deleted = 0
+		<if test=" array !=null and array.length > 0">
+				and id in
+				<foreach collection="array" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
+		</if>
+	</select>
+	<select id="pageInfo" resultType="Map" parameterType="CategorySerach">
+		select d.*,
+		(select count(i.id) from category_industry i where i.direction_id = d.id and i.deleted = 0) as industryNum,
+		(select count(p.id) from category_position p where p.direction_id =d.id and p.deleted = 0 )as  positionNum
+		from category_direction d where d.deleted = 0
+		<if test="userid != null and derectionIds!=null and derectionIds.length > 0">
+			and d.id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="countInfo" resultType="long" parameterType="CategorySerach">
+		select count(id) from category_direction where deleted = 0
+		<if test="userid != null and derectionIds!=null and derectionIds.length > 0">
+			and id in
+			<foreach collection="derectionIds" open="(" separator="," close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="findAllCates" resultMap="categoryDirectionResultMap">
+		select <include refid="table_columns" />
+		from category_direction
+		where deleted = 0
+	</select>
+	
+	<select id="select4HomeMenuByKJS" resultMap="BaseResultMap">
+    SELECT
+    d.id,
+    d.category_desc,
+    i.id AS i_id,
+    i.category_desc AS i_category_desc,
+    i.order_num AS i_order_num,
+    p.id AS p_id,
+    p.category_desc AS p_category_desc,
+    p.order_num AS p_order_num
+    FROM
+    category_direction d
+    LEFT JOIN category_industry i ON d.id = i.direction_id AND i.deleted = 0
+    LEFT JOIN category_position p ON d.id = p.direction_id AND p.deleted = 0
+    WHERE
+    d.deleted = 0
+    ORDER BY
+    d.order_num
+  </select>
+</mapper>

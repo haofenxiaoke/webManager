@@ -1,0 +1,11 @@
+.onepice{float: left; margin-right: 10px;  width: 20px;height: 20px; background: url("/resources-sjn/index/images/biaoqian.png") no-repeat center !important; background-position: center; background-size:16px 16px !important;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources-sjn/index/images/biaoqian.png',  sizingMethod='scale') }
+.onepice_one{float: left; margin-right: 10px; width: 20px;height:20px; background: url('/resources-sjn/index/images/nono.png') no-repeat center !important; background-position: center; background-size: 16px 16px !important;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources-sjn/index/images/nono.png',  sizingMethod='scale')}
+.liangxing{background-image: url("/resources-sjn/course/images/sjn_xingji.png") !important;
+    display: inline-block;background-position: -46px -3px !important;}
+.anxing{background-image: url("/resources-sjn/course/images/sjn_xingji.png") !important;
+    display: inline-block;background-position: -61px -3px !important; }
+.crouse-a a{    overflow: hidden;
+    width: 70px;
+    height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;}

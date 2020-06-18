@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kjs.orm.mapper.CommodityBargainRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.kjs.orm.model.CommodityBargainRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
+    <result column="industry_id" property="industryId" jdbcType="INTEGER" />
+    <result column="course_ticket_id" property="courseTicketId" jdbcType="INTEGER" />
+    <result column="bargainer" property="bargainer" jdbcType="VARCHAR" />
+    <result column="bargain_helpers" property="bargainHelpers" jdbcType="VARCHAR" />
+    <result column="bargain_begin_time" property="bargainBeginTime" jdbcType="TIMESTAMP" />
+    <result column="bargain_success_time" property="bargainSuccessTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMapDTO" type="com.kjs.common.dto.commodity.CommodityBargainRecordDTO" extends="BaseResultMap">
+    <result column="ticket_status" property="ticketStatus" jdbcType="INTEGER" />
+    <result column="exchange_user_id" property="exchangeUserId" jdbcType="INTEGER" />
+    <result column="exchange_user_phone" property="exchangeUserPhone" jdbcType="VARCHAR" />
+    <result column="validity_begin_time" property="validityBeginTime" jdbcType="TIMESTAMP" />
+    <result column="validity_end_time" property="validityEndTime" jdbcType="TIMESTAMP" />
+    <result column="directionName" property="directionName" jdbcType="TIMESTAMP" />
+    <result column="industryName" property="industryName" jdbcType="TIMESTAMP" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapExcelDTO" type="com.kjs.common.dto.excel.CommodityExcelDTO" extends="BaseResultMap">
+    <result column="ticket_status" property="ticketStatus" jdbcType="INTEGER" />
+    <result column="exchange_user_id" property="exchangeUserId" jdbcType="INTEGER" />
+    <result column="exchange_user_phone" property="exchangeUserPhone" jdbcType="VARCHAR" />
+    <result column="validity_begin_time" property="validityBeginTime" jdbcType="TIMESTAMP" />
+    <result column="validity_end_time" property="validityEndTime" jdbcType="TIMESTAMP" />
+    <result column="directionName" property="directionName" jdbcType="TIMESTAMP" />
+    <result column="industryName" property="industryName" jdbcType="TIMESTAMP" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cbr.id, cbr.commodity_name, cbr.direction_id, cbr.industry_id, cbr.course_ticket_id, cbr.bargainer, cbr.bargain_helpers,
+    cbr.bargain_begin_time, cbr.bargain_success_time, cbr.status
+  </sql>
+  <sql id="page_where">
+    <trim prefix="where" prefixOverrides="and | or ">
+      <if test="directionId != null">and cbr.direction_id = #{directionId}</if>
+      <if test="industryId != null">and cbr.industry_id = #{industryId}</if>
+      <if test="ticketStatus != null">and ct.status = #{ticketStatus}</if>
+      <if test="bargainStatus != null">and cbr.status = #{bargainStatus}</if>
+      <if test="bargainSuccessBeginTime != null">and cbr.bargain_success_time >= #{bargainSuccessBeginTime}</if>
+      <if test="bargainSuccessEndTime != null">and #{bargainSuccessEndTime} >= cbr.bargain_success_time</if>
+      <if test="bargainer != null and bargainer != ''">and cbr.bargainer = #{bargainer}</if>
+      <if test="code != null and code !=''">and ct.code = #{code}</if>
+      <if test="exchangeUserPhone != null and exchangeUserPhone != ''">and ct.exchange_user_phone = #{exchangeUserPhone}</if>
+      <if test="bargainBeginTime != null">and cbr.bargain_begin_time >= #{bargainBeginTime}</if>
+      <if test="bargainEndTime != null">and #{bargainEndTime} >= cbr.bargain_begin_time</if>
+    </trim>
+  </sql>
+  <select id="page" resultMap="BaseResultMapDTO">
+      select <include refid="Base_Column_List"/> ,ci.category_desc as industryName,cd.category_desc as directionName,
+        ct.status as ticket_status,ct.exchange_user_id,ct.exchange_user_phone,ct.validity_begin_time,ct.validity_end_time,ct.code
+        from commodity_bargain_record cbr
+        left join course_ticket ct on cbr.course_ticket_id = ct.id
+        left join category_direction cd on cd.id = cbr.direction_id
+        left join category_industry ci on ci.id = cbr.industry_id
+        <include refid="page_where"/>
+        order by cbr.bargain_begin_time desc
+        limit #{start},#{length}
+  </select>
+  <select id="count" resultType="long">
+    select count(*) from commodity_bargain_record cbr
+    left join course_ticket ct on cbr.course_ticket_id = ct.id
+    <include refid="page_where"/>
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMapExcelDTO">
+      select  cbr.commodity_name, cbr.direction_id, cbr.industry_id, cbr.course_ticket_id, cbr.bargainer, cbr.bargain_helpers,
+      cbr.bargain_begin_time, cbr.bargain_success_time, cbr.status,ci.category_desc as industryName,cd.category_desc as directionName,
+      ct.status as ticket_status,ct.exchange_user_id,ct.exchange_user_phone,ct.validity_begin_time,ct.validity_end_time,ct.code
+      from commodity_bargain_record cbr
+      left join course_ticket ct on cbr.course_ticket_id = ct.id
+      left join category_direction cd on cd.id = cbr.direction_id
+      left join category_industry ci on ci.id = cbr.industry_id
+      <include refid="page_where"/>
+      order by cbr.bargain_begin_time desc
+  </select>
+
+</mapper>

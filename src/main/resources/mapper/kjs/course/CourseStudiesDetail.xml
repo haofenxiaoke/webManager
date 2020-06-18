@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseStudiesDetailMapper">
+	<resultMap type="CourseStudiesDetail" id="courseStudiesDetailResultMap">
+		<result property="id" column="id" />
+		<result property="planId" column="plan_id" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="courseUrl" column="course_url" />
+		<result property="courseStu" column="course_stu" />
+		<result property="courseScore" column="course_score" />
+		<result property="lectureNum" column="lecture_num" />
+		<result property="lectureTotal" column="lecture_total" />
+		<result property="lastWatchTime" column="last_watch_time" />
+		<result property="watchProgress" column="watch_progress" />
+		<result property="watchTime" column="watch_time" />
+		<result property="userid" column="userid" />
+		<result property="usertype" column="usertype" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		plan_id,
+		course_id,
+		course_name,
+		course_url,
+		course_stu,
+		course_score,
+		lecture_num,
+		lecture_total,
+		last_watch_time,
+		watch_progress,
+		watch_time,
+		userid,
+		usertype
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{planId},
+		#{courseId},
+		#{courseName},
+		#{courseUrl},
+		#{courseStu},
+		#{courseScore},
+		#{lectureNum},
+		#{lectureTotal},
+		#{lastWatchTime},
+		#{watchProgress},
+		#{watchTime},
+		#{userid},
+		#{usertype}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseStudiesDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into course_studies_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<delete id="deleteByIds">
+		delete from course_studies_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="CourseStudiesDetail">
+		update course_studies_detail 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="planId != null and planId != ''">plan_id = #{planId},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+			<if test="courseUrl != null and courseUrl != ''">course_url = #{courseUrl},</if>
+			<if test="courseStu != null and courseStu != ''">course_stu = #{courseStu},</if>
+			<if test="courseScore != null and courseScore != ''">course_score = #{courseScore},</if>
+			<if test="lectureNum != null and lectureNum != ''">lecture_num = #{lectureNum},</if>
+			<if test="lectureTotal != null and lectureTotal != ''">lecture_total = #{lectureTotal},</if>
+			<if test="lastWatchTime != null and lastWatchTime != ''">last_watch_time = #{lastWatchTime},</if>
+			<if test="watchProgress != null and watchProgress != ''">watch_progress = #{watchProgress},</if>
+			<if test="watchTime != null and watchTime != ''">watch_time = #{watchTime},</if>
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="usertype != null and usertype != ''">usertype = #{usertype},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseStudiesDetailResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_studies_detail
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseStudiesDetailResultMap">
+		select <include refid="table_columns" /> 
+		from course_studies_detail
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="planId != null and planId != ''">and plan_id = #{planId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="courseName != null and courseName != ''">and course_name = #{courseName}</if>
+			<if test="courseUrl != null and courseUrl != ''">and course_url = #{courseUrl}</if>
+			<if test="courseStu != null and courseStu != ''">and course_stu = #{courseStu}</if>
+			<if test="courseScore != null and courseScore != ''">and course_score = #{courseScore}</if>
+			<if test="lectureNum != null and lectureNum != ''">and lecture_num = #{lectureNum}</if>
+			<if test="lectureTotal != null and lectureTotal != ''">and lecture_total = #{lectureTotal}</if>
+			<if test="lastWatchTime != null and lastWatchTime != ''">and last_watch_time = #{lastWatchTime}</if>
+			<if test="watchProgress != null and watchProgress != ''">and watch_progress = #{watchProgress}</if>
+			<if test="watchTime != null and watchTime != ''">and watch_time = #{watchTime}</if>
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="usertype != null and usertype != ''">and usertype = #{usertype}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseStudiesDetailResultMap" parameterType="CourseStudiesDetail">
+		select <include refid="table_columns" />
+		from course_studies_detail
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseStudiesDetailResultMap" parameterType="CourseStudiesDetail">
+		select <include refid="table_columns" />
+		from course_studies_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseStudiesDetail">
+        select count(id) from course_studies_detail
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	
+</mapper>

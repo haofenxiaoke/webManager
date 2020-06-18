@@ -1,0 +1,9 @@
+.nav-rightleft{color: #333333 !important;}
+.kjsSearchRes span{color: #e62c3a !important;}
+.content p span{color: #e62c3a !important;}
+.ssbtn{ background: url(/resources-sjn/index/images/search.png) no-repeat}
+.nav-right{width: 100px !important;}
+.nav-right a{color: #e62c3a !important;display: inline-block; margin-top: 14px; font-size: 14px !important;}
+input[placeholder], [placeholder], *[placeholder] {
+    color:#999 !important;
+}

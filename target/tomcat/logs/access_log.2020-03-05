@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:05 +0800] "GET / HTTP/1.1" 302 - http-bio-88-exec-2 44
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:05 +0800] "GET / HTTP/1.1" 302 - http-bio-88-exec-1 44
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:05 +0800] "GET /auth/login HTTP/1.1" 200 4068 http-bio-88-exec-3 95
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js HTTP/1.1" 200 228478 http-bio-88-exec-8 39
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/css/style.min.css HTTP/1.1" 200 120171 http-bio-88-exec-5 52
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/plugins/jquery/jquery-1.9.1.min.js HTTP/1.1" 200 92629 http-bio-88-exec-7 71
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/plugins/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 36816 http-bio-88-exec-9 82
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/css/style-responsive.min.css HTTP/1.1" 200 16618 http-bio-88-exec-6 107
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/assets/img/login-bg/bg-7.jpg HTTP/1.1" 200 181559 http-bio-88-exec-10 122
+0:0:0:0:0:0:0:1 - - [05/Mar/2020:11:31:06 +0800] "GET /resources/images/favicon_kjs.ico HTTP/1.1" 200 3043 http-bio-88-exec-10 31

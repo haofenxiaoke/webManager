@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjs.orm.mapper.CourseTextMapper">
+	<resultMap type="CourseText" id="courseTextResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="summary" column="summary" />
+		<result property="jobDuty" column="job_duty" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="teacherBrief" column="teacher_brief" />
+		<result property="createDate" column="create_date" />
+		<result property="updateDate" column="update_date" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		summary,
+		job_duty,
+		teacher_id,
+		teacher_brief,
+		create_date,
+		update_date,
+		deleted
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{summary},
+		#{jobDuty},
+		#{teacherId},
+		#{teacherBrief},
+		#{createDate},
+		#{updateDate},
+		#{deleted}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="save" parameterType="CourseText" useGeneratedKeys="true" keyProperty="id">
+		insert into course_text( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+
+	<delete id="deleteByIds">
+		delete from course_text
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByCourseId">
+		delete from course_text
+		where course_id=#{courseId}
+	</delete>
+	<delete id="delByCourseId">
+		UPDATE  course_text SET deleted=1
+		where course_id=#{courseId}
+	</delete>
+	
+	<update id="update" parameterType="CourseText">
+		update course_text 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="summary != null and summary != ''">summary = #{summary},</if>
+			<if test="jobDuty != null and jobDuty != ''">job_duty = #{jobDuty},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="teacherBrief !=null and teacherBrief!=''">teacher_brief=#{teacherBrief},</if>
+			<if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+			<if test="updateDate != null and updateDate != ''">update_date = #{updateDate},</if>
+			<if test="deleted != null and deleted != ''">deleted = #{deleted},</if>
+		</trim>
+		<where>course_id = #{courseId}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseTextResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_text
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseTextResultMap">
+		select <include refid="table_columns" /> 
+		from course_text
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="summary != null and summary != ''">and summary = #{summary}</if>
+			<if test="jobDuty != null and jobDuty != ''">and job_duty = #{jobDuty}</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="teacherBrief !=null and teacherBrief!=''">teacher_brief=#{teacherBrief}</if>
+			<if test="createDate != null and createDate != ''">and create_date = #{createDate}</if>
+			<if test="updateDate != null and updateDate != ''">and update_date = #{updateDate}</if>
+			<if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+		</trim>
+	</sql>
+	
+	<select id="search" resultMap="courseTextResultMap" parameterType="CourseText">
+		select <include refid="table_columns" />
+		from course_text
+		<include refid="page_where" />
+	</select>
+	
+	<select id="page" resultMap="courseTextResultMap" parameterType="CourseText">
+		select <include refid="table_columns" />
+		from course_text
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+    <select id="count" resultType="long" parameterType="CourseText">
+        select count(id) from course_text
+        <include refid="page_where" />
+    </select>
+
+	<!-- 其他自定义SQL -->
+	<!-- 适用于主键自增类型 -->
+	<insert id="saveText" parameterType="CourseText" useGeneratedKeys="true" keyProperty="id">
+		insert into course_text( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<select id="selectByCourseId" resultMap="courseTextResultMap" parameterType="java.lang.Integer">
+		select * from course_text
+		WHERE  course_id=#{courseId}
+	</select>
+
+	
+</mapper>
